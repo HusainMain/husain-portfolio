@@ -12,8 +12,8 @@ export function Hero() {
         className="grid-frame hero-grid items-stretch"
         style={{ minHeight: "calc(92svh - 72px)" }}
       >
-        {/* Identity — cols 1–7 desktop, 1–5 tablet, full mobile */}
-        <div className="col-span-12 flex flex-col justify-center py-16 md:col-span-5 md:py-14 lg:col-span-7">
+        {/* Identity — cols 1–8 desktop, 1–5 tablet, full mobile */}
+        <div className="col-span-12 flex flex-col justify-center py-16 md:col-span-5 md:py-14 lg:col-span-8">
           <Reveal>
             <p className="text-mono-label text-orange-deep">{site.heroEyebrow}</p>
           </Reveal>
@@ -64,8 +64,8 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* Portrait panel — cols 8–12 desktop, 6–8 tablet, full-width 4:5 mobile */}
-        <div className="col-span-12 md:col-span-3 lg:col-span-5 max-md:pb-16">
+        {/* Portrait panel — cols 9–12 desktop, 6–8 tablet, full-width 4:5 mobile */}
+        <div className="col-span-12 md:col-span-3 lg:col-span-4 max-md:pb-16">
           <div className="hero-panel relative aspect-[4/5] w-full overflow-hidden bg-navy-900 md:aspect-auto md:h-full">
             {/* System line: horizontal on mobile, vertical on md+ */}
             <span
@@ -75,7 +75,7 @@ export function Hero() {
             <img
               src={portrait.src}
               srcSet={portrait.srcSet}
-              sizes="(min-width: 1024px) 42vw, (min-width: 768px) 34vw, 100vw"
+              sizes="(min-width: 1024px) 30vw, (min-width: 768px) 34vw, 100vw"
               width={portrait.width}
               height={portrait.height}
               alt={portrait.alt}

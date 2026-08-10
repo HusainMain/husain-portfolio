@@ -11,6 +11,10 @@
     min-height: 100%;
   }
 
+  :root {
+    --grid-max-width: 1440px;
+  }
+
   html {
     background-color: var(--color-canvas);
     -webkit-text-size-adjust: 100%;
@@ -65,7 +69,7 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: 24px;
     row-gap: 24px;
-    max-width: 1200px;
+    max-width: var(--grid-max-width);
     margin-inline: auto;
     padding-inline: clamp(32px, 5vw, 48px);
   }
@@ -95,17 +99,6 @@
   @media (max-width: 767px) {
     .section-pad {
       padding-block: clamp(64px, 10vw, 80px);
-    }
-  }
-
-  /* Hero: at ≥1440 the grid spans the full viewport with zero right padding so
-     the portrait panel (cols 8–12) bleeds to the viewport's right edge (§8).
-     Left padding mirrors the centered-1200 position → continuous at the breakpoint. */
-  @media (min-width: 1440px) {
-    .hero-grid {
-      max-width: none;
-      padding-left: calc((100vw - 1200px) / 2 + 48px);
-      padding-right: 0;
     }
   }
 
