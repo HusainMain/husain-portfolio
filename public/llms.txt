@@ -1,0 +1,10 @@
+# Husain Bardanwala
+
+> Software Engineer / Intelligent Systems Builder — portfolio of Husain Bardanwala. Replaces domain placeholders (example.com) before launch.
+
+Key pages:
+- [Home](https://www.example.com/): Intro, philosophy, capabilities, selected work and contact band.
+- [Selected Work](https://www.example.com/work): Four case studies — IdeaBridge, Healthcare Appointment System, iEMS Smart Campus, BuildEx Website.
+- [Engineering](https://www.example.com/engineering): How I think and my build process.
+- [About](https://www.example.com/about): Biography, background and presence.
+- [Contact](https://www.example.com/contact): Email and social links (GitHub, LinkedIn, LeetCode).

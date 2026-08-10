@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+
+  /* Palette — locked in DESIGN_SYSTEM.md §3.1 */
+  --color-canvas: #f8f4eb;
+  --color-surface: #f1ebe0;
+  --color-surface-2: #eae2d4;
+
+  --color-navy-900: #16243d;
+  --color-navy-800: #1e2e4c;
+
+  --color-orange: #c4571f;
+  --color-orange-deep: #a64518;
+  --color-orange-ember: #9c3f1a;
+  --color-orange-on-navy: #e07f3f;
+  --color-orange-on-navy-hi: #ee9658;
+
+  --color-ink: #16243d;
+  --color-muted: #4e5e78;
+  --color-cream: #f8f4eb;
+  --color-muted-on-navy: #c9ced9;
+
+  --color-rule-on-cream: rgba(22, 36, 61, 0.16);
+  --color-rule-on-navy: rgba(248, 244, 235, 0.18);
+  --color-rule-on-orange: rgba(22, 36, 61, 0.24);
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}

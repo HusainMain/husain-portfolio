@@ -1,0 +1,338 @@
+@layer base {
+  /* Viewport foundation: the portfolio shell owns all intentional spacing.
+     Painted explicitly so the canvas reaches the outermost viewport edge and
+     no browser-default background can ever show around the page. */
+  html,
+  body,
+  #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  html {
+    background-color: var(--color-canvas);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-orange);
+    color: var(--color-cream);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 2px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---- Grid frame (12 / 8 / 4) — DESIGN_SYSTEM.md §5 ---- */
+  .grid-frame {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 24px;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(32px, 5vw, 48px);
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .grid-frame {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      column-gap: 20px;
+      max-width: 720px;
+      padding-inline: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .grid-frame {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 16px;
+      padding-inline: 20px;
+    }
+  }
+
+  /* ---- Section spacing ---- */
+  .section-pad {
+    padding-block: clamp(96px, 12vw, 160px);
+  }
+
+  @media (max-width: 767px) {
+    .section-pad {
+      padding-block: clamp(64px, 10vw, 80px);
+    }
+  }
+
+  /* Hero: at ≥1440 the grid spans the full viewport with zero right padding so
+     the portrait panel (cols 8–12) bleeds to the viewport's right edge (§8).
+     Left padding mirrors the centered-1200 position → continuous at the breakpoint. */
+  @media (min-width: 1440px) {
+    .hero-grid {
+      max-width: none;
+      padding-left: calc((100vw - 1200px) / 2 + 48px);
+      padding-right: 0;
+    }
+  }
+
+  /* ---- Type scale — DESIGN_SYSTEM.md §4 ---- */
+  .text-hero-name {
+    font-size: clamp(3.25rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+  .text-hero-role {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.25;
+    font-weight: 400;
+  }
+  .text-section-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .text-subsection {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .text-lead {
+    font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+  }
+  .text-mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .text-mono-meta {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .text-mono-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+  .text-serif-accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* ---- Hairlines ---- */
+  .rule-cream {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-rule-on-cream);
+  }
+  .rule-navy {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-rule-on-navy);
+  }
+  .rule-orange {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-rule-on-orange);
+  }
+
+  /* ---- Skip link ---- */
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    transform: translateY(-300%);
+    background-color: var(--color-navy-900);
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    padding: 10px 16px;
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--color-orange);
+    outline-offset: 2px;
+  }
+
+  /* ---- Route fallback ---- */
+  .route-fallback {
+    min-height: 60vh;
+  }
+
+  /* ---- Primary button (navy fill) ---- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--color-navy-900);
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border-radius: 4px;
+    transition:
+      background-color 0.2s ease,
+      transform 0.15s ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-navy-800);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  .btn-primary .arrow {
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .btn-primary:hover .arrow {
+    transform: translateX(4px);
+    color: var(--color-orange);
+  }
+
+  /* ---- Chip / tag ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule-on-cream);
+    border-radius: 4px;
+    padding: 4px 10px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .chip:hover {
+    border-color: var(--color-orange);
+    color: var(--color-orange-deep);
+  }
+  .chip-navy {
+    color: var(--color-cream);
+    border-color: var(--color-rule-on-navy);
+  }
+  .chip-navy:hover {
+    border-color: var(--color-orange-on-navy);
+    color: var(--color-orange-on-navy-hi);
+  }
+
+  /* ---- Arrow link ---- */
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-ink);
+    transition: color 0.2s ease;
+  }
+  .arrow-link .arrow {
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .arrow-link:hover {
+    color: var(--color-orange-deep);
+  }
+  .arrow-link:hover .arrow {
+    transform: translateX(4px);
+    color: var(--color-orange);
+  }
+
+  /* ---- Nav underline (active) ---- */
+  .nav-link {
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav-link.is-active {
+    color: var(--color-ink);
+  }
+
+  /* ---- Wordmark mark ---- */
+  .wordmark-mark {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-orange);
+  }
+
+  /* ---- Reduced-motion-safe reveal (basic entrance, Phase 2) ---- */  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s var(--ease-out-quint),
+      transform 0.6s var(--ease-out-quint);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
