@@ -120,3 +120,45 @@ export interface ProcessStep {
   number: string;
   title: string;
 }
+
+export interface PhilosophySegment {
+  text: string;
+  /** Word(s) rendered in serif italic (orange-deep). */
+  accent?: boolean;
+}
+
+export interface EngineeringProcessStep {
+  number: string;
+  title: string;
+  body: string;
+}
+
+export interface AiEngineering {
+  prose: string[];
+  /** Mono annotation column — where human engineering judgment remains. */
+  judgment: string[];
+}
+
+export interface CompetitiveProgramming {
+  label: string;
+  statement: string;
+  url: string;
+  linkLabel: string;
+}
+
+export interface ToolkitGroup {
+  group: string;
+  tags: string[];
+}
+
+export interface AboutFact {
+  label: string;
+  value: string;
+}
+
+export interface AboutCurrentItem {
+  label: string;
+  title: string;
+  href: string;
+  linkLabel: string;
+}

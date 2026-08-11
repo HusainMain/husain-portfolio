@@ -104,4 +104,17 @@
     width: 100%;
     height: auto;
   }
+
+  /* ---- Document prose (about / engineering pages) ---- */
+  .about-intro {
+    font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+    line-height: 1.75;
+  }
+
+  .engineering-philosophy {
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
 }

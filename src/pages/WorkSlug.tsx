@@ -9,7 +9,7 @@ import { CaseReflection } from "../components/work/CaseReflection";
 import { DecisionRows } from "../components/work/DecisionRows";
 import { ArchitectureDiagram } from "../components/work/ArchitectureDiagram";
 import { PrevNextNav } from "../components/work/PrevNextNav";
-import { NotFoundPlaceholder } from "./placeholders";
+import NotFoundPage from "./NotFound";
 
 export default function WorkSlug() {
   const { slug } = useParams();
@@ -17,7 +17,7 @@ export default function WorkSlug() {
   const caseStudy = slug ? getCaseStudy(slug) : undefined;
 
   if (!project || !caseStudy) {
-    return <NotFoundPlaceholder />;
+    return <NotFoundPage />;
   }
 
   return (

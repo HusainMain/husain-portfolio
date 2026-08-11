@@ -1,0 +1,7 @@
+@layer components {
+  /* Route-change focus (app.tsx): focus moves to the main landmark without a
+     full-page outline. Interactive elements keep their own focus rings. */
+  main:focus-visible {
+    outline: none;
+  }
+}

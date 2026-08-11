@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
@@ -6,34 +6,30 @@ import { SkipLink } from "./components/layout/SkipLink";
 import Home from "./pages/Home";
 const Work = lazy(() => import("./pages/work"));
 const WorkSlug = lazy(() => import("./pages/WorkSlug"));
-const Engineering = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.EngineeringPlaceholder })),
-);
-const About = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.AboutPlaceholder })),
-);
-const Contact = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.ContactPlaceholder })),
-);
-const NotFound = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.NotFoundPlaceholder })),
-);
+const Engineering = lazy(() => import("./pages/Engineering"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-function ScrollToTop() {
+/**
+ * Route-change accessibility (Phase 5): scroll to top and move focus to the
+ * main landmark (tabIndex -1, outline suppressed in styles/pages.css) so
+ * screen-reader users land on the new document without a broken-looking ring.
+ */
+function App() {
   const { pathname } = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    mainRef.current?.focus({ preventScroll: true });
   }, [pathname]);
-  return null;
-}
 
-export default function App() {
   return (
     <>
-      <ScrollToTop />
       <SkipLink />
       <SiteHeader />
-      <main id="main">
+      <main id="main" ref={mainRef} tabIndex={-1}>
         <Suspense fallback={<div className="route-fallback" aria-hidden="true" />}>
           <Routes>
             <Route index element={<Home />} />
@@ -50,3 +46,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;
