@@ -86,7 +86,7 @@ The design must make the visitor feel they have opened a carefully engineered do
 
 ```text
 CANVAS
-  canvas            #F8F4EB   primary background (warm paper cream)
+  canvas            #FAF6EC   primary background (warm paper cream)
   surface           #F1EBE0   secondary background (panels, diagram wells, toolkits)
   surface-2         #EAE2D4   recessed background (rare: inset wells)
 
@@ -104,7 +104,7 @@ BURNT ORANGE (signature)
 TEXT
   text-primary      #16243D   (navy-900) body & headings on cream
   text-muted        #4E5E78   secondary text on cream
-  text-on-navy      #F8F4EB   cream text on navy surfaces
+  text-on-navy      #FAF6EC   cream text on navy surfaces
   text-muted-on-navy #C9CED9  secondary text on navy (72% cream blend)
 
 BORDERS
@@ -116,7 +116,7 @@ INTERACTIVE
   focus             #C4571F   2px outline, 2px offset (on cream)
   focus-on-navy     #E07F3F   2px outline (on navy surfaces)
   selection-bg      #C4571F   ::selection background
-  selection-text    #F8F4EB   ::selection text
+  selection-text    #FAF6EC   ::selection text
   hover-text        #A64518   link/emphasis hover on cream
   hover-fill-navy   #1E2E4C   button hover on navy fill
   active            #9C3F1A   pressed state on cream
@@ -158,17 +158,19 @@ Burnt orange        ~5–8%     accents only — numbers, rules, emphasis, selec
 
 | Pair | Ratio | Verdict |
 |---|---|---|
-| `#16243D` navy on `#F8F4EB` cream | **14.13:1** | AAA |
-| `#4E5E78` muted on `#F8F4EB` | **5.99:1** | AA |
-| `#A64518` orange-deep on `#F8F4EB` | **5.49:1** | AA |
-| `#9C3F1A` orange-ember on `#F8F4EB` | **6.09:1** | AA |
-| `#C4571F` orange on `#F8F4EB` | **4.04:1** | Large text/UI only (≥3:1); NOT for small text |
+| `#16243D` navy on `#FAF6EC` cream | **14.37:1** | AAA |
+| `#4E5E78` muted on `#FAF6EC` | **6.09:1** | AA |
+| `#A64518` orange-deep on `#FAF6EC` | **5.58:1** | AA |
+| `#9C3F1A` orange-ember on `#FAF6EC` | **6.20:1** | AA |
+| `#C4571F` orange on `#FAF6EC` | **4.11:1** | Large text/UI only (≥3:1); NOT for small text |
 | `#E07F3F` orange-on-navy on `#16243D` | **5.38:1** | AA |
 | `#EE9658` on `#16243D` | **5.38:1+** | AA (lighter of same family) |
-| `#F8F4EB` cream on `#16243D` navy | **14.13:1** | AAA |
-| `#F8F4EB` cream on `#A64518` orange-deep | **5.49:1** | AA |
+| `#FAF6EC` cream on `#16243D` navy | **14.37:1** | AAA |
+| `#FAF6EC` cream on `#A64518` orange-deep | **5.58:1** | AA |
 | `#16243D` navy on `#C4571F` | **3.49:1** | Large text/UI only (≥3:1) |
 | `#C4571F` focus on `#F1EBE0` | **3.74:1** | ≥3:1 UI component ✓ |
+
+*2026-08-11: canvas refined `#F8F4EB` → `#FAF6EC` (lighter, warmer paper) so the global noise/grid layers (§21) sit on a cleaner base. All ratios above were recomputed against the new value — every verdict is unchanged or improved.*
 
 **Enforced rules derived from these numbers:**
 - Signature `#C4571F` is allowed as text **only at display scale (≥24px) or ≥18.66px bold** on cream. All small orange text uses `orange-deep`.
@@ -541,7 +543,7 @@ Reduced motion (locked): all of the above disable or simplify to opacity-only pe
 
 ## 20. Final Design Decisions (locked — implementation must follow)
 
-1. **Palette:** canvas `#F8F4EB` · surface `#F1EBE0` · surface-2 `#EAE2D4` · navy-900 `#16243D` · navy-800 `#1E2E4C` · orange `#C4571F` · orange-deep `#A64518` · orange-ember `#9C3F1A` · orange-on-navy `#E07F3F` · orange-on-navy-hi `#EE9658` · text-muted `#4E5E78` · rules as specified in §3.1.
+1. **Palette:** canvas `#FAF6EC` · surface `#F1EBE0` · surface-2 `#EAE2D4` · navy-900 `#16243D` · navy-800 `#1E2E4C` · orange `#C4571F` · orange-deep `#A64518` · orange-ember `#9C3F1A` · orange-on-navy `#E07F3F` · orange-on-navy-hi `#EE9658` · text-muted `#4E5E78` · rules as specified in §3.1.
 2. **Primarily light theme**, cream canvas dominant (~65–70%), navy structure (~20–25%), burnt orange signature (~5–8%).
 3. **Hero composition:** asymmetric editorial split — typography left (cols 1–7), full-height navy portrait panel right (cols 8–12) with orange vertical system rule; portrait 3:4, bottom-cropped by viewport; mobile stacks identity first, portrait second (4:5).
 4. **Portrait:** real future photograph, editorial crop, no fabrication, no circular mask, no filters beyond subtle warmth.
@@ -555,3 +557,51 @@ Reduced motion (locked): all of the above disable or simplify to opacity-only pe
 12. **Motion:** the six locked systems apply exactly as mapped in §16; orange system line terminates in the hero panel rule; reduced-motion behavior unchanged.
 13. **Anti-patterns:** the §19 list is binding.
 14. This document supersedes the color sections of `IMPLEMENTATION_PLAN.md` §3; all other plan/sitemap decisions remain authoritative.
+
+---
+
+## 21. Background System (locked — implemented 2026-08-11)
+
+The canvas is never flat: it reads as a printed sheet held inside the grid frame. Zero JS, zero images, static CSS only — the whole system is 3 stacked layers painted on `body`.
+
+### 21.1 Layers
+
+| Layer | Where | What |
+|---|---|---|
+| 1 — Canvas color | `body` background | `canvas` `#FAF6EC` (lightened 2026-08-11 so layers 2–3 sit on a cleaner base) |
+| 2 — Paper grain | `body::before` | Fixed, monochrome SVG `feTurbulence` (180px tile), `multiply` blend, `opacity: var(--surface-noise-opacity)` = 0.055. Darkens the canvas only — never content. |
+| 3 — Structural sheet | `body::after` | Fixed hairline grid aligned to the frame: vertical edges + `--color-surface-grid` rows every 96px, `--color-surface-grid-strong` rows every 576px (12 × 48px module). |
+
+Both pseudo-layers are `z-index: -1` with `pointer-events: none`, so they sit behind all content and never intercept interaction.
+
+### 21.2 Sheet geometry (synced with `.grid-frame` padding)
+
+| Breakpoint | Sheet width |
+|---|---|
+| Desktop ≥1024 | `min(100%, 1440px) − 2 × clamp(32px, 5vw, 48px)` |
+| Tablet 768–1023 | `min(100%, 720px) − 48px` |
+| Mobile ≤767 | `100% − 40px`, hairline opacity × 0.55 |
+
+The sheet uses `%` (layout viewport) instead of `vw` because `100vw` includes the scrollbar width, which would offset the fixed sheet from the in-flow frame when a classic scrollbar is present. Keep `.grid-frame` padding and this table in lockstep — any future padding change must update `body::after` width in `src/styles/global.css`.
+
+### 21.3 Tokens
+
+Defined in `src/styles/tokens.css` (Tailwind `@theme`):
+
+- `--color-surface-page` = canvas alias (page base; use `bg-surface-page` instead of `bg-canvas` for new sections)
+- `--color-surface-page-subtle` `#F7F2E6` — one-step tonal shift for the opening band of a page (hero on home, opening of case-study/case pages), establishing the "sheet inside the frame" reading without any JS
+- `--color-surface-grid` / `--color-surface-grid-strong` — hairline inks
+- `--surface-noise-opacity` — grain strength
+
+### 21.4 Rules
+
+- Static CSS only. No canvases, no WebGL, no JS paint libraries.
+- Sections that open a page: `bg-surface-page-subtle` (hero). All other sections stay `bg-surface-page` / `bg-canvas` and let the global layers do the work.
+- Navy/orange sections deliberately **break** the sheet — they are dense ink, not paper; the sheet hairlines continue behind them but read as darkness.
+- Reduced-motion: nothing to reduce (static layers).
+
+### 21.5 Anti-patterns
+
+- No grain overlay with `background-attachment: fixed` + a tiled PNG image asset (asset payload, no benefit over the SVG turbulence tile).
+- No `box-shadow`-based grid lines, no opacity fades on scroll, no repaint-on-scroll hairline animations.
+- No noise on top of content (`z-index: -1` is load-bearing — the grain must stay behind the type).

@@ -7,7 +7,7 @@ import { Reveal } from "../motion/Reveal";
 export function Hero() {
   const { portrait } = site;
   return (
-    <section className="bg-canvas pt-[72px] max-md:pt-[60px]">
+    <section className="bg-surface-page-subtle pt-[72px] max-md:pt-[60px]">
       <div
         className="grid-frame hero-grid items-stretch"
         style={{ minHeight: "calc(92svh - 72px)" }}

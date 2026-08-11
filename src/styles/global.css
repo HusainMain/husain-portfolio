@@ -328,4 +328,69 @@
       transition: none;
     }
   }
+
+  /* ---- Background system §21 — global, static, zero-JS ----
+     Layer 1: canvas color (from body / theme).
+     Layer 2: fixed micro paper grain — monochrome SVG turbulence,
+     multiply-blended so it darkens the canvas only (never content). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    opacity: var(--surface-noise-opacity);
+    mix-blend-mode: multiply;
+  }
+
+  /* Layer 3: structural sheet — frame-aligned hairlines.
+     Width = the grid-frame content area (frame max-width minus
+     its padding-inline), kept in sync with .grid-frame below.
+     Note: uses % (layout viewport) not vw so scrollbar presence
+     never offsets the sheet from the frame. */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: calc(min(100%, var(--grid-max-width)) - 2 * clamp(32px, 5vw, 48px));
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        to right,
+        var(--color-surface-grid) 0 1px,
+        transparent 1px calc(100% - 1px),
+        var(--color-surface-grid) calc(100% - 1px) 100%
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 95px,
+        var(--color-surface-grid) 95px 96px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 575px,
+        var(--color-surface-grid-strong) 575px 576px
+      );
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    body::after {
+      width: calc(min(100%, 720px) - 48px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    body::after {
+      width: calc(100% - 40px);
+      opacity: 0.55;
+    }
+  }
 }
