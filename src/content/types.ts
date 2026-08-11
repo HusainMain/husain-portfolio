@@ -26,6 +26,73 @@ export interface Project {
   oneLiner: string;
   stack: string[];
   repoUrl: string;
+  /** Verified one-liner for the case-study header CONTEXT meta. */
+  context?: string;
+}
+
+export interface ConstraintItem {
+  number: string;
+  text: string;
+}
+
+export interface DecisionRowItem {
+  number: string;
+  decision: string;
+  reason: string;
+  tradeOff?: string;
+}
+
+export interface MarginAnnotation {
+  anchor: string;
+  note: string;
+}
+
+export interface DiagramNode {
+  id: string;
+  label: string;
+  sub?: string;
+  accent?: boolean;
+}
+
+export interface DiagramLayer {
+  label: string;
+  nodes: DiagramNode[];
+}
+
+export interface DiagramEdge {
+  from: string;
+  to: string;
+  label?: string;
+  dashed?: boolean;
+}
+
+export interface ArchitectureDiagram {
+  title: string;
+  desc: string;
+  layers: DiagramLayer[];
+  edges: DiagramEdge[];
+  /**
+   * Verified topology note rendered under the diagram (falls back to the
+   * IdeaBridge caption for studies that predate this field).
+   */
+  note?: string;
+}
+
+export interface CaseStudyStack {
+  group: string;
+  tags: string[];
+}
+
+export interface CaseStudy {
+  slug: string;
+  problem: string[];
+  constraints: ConstraintItem[];
+  decisions: DecisionRowItem[];
+  implementation: { body: string[]; annotations: MarginAnnotation[] };
+  architecture: ArchitectureDiagram;
+  stack: CaseStudyStack[];
+  repository: { url: string; evidence: string };
+  reflection: { pullLine: string; body: string };
 }
 
 export interface CapabilityGroup {

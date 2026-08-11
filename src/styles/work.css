@@ -1,0 +1,107 @@
+@layer components {
+  /* ---- Case-study header ---- */
+  .case-kicker-rule {
+    display: block;
+    width: 64px;
+    height: 3px;
+    background-color: var(--color-orange);
+  }
+
+  /* Case title — dedicated scale (DESIGN_SYSTEM.md §10) */
+  .case-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+
+  /* ---- Document sections (hairline transitions, consistent rhythm) ---- */
+  .case-section {
+    border-top: 1px solid var(--color-rule-on-cream);
+    padding-top: clamp(40px, 5vw, 64px);
+    padding-bottom: clamp(48px, 6vw, 72px);
+  }
+
+  /* ---- Case-study mono labels: small but readable (13px) ---- */
+  .case-meta .text-mono-label,
+  .case-section .text-mono-label {
+    font-size: 0.8125rem;
+  }
+
+  /* ---- Case-study body copy: design-system body scale, airy leading ---- */
+  .case-body {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  /* ---- Wells: constraints + architecture ---- */
+  .case-well {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-rule-on-cream);
+    border-radius: 4px;
+    padding: clamp(20px, 4vw, 32px);
+  }
+
+  .case-caption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+
+  /* ---- Header meta margin ---- */
+  .case-meta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .case-meta-row {
+    border-top: 1px solid var(--color-rule-on-cream);
+    padding-top: 24px;
+  }
+
+  /* ---- Implementation margin annotations ---- */
+  .case-margin-note {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+    overflow-wrap: break-word;
+  }
+
+  /* ---- Decision rows ---- */
+  .decision-row {
+    transition: background-color 0.2s ease;
+  }
+  .decision-row:hover {
+    background-color: rgba(22, 36, 61, 0.03);
+  }
+  .decision-number {
+    transition: color 0.2s ease;
+  }
+  .decision-row:hover .decision-number {
+    color: var(--color-orange-deep);
+  }
+
+  /* ---- Prev/Next navy band ---- */
+  .prevnext-cell {
+    transition: background-color 0.2s ease;
+  }
+  .prevnext-cell:hover {
+    background-color: rgba(250, 246, 236, 0.05);
+  }
+  .navy-focus:focus-visible {
+    outline: 2px solid var(--color-orange-on-navy);
+    outline-offset: 2px;
+  }
+
+  /* ---- Architecture diagram ---- */
+  .diagram-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}

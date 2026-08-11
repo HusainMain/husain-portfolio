@@ -4,12 +4,8 @@ import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
 import { SkipLink } from "./components/layout/SkipLink";
 import Home from "./pages/Home";
-const Work = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.WorkPlaceholder })),
-);
-const WorkSlug = lazy(() =>
-  import("./pages/placeholders").then((m) => ({ default: m.WorkSlugPlaceholder })),
-);
+const Work = lazy(() => import("./pages/work"));
+const WorkSlug = lazy(() => import("./pages/WorkSlug"));
 const Engineering = lazy(() =>
   import("./pages/placeholders").then((m) => ({ default: m.EngineeringPlaceholder })),
 );

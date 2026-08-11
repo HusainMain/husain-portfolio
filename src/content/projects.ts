@@ -10,6 +10,8 @@ export const projects: Project[] = [
     slug: "ideabridge",
     title: "IdeaBridge",
     oneLiner: "AI-Powered Startup Validation Platform",
+    context:
+      "React SPA with an Express AI-analysis API; deployed on Vercel — ideabridge-six.vercel.app",
     stack: [
       "React",
       "TypeScript",
@@ -26,15 +28,19 @@ export const projects: Project[] = [
     number: "02",
     slug: "healthcare-appointment-system",
     title: "Healthcare Appointment System",
-    oneLiner: "Java-Based Appointment Management System",
-    stack: ["Java", "OOP", "File I/O", "Queues", "Exception Handling"],
-    repoUrl: "https://github.com/HusainMain/healthcare-appointment-system",
+    oneLiner: "Java CLI Appointment Management System",
+    context:
+      "Educational Java project — console appointment manager with per-doctor FIFO queues",
+    stack: ["Java", "OOP", "Queues", "CLI"],
+    repoUrl: "https://github.com/HusainMain/Healthcare_Appointment_System",
   },
   {
     number: "03",
     slug: "iems",
     title: "iEMS",
     oneLiner: "Integrated Education Management System (CVMU Hackathon)",
+    context:
+      "React + Firebase education platform — developed at the CVMU hackathon as team lead",
     stack: ["React", "Firebase", "Tailwind"],
     repoUrl: "https://github.com/HusainMain/iems",
   },
@@ -43,6 +49,8 @@ export const projects: Project[] = [
     slug: "buildex-website",
     title: "BuildEx Website",
     oneLiner: "Official BuildEx Startup & Entrepreneurship Club website",
+    context:
+      "Official club website of BuildEx, SVIT Vasad — live at buildex-website-sooty.vercel.app",
     stack: ["React 19", "TypeScript", "GSAP", "Tailwind"],
     repoUrl: "https://github.com/HusainMain/buildex-website",
   },

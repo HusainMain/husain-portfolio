@@ -18,14 +18,6 @@ function Placeholder({ title, phase }: { title: string; phase: string }) {
   );
 }
 
-export function WorkPlaceholder(): ReactNode {
-  return <Placeholder title="Work" phase="PHASE 4 — WORK INDEX" />;
-}
-
-export function WorkSlugPlaceholder(): ReactNode {
-  return <Placeholder title="Case Study" phase="PHASE 3 — CASE STUDY TEMPLATE" />;
-}
-
 export function EngineeringPlaceholder(): ReactNode {
   return <Placeholder title="Engineering" phase="PHASE 5 — ENGINEERING" />;
 }
