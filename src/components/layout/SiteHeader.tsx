@@ -8,7 +8,7 @@ function Wordmark({ onClick }: { onClick?: () => void }) {
     <Link
       to="/"
       onClick={onClick}
-      className="inline-flex items-center gap-2 font-display text-base font-medium text-ink"
+      className="inline-flex min-h-11 items-center gap-2 font-display text-base font-medium text-ink"
       aria-label="Husain Bardanwala — home"
     >
       <span aria-hidden="true" className="wordmark-mark" />

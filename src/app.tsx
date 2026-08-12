@@ -1,8 +1,10 @@
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router";
+import { useLenis } from "lenis/react";
 import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
 import { SkipLink } from "./components/layout/SkipLink";
+import { SmoothScroll } from "./components/motion/SmoothScroll";
 import Home from "./pages/Home";
 const Work = lazy(() => import("./pages/work"));
 const WorkSlug = lazy(() => import("./pages/WorkSlug"));
@@ -19,14 +21,19 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 function App() {
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
     mainRef.current?.focus({ preventScroll: true });
-  }, [pathname]);
+  }, [pathname, lenis]);
 
   return (
-    <>
+    <SmoothScroll>
       <SkipLink />
       <SiteHeader />
       <main id="main" ref={mainRef} tabIndex={-1}>
@@ -42,8 +49,8 @@ function App() {
           </Routes>
         </Suspense>
       </main>
-      <SiteFooter />
-    </>
+      <SiteFooter entrance={pathname === "/" || pathname === "/about" || pathname === "/work"} />
+    </SmoothScroll>
   );
 }
 

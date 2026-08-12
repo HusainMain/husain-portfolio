@@ -9,11 +9,15 @@ import "@fontsource/instrument-serif/latin-400-italic.css";
 
 import "./styles/index.css";
 import App from "./app";
+import AgentationOverlay from "./agentation/AgentationOverlay";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
+  <>
+    <StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StrictMode>
+    <AgentationOverlay />
+  </>,
 );

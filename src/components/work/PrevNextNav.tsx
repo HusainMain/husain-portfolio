@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { projects } from "../../content/projects";
+import { Stagger } from "../motion/Stagger";
 
 interface PrevNextNavProps {
   currentSlug: string;
@@ -27,7 +28,7 @@ export function PrevNextNav({ currentSlug }: PrevNextNavProps) {
   const next = targetFor(index, 1);
   return (
     <section className="bg-navy-900">
-      <nav aria-label="More projects" className="grid-frame py-12 md:py-16">
+      <Stagger as="nav" aria-label="More projects" step={120} className="grid-frame py-12 md:py-16">
         <Link
           to={prev.to}
           aria-label={`Previous — ${prev.title}`}
@@ -64,7 +65,7 @@ export function PrevNextNav({ currentSlug }: PrevNextNavProps) {
             {next.title}
           </span>
         </Link>
-      </nav>
+      </Stagger>
     </section>
   );
 }

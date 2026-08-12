@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useParams } from "react-router";
 import { getProjectBySlug } from "../content/projects";
 import { getCaseStudy } from "../content/caseStudies";
@@ -9,6 +10,9 @@ import { CaseReflection } from "../components/work/CaseReflection";
 import { DecisionRows } from "../components/work/DecisionRows";
 import { ArchitectureDiagram } from "../components/work/ArchitectureDiagram";
 import { PrevNextNav } from "../components/work/PrevNextNav";
+import { FadeIn } from "../components/motion/FadeIn";
+import { Parallax } from "../components/motion/Parallax";
+import { Stagger } from "../components/motion/Stagger";
 import NotFoundPage from "./NotFound";
 
 export default function WorkSlug() {
@@ -21,34 +25,45 @@ export default function WorkSlug() {
   }
 
   return (
-    <>
+    <Fragment key={slug}>
       <CaseStudyMeta project={project} />
 
       <CaseSection eyebrow="02 / PROBLEM">
-        <div className="flex flex-col gap-4">
-          {caseStudy.problem.map((paragraph) => (
-            <p key={paragraph} className="case-body max-w-[72ch] text-muted">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        <FadeIn y={14} duration={0.55}>
+          <div className="flex flex-col gap-4">
+            {caseStudy.problem.map((paragraph) => (
+              <p key={paragraph} className="case-body max-w-[72ch] text-muted">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </FadeIn>
       </CaseSection>
 
       <CaseSection eyebrow="03 / CONSTRAINTS">
-        <div className="case-well">
-          <ol className="flex flex-col gap-4">
+        <div className="case-well p-0 overflow-hidden">
+          <Stagger
+            as="ol"
+            step={90}
+            className="grid grid-cols-1 md:grid-cols-2 divide-y divide-rule-on-cream md:divide-y-0 md:divide-x md:divide-rule-on-cream"
+          >
             {caseStudy.constraints.map((constraint) => (
-              <li key={constraint.number} className="flex items-baseline gap-4">
+              <li
+                key={constraint.number}
+                className="flex items-start gap-4 p-5 md:p-6 group transition-colors duration-200 hover:bg-orange/5"
+              >
                 <span
                   aria-hidden="true"
-                  className="text-mono-label shrink-0 text-orange"
+                  className="text-mono-label shrink-0 text-orange-deep font-semibold bg-orange/10 px-2 py-1 rounded text-[11px] transition-colors duration-200 group-hover:bg-orange/20"
                 >
                   {constraint.number}
                 </span>
-                <span className="text-mono-meta text-muted">{constraint.text}</span>
+                <p className="text-mono-meta text-navy-900 font-medium leading-relaxed text-sm">
+                  {constraint.text}
+                </p>
               </li>
             ))}
-          </ol>
+          </Stagger>
         </div>
       </CaseSection>
 
@@ -64,27 +79,36 @@ export default function WorkSlug() {
         contentClassName="lg:col-span-12 lg:col-start-1"
       >
         <div className="grid grid-cols-12 gap-x-6 gap-y-8">
-          <div className="col-span-4 flex flex-col gap-4 md:col-span-12 lg:col-span-8 lg:col-start-3">
+          <FadeIn y={12} duration={0.5} className="col-span-4 flex flex-col gap-4 md:col-span-12 lg:col-span-8 lg:col-start-3">
+            <p className="text-mono-label text-orange-deep">IMPLEMENTATION NOTES</p>
             {caseStudy.implementation.body.map((paragraph) => (
               <p key={paragraph} className="case-body max-w-[72ch] text-muted">
                 {paragraph}
               </p>
             ))}
-          </div>
-          <aside className="hidden lg:col-span-2 lg:col-start-11 lg:flex lg:flex-col lg:gap-6">
+          </FadeIn>
+          <FadeIn y={12} delay={0.12} duration={0.5} className="hidden lg:block lg:col-span-2 lg:col-start-11">
+            <aside className="flex flex-col gap-4">
+              {caseStudy.implementation.annotations.map((annotation) => (
+                <div key={annotation.note} className="case-margin-card">
+                  <span className="block text-orange-deep font-semibold text-[11px]">
+                    // {annotation.anchor}
+                  </span>
+                  <span className="text-[12px]">{annotation.note}</span>
+                </div>
+              ))}
+            </aside>
+          </FadeIn>
+          <FadeIn y={12} delay={0.18} duration={0.5} className="col-span-4 flex flex-col gap-2 md:col-span-12 lg:hidden">
             {caseStudy.implementation.annotations.map((annotation) => (
-              <p key={annotation.note} className="case-margin-note">
-                — {annotation.note}
-              </p>
+              <div key={annotation.note} className="case-margin-card">
+                <span className="block text-orange-deep font-semibold text-[11px]">
+                  // {annotation.anchor}
+                </span>
+                <span className="text-[12px]">{annotation.note}</span>
+              </div>
             ))}
-          </aside>
-          <div className="col-span-4 flex flex-col gap-2 md:col-span-12 lg:hidden">
-            {caseStudy.implementation.annotations.map((annotation) => (
-              <p key={annotation.note} className="case-margin-note">
-                — {annotation.note}
-              </p>
-            ))}
-          </div>
+          </FadeIn>
         </div>
       </CaseSection>
 
@@ -93,7 +117,9 @@ export default function WorkSlug() {
         contentClassName="lg:col-span-10 lg:col-start-3"
       >
         <figure className="case-well">
-          <ArchitectureDiagram diagram={caseStudy.architecture} />
+          <Parallax distance={4}>
+            <ArchitectureDiagram diagram={caseStudy.architecture} />
+          </Parallax>
           <figcaption className="case-caption mt-5">
             Architecture — conceptual diagram
           </figcaption>
@@ -104,7 +130,10 @@ export default function WorkSlug() {
         </p>
       </CaseSection>
 
-      <CaseSection eyebrow="07 / STACK">
+      <CaseSection
+        eyebrow="07 / STACK"
+        contentClassName="lg:col-span-12 lg:col-start-1"
+      >
         <CaseStack stack={caseStudy.stack} />
       </CaseSection>
 
@@ -117,6 +146,6 @@ export default function WorkSlug() {
       </CaseSection>
 
       <PrevNextNav currentSlug={project.slug} />
-    </>
+    </Fragment>
   );
 }

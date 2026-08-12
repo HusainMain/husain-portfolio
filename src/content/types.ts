@@ -15,7 +15,7 @@ export interface PortraitAsset {
   width: number;
   height: number;
   alt: string;
-  /** Provenance of the temporary demo asset; replace before launch. */
+  /** Provenance of the hero portrait asset. */
   sourceNote: string;
 }
 
@@ -159,6 +159,14 @@ export interface AboutFact {
 export interface AboutCurrentItem {
   label: string;
   title: string;
+  /** One factual sentence on the project's purpose/impact. */
+  description: string;
   href: string;
   linkLabel: string;
+}
+
+export interface ApproachPrinciple {
+  number: string;
+  title: string;
+  description: string;
 }

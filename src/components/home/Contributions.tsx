@@ -2,7 +2,7 @@ import { home } from "../../content/home";
 import { Section } from "../ui/Section";
 import { ArrowLink } from "../ui/ArrowLink";
 import { Rule } from "../ui/Rule";
-import { Reveal } from "../motion/Reveal";
+import { FadeIn } from "../motion/FadeIn";
 
 /** Contributions — iEMS leadership + BuildEx ownership (§7.7). */
 export function Contributions() {
@@ -12,8 +12,8 @@ export function Contributions() {
         <ul>
           {home.contributions.map((contribution, index) => (
             <li key={contribution.title}>
-              <Reveal delay={index * 80}>
-                <div className="grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 md:py-10">
+              <FadeIn delay={index * 0.08}>
+                <div className="contrib-row grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 md:py-10">
                   <span className="text-mono-label col-span-12 text-orange-deep md:col-span-2">
                     {contribution.label}
                   </span>
@@ -25,7 +25,7 @@ export function Contributions() {
                     <ArrowLink to={contribution.href}>{contribution.linkLabel}</ArrowLink>
                   </div>
                 </div>
-              </Reveal>
+              </FadeIn>
               {index < home.contributions.length - 1 && <Rule />}
             </li>
           ))}

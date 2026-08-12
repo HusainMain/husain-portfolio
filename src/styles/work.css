@@ -105,6 +105,69 @@
     height: auto;
   }
 
+  .diagram-motion {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ---- Header meta panel ---- */
+  .case-meta-panel {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-rule-on-cream);
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ---- Inline code tag for technical implementation ---- */
+  .case-code-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    background-color: rgba(22, 36, 61, 0.06);
+    color: var(--color-navy-900);
+    border: 1px solid rgba(22, 36, 61, 0.12);
+  }
+
+  /* ---- Margin annotation card ---- */
+  .case-margin-card {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    background-color: var(--color-surface);
+    border-left: 2px solid var(--color-orange);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ---- Trade-off callout pill ---- */
+  .case-tradeoff-box {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background-color: rgba(196, 87, 31, 0.05);
+    border-left: 2px solid var(--color-orange-deep);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ---- Architecture diagram interactive nodes ---- */
+  .diagram-node {
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), filter 0.2s ease;
+    cursor: default;
+  }
+  .diagram-node:hover {
+    transform: translateY(-1px);
+  }
+  .diagram-node:hover rect {
+    fill: #F5EFE4 !important;
+    stroke: var(--color-orange-deep) !important;
+    stroke-width: 1.5px !important;
+    filter: drop-shadow(0 2px 6px rgba(196,87,31,0.15));
+  }
+
   /* ---- Document prose (about / engineering pages) ---- */
   .about-intro {
     font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);

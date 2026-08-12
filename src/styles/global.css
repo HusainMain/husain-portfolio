@@ -21,6 +21,10 @@
     scroll-behavior: smooth;
   }
 
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
   body {
     background-color: var(--color-canvas);
     color: var(--color-ink);
@@ -186,7 +190,7 @@
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     letter-spacing: 0.04em;
-    padding: 10px 16px;
+    padding: 12px 16px;
     border-radius: 4px;
     transition: transform 0.2s ease;
   }
@@ -277,6 +281,57 @@
     color: var(--color-orange);
   }
 
+  /* ---- Continuous editorial marquee (CTA bands) ----
+     Pure CSS transform animation: the track holds two identical halves and
+     sweeps exactly half its own width, so the loop repeats seamlessly.
+     Clipped inside .marquee; never affects document width. Reduced motion:
+     animation off, content stays visible, layout unchanged. */
+  .marquee {
+    overflow: clip;
+    width: 100%;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marquee-x var(--marquee-duration, 50s) linear infinite;
+  }
+  .marquee[data-direction="right"] .marquee-track {
+    animation-name: marquee-x-reverse;
+  }
+  .marquee-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .marquee-item {
+    white-space: nowrap;
+  }
+  .marquee-sep {
+    margin-inline: 1.5em 1.5em;
+  }
+  @keyframes marquee-x {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+  @keyframes marquee-x-reverse {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(50%, 0, 0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
   /* ---- Nav underline (active) ---- */
   .nav-link {
     position: relative;
@@ -292,7 +347,7 @@
     background-color: var(--color-orange);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.25s ease;
+    transition: transform 0.2s ease;
   }
   .nav-link:hover::after,
   .nav-link.is-active::after {
@@ -323,6 +378,34 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ---- Staggered entrance reveal (Phase 6) ----
+     `.stagger` gates its direct children (tagged `.stagger-item` by the
+     Stagger component). Per-item delay = base + index × step, set via the
+     custom properties on the container. Includes the common hover transition
+     properties so interactive items keep their hover feel mid-reveal. */
+  .stagger > .stagger-item {
+    opacity: 0;
+    transform: translateY(var(--stagger-y, 16px));
+    transition:
+      opacity 0.6s var(--ease-out-quint),
+      transform 0.6s var(--ease-out-quint),
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+    transition-delay: calc(var(--stagger-delay, 0ms) + var(--i) * var(--stagger-step, 80ms));
+  }
+  .stagger.is-visible > .stagger-item {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stagger > .stagger-item {
       opacity: 1;
       transform: none;
       transition: none;

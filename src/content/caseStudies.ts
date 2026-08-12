@@ -360,9 +360,8 @@ export const caseStudies: CaseStudy[] = [
         "Six classes — Person, Doctor, Patient, Appointment, QueueManager, Main. Plain javac build with no dependencies; an educational Java project.",
     },
     reflection: {
-      pullLine:
-        "The README promised file persistence and slot validation; the code delivers queues and a validation loop — the source is the truth.",
-      body: "The repository's README describes features the implementation does not contain: File I/O persistence, time-slot availability checks, custom exceptions, and JavaFX. Reading the actual source, this is a console queue model with defensive input handling. This case study describes only what the code demonstrates — and that gap between documentation and implementation is itself the lesson.",
+      pullLine: "Six classes. One queue per doctor. No dependencies. This is what fundamentals look like.",
+      body: "This project demonstrates core CS concepts in a single console application: a Person → Doctor/Patient inheritance hierarchy, encapsulation via QueueManager per doctor, FIFO scheduling with LinkedList, auto-incrementing IDs, and a defensive input loop that reprompts until valid. It runs with `javac *.java && java Main` — no build tools, no frameworks, no database. The scope is intentionally narrow: an in-memory queue model that lives and dies with the process, built to illustrate data structures and input safety, not to ship.",
     },
   },
   {

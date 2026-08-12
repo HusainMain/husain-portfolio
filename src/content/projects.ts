@@ -38,7 +38,7 @@ export const projects: Project[] = [
     number: "03",
     slug: "iems",
     title: "iEMS",
-    oneLiner: "Integrated Education Management System (CVMU Hackathon)",
+    oneLiner: "Integrated Education Management System\nCVMU Hackathon",
     context:
       "React + Firebase education platform — developed at the CVMU hackathon as team lead",
     stack: ["React", "Firebase", "Tailwind"],

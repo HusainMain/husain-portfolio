@@ -14,7 +14,7 @@ import type {
  */
 export const engineering = {
   eyebrow: "01 / APPROACH",
-  lead: "How Husain thinks and works — philosophy, process, and engineering practice.",
+  lead: "How I think and work — philosophy, process, and engineering practice.",
   philosophy: [
     {
       text: "I believe great engineering begins with understanding the problem before writing code. I build scalable systems grounded in ",

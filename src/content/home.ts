@@ -19,8 +19,8 @@ export const home = {
       accent: "experiences",
     },
   ] satisfies BuildStatement[],
-  workEyebrow: "01 / SELECTED WORK",
-  philosophyEyebrow: "02 / HOW I THINK",
+  workEyebrow: "SELECTED WORK",
+  philosophyEyebrow: "HOW I THINK",
   philosophy:
     "Great engineering begins with understanding the problem before writing code. I build scalable systems grounded in ",
   philosophyAccent1: "first principles",
@@ -33,7 +33,7 @@ export const home = {
     { number: "03", title: "Build with AI as an accelerator" },
     { number: "04", title: "Verify with engineering judgment" },
   ] satisfies ProcessStep[],
-  capabilitiesEyebrow: "03 / CAPABILITIES",
+  capabilitiesEyebrow: "CAPABILITIES",
   capabilities: [
     {
       title: "Systems",
@@ -56,7 +56,7 @@ export const home = {
       tags: ["Java", "OOP", "Data Structures", "Algorithms", "Git"],
     },
   ] satisfies CapabilityGroup[],
-  contributionsEyebrow: "04 / CONTRIBUTIONS",
+  contributionsEyebrow: "CONTRIBUTIONS",
   contributions: [
     {
       label: "LEADERSHIP",
@@ -75,8 +75,10 @@ export const home = {
       linkLabel: "Read the case study",
     },
   ] satisfies Contribution[],
-  contactEyebrow: "05 / CONTACT",
+  contactEyebrow: "CONTACT",
   contactHeadline: "Have a problem worth ",
   contactHeadlineAccent: "building",
   contactHeadlineTail: "?",
+  identityMarquee: ["SYSTEMS", "PRODUCTS", "AI", "ENGINEERING", "BUILD"],
+  contactMarquee: ["BUILD", "SHIP", "ITERATE", "ENGINEER"],
 };

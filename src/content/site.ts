@@ -17,11 +17,11 @@ export const site = {
     github: "GITHUB →",
     scroll: "SCROLL ↓",
   },
-  portraitCaption: "HUSAIN BARDANWALA — BHARUCH, INDIA",
+  portraitCaption: "ENGINEERING, END TO END",
   nav: [
-    { label: "Work", href: "/work" },
-    { label: "Engineering", href: "/engineering" },
     { label: "About", href: "/about" },
+    { label: "Engineering", href: "/engineering" },
+    { label: "Work", href: "/work" },
     { label: "Contact", href: "/contact" },
   ] satisfies NavItem[],
   socials: [
@@ -42,13 +42,12 @@ export const site = {
     },
   ] satisfies LinkItem[],
   portrait: {
-    src: "/images/hero-portrait-demo-960.jpg",
-    srcSet:
-      "/images/hero-portrait-demo-480.jpg 480w, /images/hero-portrait-demo-960.jpg 960w, /images/hero-portrait-demo-1600.jpg 1600w",
-    width: 960,
-    height: 1280,
-    alt: "Editorial portrait placeholder — to be replaced with the owner's photograph",
+    src: "/images/hero-portrait.jpg",
+    srcSet: "/images/hero-portrait.jpg 1023w",
+    width: 1023,
+    height: 1537,
+    alt: "Monochrome editorial portrait of Husain Bardanwala",
     sourceNote:
-      "Temporary demo image: Pexels photo 16538151 (free to use, no attribution required). Replace with Husain's own photograph before launch. Swap the three hero-portrait-demo-*.jpg files and this entry.",
+      "Final owner photograph shot for the hero panel; monochrome to match the site's editorial aesthetic.",
   } satisfies PortraitAsset,
 };

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/utils";
 import { Eyebrow } from "../ui/Eyebrow";
+import { FadeIn } from "../motion/FadeIn";
 
 interface CaseSectionProps {
   eyebrow: string;
@@ -38,14 +39,16 @@ export function CaseSection({
       <div className="grid-frame">
         <div className="col-span-4 mt-6 md:col-span-6 md:col-start-2 md:mt-8 lg:col-span-12 lg:col-start-1 lg:mt-0">
           <div className="grid grid-cols-12 gap-x-6">
-            <div className="col-span-12 flex items-baseline gap-6">
-              <Eyebrow as="h2" className="shrink-0">
-                {eyebrow}
-              </Eyebrow>
-              <span
-                aria-hidden="true"
-                className="hidden h-px flex-1 bg-rule-on-cream md:block"
-              />
+            <div className="col-span-12">
+              <FadeIn y={8} duration={0.45} className="flex items-baseline gap-6">
+                <Eyebrow as="h2" className="shrink-0">
+                  {eyebrow}
+                </Eyebrow>
+                <span
+                  aria-hidden="true"
+                  className="hidden h-px flex-1 bg-rule-on-cream md:block"
+                />
+              </FadeIn>
             </div>
             <div className={content}>{children}</div>
           </div>
