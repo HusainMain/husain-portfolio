@@ -141,7 +141,7 @@ export const caseStudies: CaseStudy[] = [
         {
           label: "SHARED MODULE",
           nodes: [
-            { id: "shared", label: "shared/", sub: "types · validation · errors" },
+            { id: "shared", label: "shared/", sub: "types · validation" },
           ],
         },
         {
@@ -312,7 +312,7 @@ export const caseStudies: CaseStudy[] = [
           label: "MODELS",
           nodes: [
             { id: "person", label: "Person", sub: "name · gender · age" },
-            { id: "doctor", label: "Doctor", sub: "specialization · experience" },
+            { id: "doctor", label: "Doctor", sub: "specialization · exp." },
             { id: "patient", label: "Patient", sub: "sickness" },
           ],
         },
@@ -482,7 +482,7 @@ export const caseStudies: CaseStudy[] = [
         {
           label: "DATA — FIRESTORE",
           nodes: [
-            { id: "db", label: "Firestore", sub: "users · classes · subjects · marks · attendance" },
+            { id: "db", label: "Firestore", sub: "users · classes · marks" },
           ],
         },
       ],

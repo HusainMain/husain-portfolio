@@ -13,6 +13,15 @@ const PAD_X = 40;
 const LAYER_GAP = 100;
 const START_Y = 32;
 
+// Tall-variant layout constants (430px viewBox width)
+const TALL_VB_W = 430;
+const TALL_NODE_W = 140;
+const TALL_NODE_H = 50;
+const TALL_PAD_X = 28;
+const TALL_ROW_GAP = 108;
+const TALL_NODE_V_GAP = 14;  // vertical gap between sibling nodes within a layer (for layers with >3 nodes that must wrap)
+const TALL_START_Y = 30;
+
 interface NodeRect {
   node: DiagramNode;
   x: number;
@@ -28,12 +37,12 @@ interface DiagramLayout {
   nodes: Map<string, NodeRect>;
 }
 
-function nodeXs(count: number, totalWidth: number): number[] {
-  if (count <= 1) return [(totalWidth - NODE_W) / 2];
-  const usable = totalWidth - PAD_X * 2 - NODE_W;
+function nodeXs(count: number, totalWidth: number, nodeW: number, padX: number): number[] {
+  if (count <= 1) return [(totalWidth - nodeW) / 2];
+  const usable = totalWidth - padX * 2 - nodeW;
   return Array.from(
     { length: count },
-    (_, i) => PAD_X + (i * usable) / (count - 1),
+    (_, i) => padX + (i * usable) / (count - 1),
   );
 }
 
@@ -57,7 +66,7 @@ function layoutWide(diagram: ArchitectureDiagram): DiagramLayout {
   const nodes = new Map<string, NodeRect>();
   const layers = diagram.layers.map((layer, i) => {
     const y = START_Y + i * LAYER_GAP;
-    const xs = nodeXs(layer.nodes.length, width);
+    const xs = nodeXs(layer.nodes.length, width, NODE_W, PAD_X);
     layer.nodes.forEach((node, j) => {
       nodes.set(node.id, { node, x: xs[j], y: y + 42, w: NODE_W, h: NODE_H });
     });
@@ -66,32 +75,45 @@ function layoutWide(diagram: ArchitectureDiagram): DiagramLayout {
   return { width, height, layers, nodes };
 }
 
+/**
+ * Multi-column tall layout: each layer places its nodes side-by-side
+ * horizontally (up to 3 per row) within the 430px viewBox, mirroring the
+ * wide layout strategy but for a narrow viewport. This ensures fan-out
+ * edges (e.g. auth → admin/teacher/student) are visually distinct.
+ */
 function layoutTall(diagram: ArchitectureDiagram): DiagramLayout {
-  const nodeW = 350;
-  const nodeH = 48;
-  const gap = 16;
-  const padTop = 28;
-  const padBottom = 40;
-  const layers: { label: string; y: number }[] = [];
   const nodes = new Map<string, NodeRect>();
-  let y = padTop;
+  const layers: { label: string; y: number }[] = [];
+  let y = TALL_START_Y;
+
   for (const layer of diagram.layers) {
     layers.push({ label: layer.label, y });
-    const x = PAD_X;
-    layer.nodes.forEach((node, j) => {
-      nodes.set(node.id, {
-        node,
-        x,
-        y: y + 36 + j * (nodeH + gap),
-        w: nodeW,
-        h: nodeH,
+
+    // Split layer nodes into rows of ≤3 so they always fit horizontally.
+    const perRow = Math.min(layer.nodes.length, 3);
+    const rowCount = Math.ceil(layer.nodes.length / perRow);
+
+    for (let row = 0; row < rowCount; row++) {
+      const rowNodes = layer.nodes.slice(row * perRow, row * perRow + perRow);
+      const xs = nodeXs(rowNodes.length, TALL_VB_W, TALL_NODE_W, TALL_PAD_X);
+      const rowY = y + 36 + row * (TALL_NODE_H + TALL_NODE_V_GAP);
+      rowNodes.forEach((node, col) => {
+        nodes.set(node.id, {
+          node,
+          x: xs[col],
+          y: rowY,
+          w: TALL_NODE_W,
+          h: TALL_NODE_H,
+        });
       });
-    });
-    y += 36 + layer.nodes.length * nodeH + (layer.nodes.length - 1) * gap + 28;
+    }
+
+    // Advance y past this layer's rows.
+    y += 36 + rowCount * TALL_NODE_H + (rowCount - 1) * TALL_NODE_V_GAP + 28;
   }
-  const width = nodeW + PAD_X * 2;
-  const height = Math.max(400, y + padBottom);
-  return { width, height, layers, nodes };
+
+  const height = Math.max(400, y + TALL_ROW_GAP - 72);
+  return { width: TALL_VB_W, height, layers, nodes };
 }
 
 function nodeCenter(rect: NodeRect): { x: number; y: number } {
@@ -131,7 +153,10 @@ function renderLayerLabels(layout: DiagramLayout) {
   ));
 }
 
-function renderNodes(layout: DiagramLayout) {
+function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
+  const labelSize = variant === "tall" ? 13 : 14;
+  const subSize   = variant === "tall" ? 10 : 11;
+
   return [...layout.nodes.values()].map((rect) => {
     const center = nodeCenter(rect);
     return (
@@ -158,7 +183,7 @@ function renderNodes(layout: DiagramLayout) {
           x={rect.node.accent ? center.x + 4 : center.x}
           y={rect.y + (rect.node.sub ? 22 : 28)}
           textAnchor="middle"
-          fontSize={14}
+          fontSize={labelSize}
           fontWeight={600}
           fill="#16243D"
           fontFamily="'Space Grotesk Variable', sans-serif"
@@ -170,7 +195,7 @@ function renderNodes(layout: DiagramLayout) {
             x={center.x}
             y={rect.y + 38}
             textAnchor="middle"
-            fontSize={11}
+            fontSize={subSize}
             fill="#4E5E78"
             fontFamily="'JetBrains Mono Variable', monospace"
             letterSpacing="0.02em"
@@ -187,6 +212,7 @@ function renderEdges(
   layout: DiagramLayout,
   edges: DiagramEdge[],
   variant: "wide" | "tall",
+  markerSuffix: "w" | "t",
 ) {
   return edges.map((edge) => {
     const from = layout.nodes.get(edge.from);
@@ -219,9 +245,14 @@ function renderEdges(
     const mx = (sx + tx) / 2;
     const my = (sy + ty) / 2;
 
+    // Clamp label Y so the pill stays outside both source and target node rects.
+    const rawLabelY = my - 9;
+    const minY = sy + 6;
+    const maxY = ty - 22;
+    const labelY = Math.min(Math.max(rawLabelY, minY), Math.max(minY, maxY));
+
     let labelX: number;
     let labelAnchor: "middle" | "start" = "middle";
-    let labelY = my - 9;
     let labelBgX = mx;
     let labelBgW = edge.label ? edge.label.length * 7 + 12 : 0;
 
@@ -234,6 +265,10 @@ function renderEdges(
       labelBgX = mx - labelBgW / 2;
     }
 
+    const arrowId = edge.dashed
+      ? `arch-arrow-dashed-${markerSuffix}`
+      : `arch-arrow-${markerSuffix}`;
+
     return (
       <g key={`${edge.from}-${edge.to}`} data-phase="edge">
         <line
@@ -244,7 +279,7 @@ function renderEdges(
           stroke={edge.dashed ? "#C4571F" : "rgba(22, 36, 61, 0.35)"}
           strokeWidth={1.5}
           strokeDasharray={edge.dashed ? "4 4" : undefined}
-          markerEnd={edge.dashed ? "url(#arch-arrow-dashed)" : "url(#arch-arrow)"}
+          markerEnd={`url(#${arrowId})`}
         />
         {edge.label && (
           <g data-phase="label">
@@ -260,7 +295,7 @@ function renderEdges(
             />
             <text
               x={labelX + (variant === "tall" ? labelBgW / 2 - 4 : 0)}
-              y={my + 3}
+              y={labelY + 11}
               textAnchor={labelAnchor}
               fontSize={10}
               fontWeight={500}
@@ -274,6 +309,36 @@ function renderEdges(
       </g>
     );
   });
+}
+
+/** Shared SVG <defs> for arrowhead markers, keyed by suffix to avoid duplicate IDs. */
+function DiagramMarkers({ suffix }: { suffix: "w" | "t" }) {
+  return (
+    <defs>
+      <marker
+        id={`arch-arrow-${suffix}`}
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="6"
+        markerHeight="6"
+        orient="auto-start-reverse"
+      >
+        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(22, 36, 61, 0.6)" />
+      </marker>
+      <marker
+        id={`arch-arrow-dashed-${suffix}`}
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="6"
+        markerHeight="6"
+        orient="auto-start-reverse"
+      >
+        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#C4571F" />
+      </marker>
+    </defs>
+  );
 }
 
 interface ArchitectureDiagramProps {
@@ -351,77 +416,42 @@ export function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
 
   const wide = layoutWide(diagram);
   const tall = layoutTall(diagram);
-  const descId = `arch-desc-${diagram.title.length}`;
+
+  // Stable, slug-friendly ID derived from the diagram title.
+  const diagramId = diagram.title.replace(/[^a-z0-9]+/gi, "-").toLowerCase().slice(0, 40);
+  const wideDescId = `arch-desc-w-${diagramId}`;
+  const tallDescId = `arch-desc-t-${diagramId}`;
+
   return (
     <div ref={wrapperRef}>
+      {/* ── Wide variant (≥768px) ───────────────────────────────────────── */}
       <svg
         viewBox={`0 0 ${wide.width} ${wide.height}`}
         className="diagram-svg diagram-wide hidden md:block"
         role="img"
-        aria-labelledby={descId}
+        aria-labelledby={wideDescId}
       >
         <title>{diagram.title}</title>
-        <desc id={descId}>{diagram.desc}</desc>
-        <defs>
-          <marker
-            id="arch-arrow"
-            viewBox="0 0 10 10"
-            refX="8"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(22, 36, 61, 0.6)" />
-          </marker>
-          <marker
-            id="arch-arrow-dashed"
-            viewBox="0 0 10 10"
-            refX="8"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#C4571F" />
-          </marker>
-        </defs>
-        {renderEdges(wide, diagram.edges, "wide")}
+        <desc id={wideDescId}>{diagram.desc}</desc>
+        <DiagramMarkers suffix="w" />
+        {renderEdges(wide, diagram.edges, "wide", "w")}
         {renderLayerLabels(wide)}
-        {renderNodes(wide)}
+        {renderNodes(wide, "wide")}
       </svg>
+
+      {/* ── Tall variant (<768px) ───────────────────────────────────────── */}
       <svg
         viewBox={`0 0 ${tall.width} ${tall.height}`}
         className="diagram-svg diagram-tall md:hidden"
-        aria-hidden="true"
+        role="img"
+        aria-labelledby={tallDescId}
       >
-        <defs>
-          <marker
-            id="arch-arrow"
-            viewBox="0 0 10 10"
-            refX="8"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(22, 36, 61, 0.6)" />
-          </marker>
-          <marker
-            id="arch-arrow-dashed"
-            viewBox="0 0 10 10"
-            refX="8"
-            refY="5"
-            markerWidth="6"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#C4571F" />
-          </marker>
-        </defs>
-        {renderEdges(tall, diagram.edges, "tall")}
+        <title>{diagram.title}</title>
+        <desc id={tallDescId}>{diagram.desc}</desc>
+        <DiagramMarkers suffix="t" />
+        {renderEdges(tall, diagram.edges, "tall", "t")}
         {renderLayerLabels(tall)}
-        {renderNodes(tall)}
+        {renderNodes(tall, "tall")}
       </svg>
     </div>
   );
