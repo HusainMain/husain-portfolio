@@ -79,7 +79,7 @@ export default function WorkSlug() {
         contentClassName="lg:col-span-12 lg:col-start-1"
       >
         <div className="grid grid-cols-12 gap-x-6 gap-y-8">
-          <FadeIn y={12} duration={0.5} className="col-span-4 flex flex-col gap-4 md:col-span-12 lg:col-span-8 lg:col-start-3">
+          <FadeIn y={12} duration={0.5} className="col-span-12 flex flex-col gap-4 lg:col-span-8 lg:col-start-3">
             <p className="text-mono-label text-orange-deep">IMPLEMENTATION NOTES</p>
             {caseStudy.implementation.body.map((paragraph) => (
               <p key={paragraph} className="case-body max-w-[72ch] text-muted">
@@ -99,7 +99,7 @@ export default function WorkSlug() {
               ))}
             </aside>
           </FadeIn>
-          <FadeIn y={12} delay={0.18} duration={0.5} className="col-span-4 flex flex-col gap-2 md:col-span-12 lg:hidden">
+          <FadeIn y={12} delay={0.18} duration={0.5} className="col-span-12 flex flex-col gap-2 lg:hidden">
             {caseStudy.implementation.annotations.map((annotation) => (
               <div key={annotation.note} className="case-margin-card">
                 <span className="block text-orange-deep font-semibold text-[11px]">
