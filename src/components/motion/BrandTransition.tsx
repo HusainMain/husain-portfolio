@@ -51,7 +51,7 @@ export function BrandTransition({ onHero, onComplete }: BrandTransitionProps) {
       }
       transition={{ duration: 0.45, ease: EASE }}
     >
-      <div className="flex flex-col items-center">
+      <div className="flex w-full max-w-[min(100%,48rem)] flex-col items-center px-6">
         <div className="overflow-hidden">
           <motion.span
             className="block pb-[0.05em] text-[clamp(2.5rem,6vw,5rem)] font-medium uppercase leading-none tracking-[-0.03em] text-navy-900"
@@ -79,7 +79,7 @@ export function BrandTransition({ onHero, onComplete }: BrandTransitionProps) {
           transition={{ duration: 0.45, delay: 0, ease: EASE }}
         />
         <motion.p
-          className="text-mono-label mt-5 text-muted"
+          className="text-mono-label mt-5 text-center text-muted text-balance"
           initial={{ opacity: 0 }}
           animate={stage >= 2 ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.3, ease: EASE }}
