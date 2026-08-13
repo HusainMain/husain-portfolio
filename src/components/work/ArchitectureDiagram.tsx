@@ -7,34 +7,50 @@ import type {
 } from "../../content/types";
 import { prefersReducedMotion } from "../../lib/motion";
 
+/* ── Wide-variant layout constants ──────────────────────────────────── */
 const NODE_W = 180;
 const NODE_H = 48;
 const PAD_X = 40;
 const LAYER_GAP = 100;
 const START_Y = 32;
 
-// Tall-variant layout constants (430px viewBox width)
+/* ── Tall-variant layout constants (430px viewBox width) ────────────── */
 const TALL_VB_W = 430;
-const TALL_NODE_W = 140;
+const TALL_NODE_W = 124; // ≤ (430 − 2·24) / 3 so three-node rows never overlap
 const TALL_NODE_H = 50;
-const TALL_PAD_X = 28;
+const TALL_PAD_X = 24;
 const TALL_ROW_GAP = 108;
-const TALL_NODE_V_GAP = 14;  // vertical gap between sibling nodes within a layer (for layers with >3 nodes that must wrap)
+const TALL_NODE_V_GAP = 14;
 const TALL_START_Y = 30;
 
-interface NodeRect {
-  node: DiagramNode;
+/* Route/label geometry tuning */
+const LIFTS = [16, 24, 32]; // step sizes for over-the-top / under-the-bottom detours
+const LABEL_W_CHAR = 7; // mono, ~10px
+const LABEL_H = 16;
+
+interface Rect {
   x: number;
   y: number;
   w: number;
   h: number;
 }
 
+interface Pt {
+  x: number;
+  y: number;
+}
+
+interface NodeRect extends Rect {
+  node: DiagramNode;
+}
+
 interface DiagramLayout {
   width: number;
   height: number;
+  padX: number;
   layers: { label: string; y: number }[];
   nodes: Map<string, NodeRect>;
+  pills: Rect[];
 }
 
 function nodeXs(count: number, totalWidth: number, nodeW: number, padX: number): number[] {
@@ -44,6 +60,15 @@ function nodeXs(count: number, totalWidth: number, nodeW: number, padX: number):
     { length: count },
     (_, i) => padX + (i * usable) / (count - 1),
   );
+}
+
+function layerPills(layout: DiagramLayout): Rect[] {
+  return layout.layers.map((layer) => ({
+    x: layout.padX - 4,
+    y: layer.y + 10,
+    w: layer.label.length * 7.5 + 16,
+    h: 18,
+  }));
 }
 
 function calculateWideDimensions(diagram: ArchitectureDiagram): {
@@ -72,14 +97,16 @@ function layoutWide(diagram: ArchitectureDiagram): DiagramLayout {
     });
     return { label: layer.label, y };
   });
-  return { width, height, layers, nodes };
+  const layout: DiagramLayout = { width, height, padX: PAD_X, layers, nodes, pills: [] };
+  layout.pills = layerPills(layout);
+  return layout;
 }
 
 /**
  * Multi-column tall layout: each layer places its nodes side-by-side
  * horizontally (up to 3 per row) within the 430px viewBox, mirroring the
- * wide layout strategy but for a narrow viewport. This ensures fan-out
- * edges (e.g. auth → admin/teacher/student) are visually distinct.
+ * wide layout strategy but for a narrow viewport. Node width is capped so
+ * three sibling nodes never overlap.
  */
 function layoutTall(diagram: ArchitectureDiagram): DiagramLayout {
   const nodes = new Map<string, NodeRect>();
@@ -89,7 +116,6 @@ function layoutTall(diagram: ArchitectureDiagram): DiagramLayout {
   for (const layer of diagram.layers) {
     layers.push({ label: layer.label, y });
 
-    // Split layer nodes into rows of ≤3 so they always fit horizontally.
     const perRow = Math.min(layer.nodes.length, 3);
     const rowCount = Math.ceil(layer.nodes.length / perRow);
 
@@ -108,12 +134,282 @@ function layoutTall(diagram: ArchitectureDiagram): DiagramLayout {
       });
     }
 
-    // Advance y past this layer's rows.
     y += 36 + rowCount * TALL_NODE_H + (rowCount - 1) * TALL_NODE_V_GAP + 28;
   }
 
   const height = Math.max(400, y + TALL_ROW_GAP - 72);
-  return { width: TALL_VB_W, height, layers, nodes };
+  const layout: DiagramLayout = {
+    width: TALL_VB_W,
+    height,
+    padX: TALL_PAD_X,
+    layers,
+    nodes,
+    pills: [],
+  };
+  layout.pills = layerPills(layout);
+  return layout;
+}
+
+/* ── Geometry helpers ───────────────────────────────────────────────── */
+
+function rectsOverlap(a: Rect, b: Rect): boolean {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+/** Cohen–Sutherland: does segment (x1,y1)-(x2,y2) pass through rect? */
+function segmentHitsRect(x1: number, y1: number, x2: number, y2: number, rect: Rect): boolean {
+  const rx1 = rect.x + 0.5;
+  const ry1 = rect.y + 0.5;
+  const rx2 = rect.x + rect.w - 0.5;
+  const ry2 = rect.y + rect.h - 0.5;
+  const code = (x: number, y: number) =>
+    (x < rx1 ? 1 : 0) | (x > rx2 ? 2 : 0) | (y < ry1 ? 4 : 0) | (y > ry2 ? 8 : 0);
+  let c1 = code(x1, y1);
+  let c2 = code(x2, y2);
+  for (let i = 0; i < 8; i++) {
+    if ((c1 | c2) === 0) return true;
+    if (c1 & c2) return false;
+    const c = c1 || c2;
+    let x = 0;
+    let y = 0;
+    if (c & 8) {
+      y = ry2;
+      x = x1 + ((x2 - x1) * (ry2 - y1)) / (y2 - y1);
+    } else if (c & 4) {
+      y = ry1;
+      x = x1 + ((x2 - x1) * (ry1 - y1)) / (y2 - y1);
+    } else if (c & 2) {
+      x = rx2;
+      y = y1 + ((y2 - y1) * (rx2 - x1)) / (x2 - x1);
+    } else {
+      x = rx1;
+      y = y1 + ((y2 - y1) * (rx1 - x1)) / (x2 - x1);
+    }
+    if (c === c1) {
+      x1 = x;
+      y1 = y;
+      c1 = code(x1, y1);
+    } else {
+      x2 = x;
+      y2 = y;
+      c2 = code(x2, y2);
+    }
+  }
+  return false;
+}
+
+function polylineHits(pts: Pt[], obstacles: Rect[]): boolean {
+  for (let i = 0; i < pts.length - 1; i++) {
+    for (const ob of obstacles) {
+      if (segmentHitsRect(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y, ob)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function polylineLength(pts: Pt[]): number {
+  let len = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    len += Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+  }
+  return len;
+}
+
+function pointAtLength(pts: Pt[], target: number): Pt {
+  let travelled = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const segLen = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+    if (travelled + segLen >= target || i === pts.length - 2) {
+      const t = segLen === 0 ? 0 : (target - travelled) / segLen;
+      return {
+        x: pts[i].x + (pts[i + 1].x - pts[i].x) * t,
+        y: pts[i].y + (pts[i + 1].y - pts[i].y) * t,
+      };
+    }
+    travelled += segLen;
+  }
+  return pts[pts.length - 1];
+}
+
+/** Midpoint of the longest segment — the best spot to hang an edge label. */
+function labelAnchor(pts: Pt[]): Pt {
+  if (pts.length < 3) return pointAtLength(pts, polylineLength(pts) / 2);
+  let bestI = 0;
+  let bestLen = -1;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const len = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+    if (len > bestLen) {
+      bestLen = len;
+      bestI = i;
+    }
+  }
+  return {
+    x: (pts[bestI].x + pts[bestI + 1].x) / 2,
+    y: (pts[bestI].y + pts[bestI + 1].y) / 2,
+  };
+}
+
+/** Straight anchor-to-anchor edge (the previous line geometry). */
+function straightEdge(from: NodeRect, to: NodeRect): Pt[] {
+  const source = { x: from.x + from.w / 2, y: from.y + from.h / 2 };
+  const target = { x: to.x + to.w / 2, y: to.y + to.h / 2 };
+  if (from.y === to.y) {
+    return [
+      { x: from.x + (source.x < target.x ? from.w : 0), y: source.y },
+      { x: to.x + (source.x < target.x ? 0 : to.w), y: target.y },
+    ];
+  }
+  if (from.y + from.h <= to.y) {
+    return [{ x: source.x, y: from.y + from.h }, { x: target.x, y: to.y }];
+  }
+  return [{ x: source.x, y: from.y }, { x: target.x, y: to.y + to.h }];
+}
+
+/**
+ * Orthogonal detour routing. If the straight line between two nodes passes
+ * through another node (e.g. ideabridge's AI services crossing the shared
+ * module, or buildex's events → data crossing the blueprint), route around it
+ * with elbow bends through the empty gutters between layers and to the sides
+ * of the diagram. The first collision-free candidate wins.
+ */
+function routeEdge(from: NodeRect, to: NodeRect, obstacles: Rect[], vbW: number): Pt[] | null {
+  const srcCx = from.x + from.w / 2;
+  const tgtCx = to.x + to.w / 2;
+  const srcTop = from.y;
+  const srcBottom = from.y + from.h;
+  const tgtTop = to.y;
+  const tgtBottom = to.y + to.h;
+
+  const rightEdge = Math.max(...obstacles.map((o) => o.x + o.w));
+  const leftEdge = Math.min(...obstacles.map((o) => o.x));
+  const gutterR = Math.min(rightEdge + 10, vbW - 4);
+  const gutterL = Math.max(leftEdge - 10, 4);
+
+  const candidates: Pt[][] = [];
+
+  // R_E — drop to the mid-gap between the layers, cross, drop into target.
+  const yMid = (srcBottom + tgtTop) / 2;
+  candidates.push([
+    { x: srcCx, y: srcBottom },
+    { x: srcCx, y: yMid },
+    { x: tgtCx, y: yMid },
+    { x: tgtCx, y: tgtTop },
+  ]);
+
+  // R_F — rise over the row, cross, drop into target.
+  for (const lift of LIFTS) {
+    candidates.push([
+      { x: srcCx, y: srcTop },
+      { x: srcCx, y: srcTop - lift },
+      { x: tgtCx, y: srcTop - lift },
+      { x: tgtCx, y: tgtTop },
+    ]);
+  }
+
+  // R_C / R_D — drop below the row, run to a side gutter, drop, cross back.
+  for (const drop of LIFTS) {
+    candidates.push([
+      { x: srcCx, y: srcBottom },
+      { x: srcCx, y: srcBottom + drop },
+      { x: gutterR, y: srcBottom + drop },
+      { x: gutterR, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop },
+    ]);
+    candidates.push([
+      { x: srcCx, y: srcBottom },
+      { x: srcCx, y: srcBottom + drop },
+      { x: gutterL, y: srcBottom + drop },
+      { x: gutterL, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop },
+    ]);
+  }
+
+  // R_A / R_B — rise over the row, run to a side gutter, drop, cross back.
+  for (const lift of LIFTS) {
+    candidates.push([
+      { x: srcCx, y: srcTop },
+      { x: srcCx, y: srcTop - lift },
+      { x: gutterR, y: srcTop - lift },
+      { x: gutterR, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop },
+    ]);
+    candidates.push([
+      { x: srcCx, y: srcTop },
+      { x: srcCx, y: srcTop - lift },
+      { x: gutterL, y: srcTop - lift },
+      { x: gutterL, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop - 8 },
+      { x: tgtCx, y: tgtTop },
+    ]);
+  }
+
+  // Upward flow (target above source): rise to the mid-gap, cross, rise into
+  // the target's bottom edge.
+  if (tgtBottom <= srcTop) {
+    const yUp = (srcTop + tgtBottom) / 2;
+    candidates.push([
+      { x: srcCx, y: srcTop },
+      { x: srcCx, y: yUp },
+      { x: tgtCx, y: yUp },
+      { x: tgtCx, y: tgtBottom },
+    ]);
+    for (const drop of LIFTS) {
+      candidates.push([
+        { x: srcCx, y: srcBottom },
+        { x: srcCx, y: srcBottom + drop },
+        { x: tgtCx, y: srcBottom + drop },
+        { x: tgtCx, y: tgtBottom },
+      ]);
+    }
+  }
+
+  for (const candidate of candidates) {
+    if (!polylineHits(candidate, obstacles)) return candidate;
+  }
+  return null;
+}
+
+/**
+ * Place an edge-label pill near the anchor so it never overlaps a node (or a
+ * layer-label pill) and never escapes the viewBox. All nodes — including the
+ * edge's own endpoints — are obstacles: the pill must not cover the boxes it
+ * connects.
+ */
+function placeLabel(
+  anchor: Pt,
+  w: number,
+  obstacles: Rect[],
+  vbW: number,
+  vbH: number,
+): Pt {
+  const clampX = (x: number) => Math.min(Math.max(x, 8), vbW - w - 8);
+  const clampY = (y: number) => Math.min(Math.max(y, 8), vbH - LABEL_H - 8);
+  const dx = w / 2 + 10;
+  const offsets: ReadonlyArray<readonly [number, number]> = [
+    [0, 0],
+    [0, -16], [0, -32], [0, -48], [0, -64], [0, -80], [0, -96],
+    [0, 16], [0, 32], [0, 48], [0, 64], [0, 80], [0, 96],
+    [dx, 0], [-dx, 0],
+    [dx, -16], [-dx, -16], [dx, 16], [-dx, 16],
+    [dx, -32], [-dx, -32], [dx, 32], [-dx, 32],
+    [dx, -48], [-dx, -48], [dx, 48], [-dx, 48],
+  ];
+  for (const [ox, oy] of offsets) {
+    const x = clampX(anchor.x - w / 2 + ox);
+    const y = clampY(anchor.y - LABEL_H / 2 + oy);
+    if (!obstacles.some((ob) => rectsOverlap({ x, y, w, h: LABEL_H }, ob))) {
+      return { x, y };
+    }
+  }
+  return {
+    x: clampX(anchor.x - w / 2),
+    y: clampY(anchor.y - LABEL_H / 2),
+  };
 }
 
 function nodeCenter(rect: NodeRect): { x: number; y: number } {
@@ -124,22 +420,22 @@ function renderLayerLabels(layout: DiagramLayout) {
   return layout.layers.map((layer) => (
     <g key={layer.label} data-phase="layer">
       <line
-        x1={PAD_X}
+        x1={layout.padX}
         y1={layer.y + 24}
-        x2={layout.width - PAD_X}
+        x2={layout.width - layout.padX}
         y2={layer.y + 24}
         stroke="rgba(22, 36, 61, 0.08)"
         strokeWidth={1}
       />
       <rect
-        x={PAD_X - 4}
+        x={layout.padX - 4}
         y={layer.y + 10}
         width={layer.label.length * 7.5 + 16}
         height={18}
         fill="#FAF6EC"
       />
       <text
-        x={PAD_X}
+        x={layout.padX}
         y={layer.y + 23}
         fontSize={11}
         fontWeight={600}
@@ -153,9 +449,19 @@ function renderLayerLabels(layout: DiagramLayout) {
   ));
 }
 
+/** Clamp an overly long string to a node's width via SVG textLength. */
+function fitText(text: string, fontSize: number, maxWidth: number, mono: boolean) {
+  const width = text.length * fontSize * (mono ? 0.6 : 0.52);
+  if (width <= maxWidth) return {};
+  return { textLength: maxWidth, lengthAdjust: "spacingAndGlyphs" as const };
+}
+
 function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
-  const labelSize = variant === "tall" ? 13 : 14;
-  const subSize   = variant === "tall" ? 10 : 11;
+  const labelSize = variant === "tall" ? 11 : 14;
+  const subSize = variant === "tall" ? 9 : 11;
+  const avail = layout.nodes.size
+    ? [...layout.nodes.values()][0].w - 10
+    : NODE_W - 10;
 
   return [...layout.nodes.values()].map((rect) => {
     const center = nodeCenter(rect);
@@ -187,6 +493,7 @@ function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
           fontWeight={600}
           fill="#16243D"
           fontFamily="'Space Grotesk Variable', sans-serif"
+          {...fitText(rect.node.label, labelSize, avail, false)}
         >
           {rect.node.label}
         </text>
@@ -199,6 +506,7 @@ function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
             fill="#4E5E78"
             fontFamily="'JetBrains Mono Variable', monospace"
             letterSpacing="0.02em"
+            {...fitText(rect.node.sub, subSize, avail, true)}
           >
             {rect.node.sub}
           </text>
@@ -211,58 +519,39 @@ function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
 function renderEdges(
   layout: DiagramLayout,
   edges: DiagramEdge[],
-  variant: "wide" | "tall",
   markerSuffix: "w" | "t",
 ) {
   return edges.map((edge) => {
     const from = layout.nodes.get(edge.from);
     const to = layout.nodes.get(edge.to);
     if (!from || !to) return null;
-    const source = nodeCenter(from);
-    const target = nodeCenter(to);
-    let sx: number;
-    let sy: number;
-    let tx: number;
-    let ty: number;
 
-    if (from.y === to.y) {
-      sx = from.x + (source.x < target.x ? from.w : 0);
-      sy = source.y;
-      tx = to.x + (source.x < target.x ? 0 : to.w);
-      ty = target.y;
-    } else if (from.y + from.h <= to.y) {
-      sx = source.x;
-      sy = from.y + from.h;
-      tx = target.x;
-      ty = to.y;
-    } else {
-      sx = source.x;
-      sy = from.y;
-      tx = target.x;
-      ty = to.y + to.h;
-    }
+    const obstacles = [
+      ...[...layout.nodes.values()]
+        .filter((rect) => rect.node.id !== edge.from && rect.node.id !== edge.to)
+        .map(({ x, y, w, h }) => ({ x, y, w, h })),
+      ...layout.pills,
+    ];
+    const labelObstacles = [
+      ...[...layout.nodes.values()].map(({ x, y, w, h }) => ({ x, y, w, h })),
+      ...layout.pills,
+    ];
 
-    const mx = (sx + tx) / 2;
-    const my = (sy + ty) / 2;
+    const straight = straightEdge(from, to);
+    const pts = polylineHits(straight, obstacles)
+      ? (routeEdge(from, to, obstacles, layout.width) ?? straight)
+      : straight;
 
-    // Clamp label Y so the pill stays outside both source and target node rects.
-    const rawLabelY = my - 9;
-    const minY = sy + 6;
-    const maxY = ty - 22;
-    const labelY = Math.min(Math.max(rawLabelY, minY), Math.max(minY, maxY));
+    const d = pts
+      .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+      .join(" ");
 
-    let labelX: number;
-    let labelAnchor: "middle" | "start" = "middle";
-    let labelBgX = mx;
-    let labelBgW = edge.label ? edge.label.length * 7 + 12 : 0;
-
-    if (variant === "tall") {
-      labelAnchor = "start";
-      labelX = Math.max(mx + 18, 230);
-      labelBgX = labelX - 4;
-    } else {
-      labelX = mx;
-      labelBgX = mx - labelBgW / 2;
+    let labelPos: Rect | null = null;
+    if (edge.label) {
+      const pillW = edge.label.length * LABEL_W_CHAR + 12;
+      const anchor = labelAnchor(pts);
+      const pos = placeLabel(anchor, pillW, labelObstacles, layout.width, layout.height);
+      labelPos = { x: pos.x, y: pos.y, w: pillW, h: LABEL_H };
     }
 
     const arrowId = edge.dashed
@@ -271,32 +560,30 @@ function renderEdges(
 
     return (
       <g key={`${edge.from}-${edge.to}`} data-phase="edge">
-        <line
-          x1={sx}
-          y1={sy}
-          x2={tx}
-          y2={ty}
+        <path
+          d={d}
+          fill="none"
           stroke={edge.dashed ? "#C4571F" : "rgba(22, 36, 61, 0.35)"}
           strokeWidth={1.5}
           strokeDasharray={edge.dashed ? "4 4" : undefined}
           markerEnd={`url(#${arrowId})`}
         />
-        {edge.label && (
+        {labelPos && (
           <g data-phase="label">
             <rect
-              x={labelBgX}
-              y={labelY}
-              width={labelBgW}
-              height={16}
+              x={labelPos.x}
+              y={labelPos.y}
+              width={labelPos.w}
+              height={labelPos.h}
               rx={3}
               fill="#FAF6EC"
               stroke="rgba(22, 36, 61, 0.1)"
               strokeWidth={0.5}
             />
             <text
-              x={labelX + (variant === "tall" ? labelBgW / 2 - 4 : 0)}
-              y={labelY + 11}
-              textAnchor={labelAnchor}
+              x={labelPos.x + labelPos.w / 2}
+              y={labelPos.y + 11}
+              textAnchor="middle"
               fontSize={10}
               fontWeight={500}
               fill={edge.dashed ? "#C4571F" : "#4E5E78"}
@@ -366,9 +653,9 @@ export function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
       if (!svg) return;
       const layers = svg.querySelectorAll<SVGGElement>('[data-phase="layer"]');
       const nodes = svg.querySelectorAll<SVGGElement>('[data-phase="node"]');
-      const edges = svg.querySelectorAll<SVGLineElement>('[data-phase="edge"] > line');
+      const edges = svg.querySelectorAll<SVGPathElement>('[data-phase="edge"] > path');
       const labels = svg.querySelectorAll<SVGGElement>('[data-phase="label"]');
-      const edgeLengths = Array.from(edges, (line) => line.getTotalLength());
+      const edgeLengths = Array.from(edges, (path) => path.getTotalLength());
 
       const tl = gsap.timeline({
         defaults: { ease: "power2.out" },
@@ -398,8 +685,8 @@ export function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
           "-=0.15",
         )
         .add(() => {
-          edges.forEach((line) =>
-            gsap.set(line, { clearProps: "strokeDasharray,strokeDashoffset" }),
+          edges.forEach((path) =>
+            gsap.set(path, { clearProps: "strokeDasharray,strokeDashoffset" }),
           );
         }, "+=0.35")
         .fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 0.24, stagger: 0.04 }, "-=0.25")
@@ -434,7 +721,7 @@ export function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
         <title>{diagram.title}</title>
         <desc id={wideDescId}>{diagram.desc}</desc>
         <DiagramMarkers suffix="w" />
-        {renderEdges(wide, diagram.edges, "wide", "w")}
+        {renderEdges(wide, diagram.edges, "w")}
         {renderLayerLabels(wide)}
         {renderNodes(wide, "wide")}
       </svg>
@@ -449,7 +736,7 @@ export function ArchitectureDiagram({ diagram }: ArchitectureDiagramProps) {
         <title>{diagram.title}</title>
         <desc id={tallDescId}>{diagram.desc}</desc>
         <DiagramMarkers suffix="t" />
-        {renderEdges(tall, diagram.edges, "tall", "t")}
+        {renderEdges(tall, diagram.edges, "t")}
         {renderLayerLabels(tall)}
         {renderNodes(tall, "tall")}
       </svg>
