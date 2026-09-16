@@ -13,7 +13,7 @@ export function Contributions() {
           {home.contributions.map((contribution, index) => (
             <li key={contribution.title}>
               <FadeIn delay={index * 0.08}>
-                <div className="contrib-row grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 md:py-10">
+                <div className="contrib-row grid grid-cols-12 items-baseline gap-x-6 gap-y-2 border-l-2 border-orange/20 py-8 pl-6 md:py-10">
                   <span className="text-mono-label col-span-12 text-orange-deep md:col-span-2">
                     {contribution.label}
                   </span>

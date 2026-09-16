@@ -3,6 +3,7 @@ import { AboutIntro } from "../components/about/AboutIntro";
 import { ApproachSection } from "../components/about/ApproachSection";
 import { FactsRow } from "../components/about/FactsRow";
 import { NowSection } from "../components/about/NowSection";
+import { Rule } from "../components/ui/Rule";
 import { BrandTransition } from "../components/motion/BrandTransition";
 import { prefersReducedMotion } from "../lib/motion";
 
@@ -40,6 +41,7 @@ export default function AboutPage() {
       <AboutIntro started={heroStarted} />
       <FactsRow />
       <NowSection />
+      <Rule />
       <ApproachSection />
       {brandVisible && (
         <BrandTransition onHero={handleHero} onComplete={handleComplete} />

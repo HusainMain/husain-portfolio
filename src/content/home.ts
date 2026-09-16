@@ -80,5 +80,5 @@ export const home = {
   contactHeadlineAccent: "building",
   contactHeadlineTail: "?",
   identityMarquee: ["SYSTEMS", "PRODUCTS", "AI", "ENGINEERING", "BUILD"],
-  contactMarquee: ["BUILD", "SHIP", "ITERATE", "ENGINEER"],
+  contactMarquee: ["BUILD", "SHIP", "LEARN", "ITERATE", "ENGINEER", "REPEAT"],
 };

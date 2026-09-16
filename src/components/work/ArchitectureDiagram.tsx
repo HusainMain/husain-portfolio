@@ -474,8 +474,8 @@ function renderNodes(layout: DiagramLayout, variant: "wide" | "tall") {
           height={rect.h}
           rx={6}
           fill={rect.node.accent ? "#FDF8EE" : "#FFFFFF"}
-          stroke={rect.node.accent ? "#C4571F" : "rgba(22, 36, 61, 0.22)"}
-          strokeWidth={rect.node.accent ? 1.5 : 1}
+          stroke={rect.node.accent ? "#C4571F" : "rgba(22, 36, 61, 0.35)"}
+          strokeWidth={rect.node.accent ? 1.5 : 1.25}
         />
         {rect.node.accent && (
           <circle
@@ -563,7 +563,7 @@ function renderEdges(
         <path
           d={d}
           fill="none"
-          stroke={edge.dashed ? "#C4571F" : "rgba(22, 36, 61, 0.35)"}
+          stroke={edge.dashed ? "#C4571F" : "rgba(22, 36, 61, 0.5)"}
           strokeWidth={1.5}
           strokeDasharray={edge.dashed ? "4 4" : undefined}
           markerEnd={`url(#${arrowId})`}
@@ -576,9 +576,9 @@ function renderEdges(
               width={labelPos.w}
               height={labelPos.h}
               rx={3}
-              fill="#FAF6EC"
-              stroke="rgba(22, 36, 61, 0.1)"
-              strokeWidth={0.5}
+              fill="#FFFFFF"
+              stroke="rgba(22, 36, 61, 0.18)"
+              strokeWidth={0.75}
             />
             <text
               x={labelPos.x + labelPos.w / 2}
@@ -611,7 +611,7 @@ function DiagramMarkers({ suffix }: { suffix: "w" | "t" }) {
         markerHeight="6"
         orient="auto-start-reverse"
       >
-        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(22, 36, 61, 0.6)" />
+        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(22, 36, 61, 0.65)" />
       </marker>
       <marker
         id={`arch-arrow-dashed-${suffix}`}

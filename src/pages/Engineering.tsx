@@ -4,6 +4,7 @@ import { CompetitiveProgrammingSection } from "../components/engineering/Competi
 import { PhilosophySection } from "../components/engineering/PhilosophySection";
 import { ProcessSection } from "../components/engineering/ProcessSection";
 import { ToolkitSection } from "../components/engineering/ToolkitSection";
+import { Rule } from "../components/ui/Rule";
 import { Reveal } from "../components/motion/Reveal";
 
 /**
@@ -35,7 +36,9 @@ export default function EngineeringPage() {
       <PhilosophySection />
       <ProcessSection />
       <AiEngineeringSection />
+      <Rule />
       <CompetitiveProgrammingSection />
+      <Rule />
       <ToolkitSection />
     </>
   );

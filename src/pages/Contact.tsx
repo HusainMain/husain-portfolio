@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <section className="bg-orange-deep pt-[72px] max-md:pt-[60px]">
       <div className="grid-frame">
-        <div className="col-span-4 pb-10 pt-20 md:col-span-8 md:pb-12 md:pt-24 lg:col-span-12 lg:pb-14 lg:pt-28">
+        <div className="col-span-4 pb-10 pt-16 md:col-span-8 md:pb-12 md:pt-20 lg:col-span-12 lg:pb-14 lg:pt-24">
           <FadeIn>
             <p className="text-mono-label text-cream/90">CONTACT</p>
           </FadeIn>
@@ -37,7 +37,7 @@ export default function ContactPage() {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <p className="text-mono-label mt-14 text-cream/80">EMAIL</p>
+            <p className="text-mono-label mt-10 text-cream/80">EMAIL</p>
           </FadeIn>
           <FadeIn delay={0.24}>
             <a
@@ -55,7 +55,7 @@ export default function ContactPage() {
           </FadeIn>
 
           <FadeIn delay={0.28}>
-            <ul className="mt-14 flex flex-wrap gap-x-10 gap-y-4">
+            <ul className="mt-10 flex flex-wrap gap-x-10 gap-y-4">
               {site.socials.map((social) => (
                 <li key={social.label}>
                   <a

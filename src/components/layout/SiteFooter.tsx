@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Mascot } from "page-mascot";
 import { site } from "../../content/site";
 import { Container } from "../ui/Container";
 import { Rule } from "../ui/Rule";
@@ -33,10 +34,19 @@ export function SiteFooter({ entrance = false }: { entrance?: boolean }) {
           </nav>
           <a
             href={`mailto:${site.email}`}
-            className="max-md:py-3.5 max-md:-my-[13px] text-mono-meta text-orange-on-navy transition-colors hover:text-orange-on-navy-hi"
+            className="max-md:py-3.5 max-md:-my-[13px] min-w-0 truncate text-mono-meta text-orange-on-navy transition-colors hover:text-orange-on-navy-hi"
           >
             {site.email}
           </a>
+        </div>
+
+        <div className="col-span-12 my-4 flex justify-center md:col-span-8 lg:col-span-12">
+          <span aria-hidden="true">
+            <Mascot
+              directions="/mascots/sheep-directions.webp"
+              reactions="/mascots/sheep-reactions.webp"
+            />
+          </span>
         </div>
 
         <div className="col-span-12 my-4 md:col-span-8 lg:col-span-12">
@@ -48,7 +58,7 @@ export function SiteFooter({ entrance = false }: { entrance?: boolean }) {
             © {year} {site.name.toUpperCase()}
           </p>
           <p className="mt-2 text-center text-mono-meta text-muted-on-navy">
-            Designed and built end to end. Thanks for stopping by.
+            Designed and built end to end.
           </p>
         </div>
       </Container>

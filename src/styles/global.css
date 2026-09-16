@@ -203,6 +203,21 @@
   /* ---- Route fallback ---- */
   .route-fallback {
     min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .route-fallback::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 1px;
+    background-color: var(--color-orange);
+    animation: route-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes route-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
+    50% { opacity: 1; transform: scaleX(1); }
   }
 
   /* ---- Primary button (navy fill) ---- */

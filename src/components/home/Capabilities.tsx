@@ -7,7 +7,7 @@ import { FadeIn } from "../motion/FadeIn";
 export function Capabilities() {
   return (
     <Section eyebrow={home.capabilitiesEyebrow} className="bg-canvas">
-      <div className="col-span-12 border border-rule-on-cream bg-surface p-6 md:col-span-8 md:p-10 lg:col-span-12">
+      <div className="col-span-12 border border-rule-on-cream bg-surface-2 p-6 md:col-span-8 md:p-10 lg:col-span-12">
         <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2">
           {home.capabilities.map((group, index) => (
             <FadeIn key={group.title} delay={index * 0.06}>

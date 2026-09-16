@@ -98,7 +98,7 @@ export function Hero({ started = true }: { started?: boolean }) {
         {/* Portrait panel — cols 9–12 desktop, 6–8 tablet, full-width 4:5 mobile */}
         <div className="col-span-12 md:col-span-3 lg:col-span-4 max-md:pb-16">
           <motion.div
-            className="hero-panel relative aspect-[4/5] w-full overflow-hidden bg-navy-900 md:aspect-auto md:h-full"
+            className="hero-panel relative aspect-[4/5] w-full overflow-hidden bg-navy-900 max-md:aspect-[3/2] max-md:max-h-[40vh] md:aspect-auto md:h-full"
             initial={clipHidden}
             animate={clipShown}
             transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
