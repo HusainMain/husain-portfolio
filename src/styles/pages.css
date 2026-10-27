@@ -96,17 +96,39 @@
      clears its inline transform, hover-only so touch devices are never
      stuck in a hover state. */
   .now-project {
-    transition:
-      transform 200ms ease,
-      background-color 200ms ease;
+    transition: background-color 200ms ease;
+  }
+  /* The nudge lives on the inner grid, not the list item: the row's hairline
+     belongs to the document, so it must stay put while the content responds. */
+  .now-project > div {
+    transition: transform 200ms ease;
   }
   .now-project .now-title {
     transition: color 200ms ease;
   }
+  /* One link per project row: the title carries a stretched hit area over
+     the whole row, so the measured hover response is honest. */
+  .now-row-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .now-project:focus-within {
+    background-color: rgba(22, 36, 61, 0.03);
+  }
   @media (hover: hover) {
     .now-project:hover {
-      transform: translateX(2px);
       background-color: rgba(22, 36, 61, 0.03);
+    }
+    .now-project:hover > div {
+      transform: translateX(2px);
+    }
+    .now-project:hover .arrow-link {
+      color: var(--color-orange-deep);
+    }
+    .now-project:hover .arrow {
+      transform: translateX(4px);
+      color: var(--color-orange);
     }
   }
   /* Hover color accents must live in the utilities layer (at the top level,
@@ -117,7 +139,7 @@
         color: var(--color-orange-deep);
       }
       .approach-row:hover .approach-num {
-        color: var(--color-orange-deep);
+        color: var(--color-orange-ember);
       }
     }
   }

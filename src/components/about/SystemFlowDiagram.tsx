@@ -57,7 +57,7 @@ export function SystemFlowDiagram({ stages }: SystemFlowDiagramProps) {
   ].join(" ");
 
   return (
-    <div aria-hidden="true" className="max-w-[340px]">
+    <div aria-hidden="true" className="max-w-[340px] lg:ml-auto">
       <div className="flex items-center gap-4">
         <span className="h-px w-12 bg-rule-on-cream" />
         <p className="text-mono-label text-muted">SYSTEM FLOW</p>

@@ -37,7 +37,7 @@ export function BuildStatements() {
         {home.whatIBuild.map((item, index) => (
           <li key={item.number}>
             <div className="build-row flex items-baseline gap-6 py-7 md:gap-10 md:py-8">
-              <span aria-hidden="true" className="text-mono-label shrink-0 text-orange">
+              <span aria-hidden="true" className="text-mono-label shrink-0 text-orange-deep">
                 {item.number}
               </span>
               <p className="text-lead text-navy-900 md:text-[clamp(1.375rem,2.4vw,2rem)] md:leading-[1.2]">

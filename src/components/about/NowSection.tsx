@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { Link } from "react-router";
 import { about } from "../../content/about";
-import { ArrowLink } from "../ui/ArrowLink";
 import { CaseSection } from "../work/CaseSection";
 import { Rule } from "../ui/Rule";
 import { prefersReducedMotion } from "../../lib/motion";
@@ -11,8 +11,10 @@ import { prefersReducedMotion } from "../../lib/motion";
  * work rather than employment history: BUILDING (BuildEx), LEADING (iEMS),
  * then a quiet EXPLORING line of technical interests.
  *
- * Project rows are subtly interactive on hover (restrained shift + accent on
- * the title, arrow nudge from ArrowLink) — pages.css `.now-project`.
+ * Each project row is one link: the title carries a stretched hit area over
+ * the whole row, while "VIEW CASE STUDY" stays a visual affordance (not a
+ * second link to the same place). This matches the Work index rows and the
+ * row's existing hover response. pages.css `.now-project`.
  *
  * Entrance (Phase 6): the rows disclose progressively like an editorial
  * document (~80ms apart, ≤10px rise) — boundary, label, content and CTA
@@ -49,19 +51,27 @@ export function NowSection() {
       <CaseSection eyebrow="02 / NOW" contentClassName="lg:col-span-10 lg:col-start-3">
         <ul>
           {about.currently.map((item, index) => (
-            <li key={item.title} className="now-row now-project">
+            <li key={item.title} className="now-row now-project relative">
               <div className="grid grid-cols-12 items-baseline gap-x-6 gap-y-3 py-8 md:py-10">
                 <p className="text-mono-label col-span-12 text-orange-deep md:col-span-2">
                   {item.label}
                 </p>
                 <div className="col-span-12 md:col-span-6">
-                  <h3 className="now-title text-subsection text-navy-900">{item.title}</h3>
+                  <h3 className="now-title text-subsection text-navy-900">
+                    <Link to={item.href} className="now-row-link">
+                      {item.title}
+                    </Link>
+                  </h3>
                   <p className="mt-2 max-w-[52ch] text-muted">{item.description}</p>
                 </div>
                 <div className="col-span-12 md:col-span-4 md:flex md:justify-end">
-                  <ArrowLink to={item.href} className="min-h-11 items-center">
+                  <span
+                    aria-hidden="true"
+                    className="arrow-link text-mono-label min-h-11 items-center"
+                  >
                     {item.linkLabel}
-                  </ArrowLink>
+                    <span className="arrow">→</span>
+                  </span>
                 </div>
               </div>
               {index < about.currently.length - 1 && <Rule />}

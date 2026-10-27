@@ -171,7 +171,7 @@ export default function WorkPage() {
               >
                 <span
                   aria-hidden="true"
-                  className="text-mono-label col-span-2 text-orange md:col-span-1 lg:col-span-1"
+                  className="text-mono-label col-span-2 text-orange-deep md:col-span-1 lg:col-span-1"
                 >
                   {project.number}
                 </span>

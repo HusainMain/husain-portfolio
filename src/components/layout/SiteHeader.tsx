@@ -134,7 +134,7 @@ export function SiteHeader() {
                 <li key={item.href} className="flex items-baseline gap-4">
                   <span
                     aria-hidden="true"
-                    className="text-mono-label text-orange"
+                    className="text-mono-label text-orange-deep"
                   >
                     0{index + 1}
                   </span>
@@ -144,7 +144,7 @@ export function SiteHeader() {
                     className={({ isActive }) =>
                       cn(
                         "font-display text-[clamp(2rem,8vw,3rem)] font-medium leading-none tracking-[-0.02em] text-ink",
-                        isActive && "text-orange-deep",
+                        isActive && "text-orange-deep underline decoration-2 underline-offset-8",
                       )
                     }
                   >

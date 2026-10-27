@@ -15,7 +15,7 @@ export function ProcessSection() {
             <div className="grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 md:py-10">
               <span
                 aria-hidden="true"
-                className="text-mono-label col-span-2 text-orange md:col-span-1"
+                className="text-mono-label col-span-2 text-orange-deep md:col-span-1"
               >
                 {step.number}
               </span>
