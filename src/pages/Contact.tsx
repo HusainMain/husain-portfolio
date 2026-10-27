@@ -2,6 +2,7 @@ import { site } from "../content/site";
 import { home } from "../content/home";
 import { FadeIn } from "../components/motion/FadeIn";
 import { Marquee } from "../components/motion/Marquee";
+import { usePageMeta } from "../lib/meta";
 
 /**
  * /contact — the site's conversion page, reusing the full-orange band
@@ -11,6 +12,13 @@ import { Marquee } from "../components/motion/Marquee";
  * editorial marquee occupies the lower band space before the navy footer.
  */
 export default function ContactPage() {
+  usePageMeta({
+    title: "Contact — Husain Bardanwala",
+    description:
+      "Get in touch with Husain Bardanwala — software engineer and intelligent systems builder based in Bharuch, India. Open to full-stack and AI engineering work.",
+    path: "/contact",
+  });
+
   return (
     <section className="bg-orange-deep pt-[72px] max-md:pt-[60px]">
       <div className="grid-frame">

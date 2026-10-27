@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import { AboutIntro } from "../components/about/AboutIntro";
 import { ApproachSection } from "../components/about/ApproachSection";
 import { FactsRow } from "../components/about/FactsRow";
 import { NowSection } from "../components/about/NowSection";
 import { Rule } from "../components/ui/Rule";
 import { BrandTransition } from "../components/motion/BrandTransition";
-import { prefersReducedMotion } from "../lib/motion";
+import { useBrandReveal } from "../lib/brandReveal";
+import { usePageMeta } from "../lib/meta";
 
 /**
  * /about — who I am (intro + system flow), profile facts, what I am building
@@ -18,23 +18,14 @@ import { prefersReducedMotion } from "../lib/motion";
  * motion skips it entirely and the hero renders immediately.
  */
 export default function AboutPage() {
-  const [heroStarted, setHeroStarted] = useState(false);
-  const [brandVisible, setBrandVisible] = useState(false);
-  const decidedRef = useRef(false);
+  usePageMeta({
+    title: "About — Husain Bardanwala",
+    description:
+      "Who Husain Bardanwala is: what he is building now, the profile facts behind the work, and the engineering approach he brings to every project.",
+    path: "/about",
+  });
 
-  useEffect(() => {
-    if (decidedRef.current) return;
-    decidedRef.current = true;
-    if (prefersReducedMotion() || window.sessionStorage.getItem("hp-brand-shown")) {
-      setHeroStarted(true);
-      return;
-    }
-    window.sessionStorage.setItem("hp-brand-shown", "1");
-    setBrandVisible(true);
-  }, []);
-
-  const handleHero = useCallback(() => setHeroStarted(true), []);
-  const handleComplete = useCallback(() => setBrandVisible(false), []);
+  const { brandVisible, heroStarted, handleHero, handleComplete } = useBrandReveal();
 
   return (
     <>

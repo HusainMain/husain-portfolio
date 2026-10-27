@@ -6,12 +6,20 @@ import { ProcessSection } from "../components/engineering/ProcessSection";
 import { ToolkitSection } from "../components/engineering/ToolkitSection";
 import { Rule } from "../components/ui/Rule";
 import { Reveal } from "../components/motion/Reveal";
+import { usePageMeta } from "../lib/meta";
 
 /**
  * /engineering — how Husain thinks and works. Page opening uses the approved
  * case-header grammar without a metadata rail; five numbered sections follow.
  */
 export default function EngineeringPage() {
+  usePageMeta({
+    title: "Engineering — Husain Bardanwala",
+    description:
+      "How Husain Bardanwala works: problem framing, system architecture, AI as an accelerator, competitive programming, and verification by engineering judgment.",
+    path: "/engineering",
+  });
+
   return (
     <>
       <section className="case-meta bg-canvas pt-[72px] max-md:pt-[60px]">

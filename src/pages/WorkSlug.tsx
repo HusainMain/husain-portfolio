@@ -13,12 +13,23 @@ import { PrevNextNav } from "../components/work/PrevNextNav";
 import { FadeIn } from "../components/motion/FadeIn";
 import { Parallax } from "../components/motion/Parallax";
 import { Stagger } from "../components/motion/Stagger";
+import { usePageMeta } from "../lib/meta";
 import NotFoundPage from "./NotFound";
 
 export default function WorkSlug() {
   const { slug } = useParams();
   const project = slug ? getProjectBySlug(slug) : undefined;
   const caseStudy = slug ? getCaseStudy(slug) : undefined;
+
+  usePageMeta({
+    title: project
+      ? `${project.title} — Case Study | Husain Bardanwala`
+      : "Page not found — Husain Bardanwala",
+    description: project
+      ? `${project.oneLiner}. A case study covering context, constraints, architecture decisions and the trade-offs behind ${project.title}.`
+      : "The page you are looking for does not exist.",
+    path: slug ? `/work/${slug}` : "/work",
+  });
 
   if (!project || !caseStudy) {
     return <NotFoundPage />;

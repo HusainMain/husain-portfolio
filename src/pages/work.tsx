@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, useReducedMotion } from "motion/react";
 import { projects } from "../content/projects";
@@ -8,7 +7,8 @@ import { FadeIn } from "../components/motion/FadeIn";
 import { Parallax } from "../components/motion/Parallax";
 import { TextReveal } from "../components/motion/TextReveal";
 import { CaseSection } from "../components/work/CaseSection";
-import { prefersReducedMotion } from "../lib/motion";
+import { useBrandReveal } from "../lib/brandReveal";
+import { usePageMeta } from "../lib/meta";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -50,28 +50,15 @@ const railListVariants = {
  * to hover/focus with a restrained lift, title nudge and arrow.
  */
 export default function WorkPage() {
+  usePageMeta({
+    title: "Work — Husain Bardanwala",
+    description:
+      "Four case studies — IdeaBridge, Healthcare Appointment System, iEMS and BuildEx — documented with context, constraints, architecture decisions and trade-offs.",
+    path: "/work",
+  });
+
   const reduce = useReducedMotion();
-  const [heroStarted, setHeroStarted] = useState(false);
-  const [brandVisible, setBrandVisible] = useState(false);
-  const decidedRef = useRef(false);
-
-  useEffect(() => {
-    if (decidedRef.current) return;
-    decidedRef.current = true;
-    if (prefersReducedMotion()) {
-      setHeroStarted(true);
-      return;
-    }
-    if (sessionStorage.getItem("hp-brand-shown")) {
-      setHeroStarted(true);
-      return;
-    }
-    sessionStorage.setItem("hp-brand-shown", "1");
-    setBrandVisible(true);
-  }, []);
-
-  const handleHero = useCallback(() => setHeroStarted(true), []);
-  const handleComplete = useCallback(() => setBrandVisible(false), []);
+  const { brandVisible, heroStarted, handleHero, handleComplete } = useBrandReveal();
 
   const railShown = heroStarted && !reduce;
 

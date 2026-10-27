@@ -1,4 +1,5 @@
 import { ArrowLink } from "../components/ui/ArrowLink";
+import { usePageMeta } from "../lib/meta";
 
 /**
  * 404 — editorial recovery page. The oversized number is aria-hidden; the
@@ -6,6 +7,12 @@ import { ArrowLink } from "../components/ui/ArrowLink";
  * Used by the "*" route and the unknown-project-slug fallback in WorkSlug.
  */
 export default function NotFoundPage() {
+  usePageMeta({
+    title: "Page not found — Husain Bardanwala",
+    description: "The page you are looking for does not exist or has moved.",
+    path: "/404",
+  });
+
   return (
     <section className="case-meta bg-canvas pt-[72px] max-md:pt-[60px]">
       <div className="grid-frame items-start">

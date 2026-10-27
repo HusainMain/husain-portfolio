@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import { Hero } from "../components/home/Hero";
 import { BuildStatements } from "../components/home/BuildStatements";
 import { WorkIndex } from "../components/home/WorkIndex";
@@ -7,30 +6,18 @@ import { Capabilities } from "../components/home/Capabilities";
 import { Contributions } from "../components/home/Contributions";
 import { ContactBand } from "../components/home/ContactBand";
 import { BrandTransition } from "../components/motion/BrandTransition";
-import { prefersReducedMotion } from "../lib/motion";
+import { useBrandReveal } from "../lib/brandReveal";
+import { usePageMeta } from "../lib/meta";
 
 export default function Home() {
-  const [heroStarted, setHeroStarted] = useState(false);
-  const [brandVisible, setBrandVisible] = useState(false);
-  const decidedRef = useRef(false);
+  usePageMeta({
+    title: "Husain Bardanwala — Software Engineer | Intelligent Systems Builder",
+    description:
+      "Software engineer building full-stack products and AI-enabled systems. Four projects documented as case studies with context, constraints, decisions and trade-offs.",
+    path: "/",
+  });
 
-  useEffect(() => {
-    if (decidedRef.current) return;
-    decidedRef.current = true;
-    if (prefersReducedMotion()) {
-      setHeroStarted(true);
-      return;
-    }
-    if (sessionStorage.getItem("hp-brand-shown")) {
-      setHeroStarted(true);
-      return;
-    }
-    sessionStorage.setItem("hp-brand-shown", "1");
-    setBrandVisible(true);
-  }, []);
-
-  const handleHero = useCallback(() => setHeroStarted(true), []);
-  const handleComplete = useCallback(() => setBrandVisible(false), []);
+  const { brandVisible, heroStarted, handleHero, handleComplete } = useBrandReveal();
 
   return (
     <>
