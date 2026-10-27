@@ -28,8 +28,8 @@ export function Hero({ started = true }: { started?: boolean }) {
           <TextReveal
             as="p"
             started={started}
-            delay={0.05}
-            duration={0.35}
+            delay={0}
+            duration={0.28}
             className="text-mono-label text-orange-deep"
           >
             {site.heroEyebrow}
@@ -38,8 +38,8 @@ export function Hero({ started = true }: { started?: boolean }) {
           <TextReveal
             as="h1"
             started={started}
-            delay={0.15}
-            duration={0.55}
+            delay={0.06}
+            duration={0.42}
             className="text-hero-name mt-6 text-navy-900"
           >
             {site.firstName.toUpperCase()}
@@ -50,8 +50,8 @@ export function Hero({ started = true }: { started?: boolean }) {
           <TextReveal
             as="p"
             started={started}
-            delay={0.3}
-            duration={0.45}
+            delay={0.14}
+            duration={0.32}
             className="text-hero-role mt-5 text-navy-900"
           >
             Software Engineer /{" "}
@@ -61,21 +61,21 @@ export function Hero({ started = true }: { started?: boolean }) {
           <TextReveal
             as="p"
             started={started}
-            delay={0.42}
-            duration={0.4}
+            delay={0.22}
+            duration={0.3}
             className="mt-5 max-w-[42ch] text-muted"
           >
             {site.heroPhilosophy}
           </TextReveal>
 
-          <FadeIn started={started} delay={0.55} duration={0.35} y={16} className="mt-9">
+          <FadeIn started={started} delay={0.3} duration={0.26} y={16} className="mt-9">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
               <Button to="/work">View work</Button>
               <ArrowLink href={`mailto:${site.email}`}>Email me</ArrowLink>
             </div>
           </FadeIn>
 
-          <FadeIn started={started} delay={0.68} duration={0.3} y={12} className="mt-16 md:mt-14">
+          <FadeIn started={started} delay={0.38} duration={0.22} y={12} className="mt-16 md:mt-14">
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-mono-meta text-muted">
               <li>{site.heroMeta.location}</li>
               <li aria-hidden="true">·</li>
@@ -101,7 +101,7 @@ export function Hero({ started = true }: { started?: boolean }) {
             className="hero-panel relative aspect-[4/5] w-full overflow-hidden bg-navy-900 max-md:aspect-[3/2] max-md:max-h-[40vh] md:aspect-auto md:h-full"
             initial={clipHidden}
             animate={clipShown}
-            transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* System line: horizontal on mobile, vertical on md+ */}
             <span

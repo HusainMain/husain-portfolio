@@ -19,9 +19,9 @@ export function WorkIndex() {
       const rows = gsap.utils.toArray<HTMLElement>(root.querySelectorAll(".work-row"));
       gsap.fromTo(
         rows,
-        { autoAlpha: 0, y: 24 },
+        { opacity: 0, y: 24 },
         {
-          autoAlpha: 1,
+          opacity: 1,
           y: 0,
           duration: 0.6,
           ease: "power2.out",
