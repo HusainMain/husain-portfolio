@@ -151,6 +151,14 @@ export interface ToolkitGroup {
   tags: string[];
 }
 
+export interface SystemFlowStage {
+  name: string;
+  /** What the stage produces, shown in the technical right margin. */
+  output: string;
+  /** One short line under the stage name — the intent of the stage. */
+  note: string;
+}
+
 export interface AboutFact {
   label: string;
   value: string;

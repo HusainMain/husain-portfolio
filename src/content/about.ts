@@ -3,6 +3,7 @@ import type {
   AboutFact,
   ApproachPrinciple,
   PhilosophySegment,
+  SystemFlowStage,
 } from "./types";
 
 /**
@@ -32,8 +33,18 @@ export const about = {
       { text: " mine — what to build, how to structure it, and where it can break." },
     ],
   ] satisfies PhilosophySegment[][],
-  systemFlow: ["IDEA", "PROTOTYPE", "SYSTEM", "SHIP"],
-  systemLabels: [["INTERFACE"], ["DATA"], ["ARCHITECTURE"], ["AI", "DEPLOYMENT"]],
+  /**
+   * The About right-spine loop. `output` is the artifact each stage leaves
+   * behind; `note` is the intent of the stage, not a claim of tooling.
+   * LEARN closes the cycle back to IDEA — the prose's "ship to learn".
+   */
+  systemFlow: [
+    { name: "IDEA", output: "INTENT", note: "start from a real problem" },
+    { name: "PROTOTYPE", output: "EVIDENCE", note: "make it work once, end to end" },
+    { name: "SYSTEM", output: "ARCHITECTURE", note: "make it hold under real use" },
+    { name: "SHIP", output: "USAGE", note: "put it in front of people" },
+    { name: "LEARN", output: "NEXT PASS", note: "keep what the pass proved" },
+  ] satisfies SystemFlowStage[],
   facts: [
     { label: "DEGREE", value: "B.E. Computer Engineering" },
     { label: "INSTITUTION", value: "SVIT, Vasad" },
