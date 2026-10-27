@@ -38,7 +38,7 @@ export const home = {
     {
       title: "Systems",
       statement: "Designing, building, and shipping full-stack products end to end.",
-      tags: ["React", "TypeScript", "Vite", "Firebase", "REST APIs"],
+      tags: ["React", "TypeScript", "Vite", "Node.js", "Express", "REST APIs", "AWS"],
     },
     {
       title: "AI-Assisted Engineering",
@@ -62,7 +62,7 @@ export const home = {
       label: "LEADERSHIP",
       title: "iEMS — 24-hour hackathon team lead",
       description:
-        "Led the build of the Integrated Education Management System at the CVMU hackathon — React, Firebase, and Tailwind, delivered in a day.",
+        "Led the build of the Integrated Education Management System at the CVMU hackathon — React, Tailwind, and role-based access, delivered in a day.",
       href: "/work/iems",
       linkLabel: "Read the case study",
     },

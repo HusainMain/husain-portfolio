@@ -40,8 +40,8 @@ export const projects: Project[] = [
     title: "iEMS",
     oneLiner: "Integrated Education Management System\nCVMU Hackathon",
     context:
-      "React + Firebase education platform — developed at the CVMU hackathon as team lead",
-    stack: ["React", "Firebase", "Tailwind"],
+      "React education platform with role-based access control — developed at the CVMU hackathon as team lead",
+    stack: ["React", "Vite", "Tailwind"],
     repoUrl: "https://github.com/HusainMain/iems",
   },
   {

@@ -19,7 +19,7 @@ import type {
 export const about = {
   eyebrow: "ABOUT",
   headline: "I build software by turning ideas into working systems.",
-  lead: "Computer engineering student focused on AI-assisted products, real-time applications, and system design. I like taking projects from the first prototype through architecture, implementation, and deployment.",
+  lead: "Computer engineering student focused on AI-assisted products, real-time applications, and system design — AWS Academy Cloud Foundations (82%) and a state-level hackathon finalist. I like taking projects from the first prototype through architecture, implementation, and deployment.",
   intro: [
     [
       { text: "I ship to learn and learn to ship. An idea becomes a working " },
@@ -53,7 +53,7 @@ export const about = {
       label: "LEADING",
       title: "iEMS — hackathon team lead",
       description:
-        "An AI-assisted education platform developed for a hackathon team, connecting administrators, teachers, and students in one Firebase-backed system.",
+        "An AI-assisted education platform developed at the CVMU hackathon as team lead — connecting administrators, teachers, and students in one role-based system.",
       href: "/work/iems",
       linkLabel: "VIEW CASE STUDY",
     },

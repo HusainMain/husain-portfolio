@@ -107,7 +107,7 @@ No additional routes. No dropdown navigation.
   1. Philosophy (verified statement, editorial weight)
   2. Process (4 steps: Understand the problem → Design from first principles → Build with AI as accelerator → Verify with engineering judgment)
   3. AI-assisted engineering (honest use of AI as accelerator; judgment stays human)
-  4. Competitive programming / problem solving (40+ LeetCode; link; as discipline, not badge)
+  4. Competitive programming / problem solving (continuous LeetCode practice; link; as discipline, not badge)
   5. Engineering toolkit (mono-tag appendix, grouped)
 - **Navigation relationships:** child of `/`; sibling of Work/About/Contact.
 - **Allowed content:** verified philosophy, process, and toolkit. CGPA/LeetCode each appear exactly once across the site — **not** here unless positioned as the single occurrence (locked placement: About page).
@@ -129,7 +129,7 @@ No additional routes. No dropdown navigation.
 - **Purpose:** Make contact effortless.
 - **Primary audience/question:** Recruiters/ collaborators — "How do I reach Husain?"
 - **Sections:** Header ("HAVE A PROBLEM WORTH BUILDING?"), Email primary CTA (mailto, with copy-email micro-interaction), Secondary links (LinkedIn · GitHub · LeetCode).
-- **Important links:** `mailto:husainbardanwala65@gmail.com`, linkedin.com/in/husain-bardanwala-93a56b376, github.com/HusainMain, leetcode.com/u/W9RFMcxTXL/.
+- **Important links:** `mailto:husainbardanwala65@gmail.com`, linkedin.com/in/husain-bardanwala, github.com/HusainMain, leetcode.com/u/W9RFMcxTXL/.
 - **Navigation relationships:** child of `/`.
 - **Allowed content:** email + socials only.
 - **Must NOT appear:** contact form, phone number, fabricated availability.

@@ -219,7 +219,7 @@ The four projects (all repository info verified):
 
 1. **IdeaBridge** — AI-Powered Startup Validation Platform (React 18, TS, Vite, Three.js/R3F, Zustand, Framer Motion, Tailwind, Groq API)
 2. **Healthcare Appointment System** — Java OOP appointment management (6 classes, File I/O, queues, exception handling)
-3. **iEMS** — Integrated Education Management System, CVMU Hackathon team lead (React, Firebase, Tailwind)
+3. **iEMS** — Integrated Education Management System, CVMU Hackathon team lead (React, Tailwind, role-based access)
 4. **BuildEx Website** — Official BuildEx club site (React 19, TS, GSAP, Tailwind)
 
 ---
@@ -260,10 +260,10 @@ The Engineering page is **NOT** a generic skills page. It answers *"how does he 
    → Verify with engineering judgment
    ```
 3. **AI-assisted engineering** — honest statement of how AI is used (acceleration, rapid prototyping, prompt engineering, REST/MCP integration) and where human judgment remains.
-4. **Competitive programming / problem solving** — "40+ LeetCode problems across data structures, algorithms, recursion, trees, queues, dynamic programming" + LeetCode link, as discipline, not a badge.
-5. **Engineering toolkit** — mono-tag appendix grouped by category (languages, frameworks, CS core, AI tools, dev tools).
+4. **Competitive programming / problem solving** — "continuous LeetCode practice across data structures, algorithms, recursion, trees, queues, dynamic programming" + LeetCode link, as discipline, not a badge.
+5. **Engineering toolkit** — mono-tag appendix in six groups (languages, frontend, backend & data, cloud & tools, AI & tools, CS core).
 
-**Content rule:** CGPA `8.48/10` and LeetCode `40+` each appear **exactly once** across the entire website (About page, plain facts row). Never as badges, counters, statistic animations, or progress indicators.
+**Content rule:** CGPA `8.48/10` appears **exactly once** across the entire website (About page, plain facts row). LeetCode is referenced as continuous practice without a problem count. Never as badges, counters, statistic animations, or progress indicators.
 
 ---
 

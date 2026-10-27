@@ -10,7 +10,7 @@ import type {
  * Engineering page content — "how Husain thinks and works".
  * Philosophy is the verified statement (byte-exact, IMPLEMENTATION_PLAN.md §8);
  * process bodies and AI prose are restatements of that statement — no new claims.
- * LeetCode "40+" statement: the single site occurrence (owner decision #1).
+ * LeetCode statement: continuous practice, no counts (owner decision #1).
  */
 export const engineering = {
   eyebrow: "01 / APPROACH",
@@ -62,7 +62,7 @@ export const engineering = {
   competitive: {
     label: "PROBLEM SOLVING",
     statement:
-      "40+ LeetCode problems across data structures, algorithms, recursion, trees, queues, dynamic programming",
+      "Continuous LeetCode practice across data structures, algorithms, recursion, trees, queues, and dynamic programming — solved in Java and Python",
     url: "https://leetcode.com/u/W9RFMcxTXL/",
     linkLabel: "LeetCode profile",
   } satisfies CompetitiveProgramming,
@@ -70,11 +70,38 @@ export const engineering = {
     groups: [
       {
         group: "Languages",
-        tags: ["Java", "JavaScript", "TypeScript", "Python", "C"],
+        tags: ["Java", "JavaScript", "TypeScript", "Python", "C", "SQL"],
       },
       {
-        group: "Frameworks / Frontend",
-        tags: ["React", "Vite", "Tailwind CSS", "GSAP", "React Router"],
+        group: "Frontend",
+        tags: ["React", "Vite", "Tailwind CSS", "GSAP", "React Router", "HTML", "CSS"],
+      },
+      {
+        group: "Backend & Data",
+        tags: [
+          "Node.js",
+          "Express",
+          "REST APIs",
+          "MongoDB Atlas",
+          "pandas",
+          "NumPy",
+          "Matplotlib",
+          "Seaborn",
+          "Jupyter",
+        ],
+      },
+      {
+        group: "Cloud & Tools",
+        tags: ["AWS", "Vercel", "Render", "Supabase", "Git", "GitHub"],
+      },
+      {
+        group: "AI & Tools",
+        tags: [
+          "LLM APIs",
+          "Prompt Engineering",
+          "MCP",
+          "AI-Assisted Prototyping",
+        ],
       },
       {
         group: "CS Core",
@@ -85,19 +112,6 @@ export const engineering = {
           "Trees",
           "Queues",
           "Dynamic Programming",
-        ],
-      },
-      {
-        group: "AI & Tools",
-        tags: [
-          "LLM APIs",
-          "Prompt Engineering",
-          "MCP",
-          "REST APIs",
-          "AI-Assisted Prototyping",
-          "Git",
-          "GitHub",
-          "Vercel",
         ],
       },
     ] satisfies ToolkitGroup[],

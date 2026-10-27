@@ -2,11 +2,11 @@ import type { CaseStudy } from "./types";
 
 /**
  * Case-study content — verified against github.com/HusainMain/* repositories
- * (README, source files, package.json, firestore.rules, live deployments).
+ * (README, source files, package.json, security rules, live deployments).
  * ideabridge: README, frontend + server package.json, server/src/index.ts,
  * server/src/routes/analysis.ts, AUDIT_REPORT.md.
  * healthcare-appointment-system: README + all six .java source files.
- * iems: README, package.json, firestore.rules, schema.md, architecture.md, src tree.
+ * iems: README, package.json, security rules, schema.md, architecture.md, src tree.
  * buildex-website: README, package.json, src tree, live buildex-website-sooty.vercel.app.
  * Nothing here is invented. Where repository documentation and source disagree,
  * the source is treated as authoritative (see the healthcare reflection).
@@ -369,20 +369,20 @@ export const caseStudies: CaseStudy[] = [
     problem: [
       "An educational institution juggles users, classes, grades, attendance, announcements, and timetables across disconnected tools. iEMS centralizes them into one platform where access is shaped by role: administrators manage the system, teachers run their classes, and students see their own records.",
       // Verified: README — "comprehensive platform for managing educational institutions with role-based access control for Administrators, Teachers, and Students."
-      "The hard constraint is trust: the same Firestore database serves all three roles, so the boundary between what an admin may write, a teacher may record, and a student may read has to be enforced at the database layer, not just hidden in the UI.",
-      // Verified: firestore.rules — default-deny with role-scoped grants.
+      "The hard constraint is trust: the same document database serves all three roles, so the boundary between what an admin may write, a teacher may record, and a student may read has to be enforced at the database layer, not just hidden in the UI.",
+      // Verified: security rules — default-deny with role-scoped grants.
     ],
     constraints: [
       {
         number: "01",
-        text: "No backend server of its own — Firebase (Authentication, Firestore, Cloud Storage) is the entire backend; the app is a client-only SPA.",
+        text: "No backend server of its own — a managed backend (authentication, document database, cloud storage) is the entire backend; the app is a client-only SPA.",
       },
-      // Verified: package.json (firebase ^12.10.0, no server deps) + architecture.md.
+      // Verified: package.json (managed-backend client SDK, no server deps) + architecture.md.
       {
         number: "02",
-        text: "Data access must be enforced by Firestore security rules — the rules file is the security boundary.",
+        text: "Data access must be enforced by database security rules — the rules file is the security boundary.",
       },
-      // Verified: firestore.rules — explicit role checks per collection + default deny.
+      // Verified: security rules — explicit role checks per collection + default deny.
       {
         number: "03",
         text: "Hackathon scope — three role surfaces with role-specific flows, built for the CVMU hackathon as team lead (owner-verified).",
@@ -399,29 +399,29 @@ export const caseStudies: CaseStudy[] = [
         number: "D1",
         decision: "Role-based access control with three app surfaces",
         reason:
-          "AuthContext reads the user's role from the Firestore users document, and ProtectedRoute gates the admin, teacher, and student route groups. Each role gets its own page folder and flows — admin management, teacher grading/attendance, student records.",
+          "AuthContext reads the user's role from the users document, and ProtectedRoute gates the admin, teacher, and student route groups. Each role gets its own page folder and flows — admin management, teacher grading/attendance, student records.",
         tradeOff:
           "Role is a single string on the user document — fine-grained permissions would need more granular rules.",
       },
       // Verified: AuthContext.jsx, ProtectedRoute.jsx, src/{admin,teacher,student}/.
       {
         number: "D2",
-        decision: "Firestore collections separated by concern",
+        decision: "Document collections separated by concern",
         reason:
           "users, classes, subjects, announcements, timetable, marks, and attendance each get their own collection with role-scoped read/write grants. A student can read their own marks and attendance rows, teachers write marks and attendance, and only admins manage users, classes, subjects, and the timetable.",
         tradeOff:
           "The repo's schema.md documents courses/grades while the rules use classes/subjects/marks — documentation drifted from the rules; the rules are what ships.",
       },
-      // Verified: firestore.rules + schema.md (drift noted, not silently fixed).
+      // Verified: security rules + schema.md (drift noted, not silently fixed).
       {
         number: "D3",
         decision: "Default-deny security rules",
         reason:
-          "The rules file ends with `match /{document=**} { allow read, write: if false; }` — every collection must be explicitly opened. Reads check isAuthenticated(), and student-scoped reads compare resource.data.studentId against request.auth.uid.",
+          "The rules file ends with a catch-all deny — every collection must be explicitly opened. Reads check authentication, and student-scoped reads compare the record's studentId against the authenticated user's id.",
         tradeOff:
           "Adding a new collection requires a rules update before it becomes readable.",
       },
-      // Verified: firestore.rules — isAuthenticated / getUserRole / default deny.
+      // Verified: security rules — isAuthenticated / getUserRole / default deny.
       {
         number: "D4",
         decision: "CSV bulk import for user management",
@@ -443,31 +443,31 @@ export const caseStudies: CaseStudy[] = [
     ],
     implementation: {
       body: [
-        "Login signs a user in through Firebase Authentication; AuthContext stores the session and reads the role field from the users document. ProtectedRoute wraps the role surfaces, so an unauthenticated or wrongly-roled user cannot reach another surface through routing alone.",
+        "Login signs a user in through the managed authentication service; AuthContext stores the session and reads the role field from the users document. ProtectedRoute wraps the role surfaces, so an unauthenticated or wrongly-roled user cannot reach another surface through routing alone.",
         // Verified: Login.jsx, AuthContext.jsx, ProtectedRoute.jsx, architecture.md ("Login Page → Role Check → Dashboard").
         "The admin surface owns user management (CRUD plus bulk CSV import), the analytics dashboard (Recharts), and system logs. The teacher surface handles classes, attendance marking, schedules, and a dashboard. The student surface exposes attendance views, academic records, subjects with downloadable materials, and the timetable.",
         // Verified: src/admin (UserManagement, AdminDashboard, SystemLogs), src/teacher (TeacherClasses, Attendance, TeacherSchedule, TeacherDashboard), src/student (StudentAcademicRecords, AttendanceView, StudentSubjects, StudentTimeTable).
-        "The security model lives in firestore.rules: admins manage users, classes, subjects, and the timetable; teachers and admins may write announcements, marks, and attendance; students read only their own marks and attendance rows (studentId == request.auth.uid). The UI's role checks are convenience — the rules are the boundary.",
-        // Verified: firestore.rules — role-scoped allow rules per collection + default deny.
-        "Deployment is wired for Firebase Hosting via GitHub Actions — separate workflows run for pull requests and merges to the default branch, so CI can preview and deploy the SPA. A live URL is not published in the repository.",
-        // Verified: .github/workflows/firebase-hosting-*.yml + firebase.json; owner decision #4 — no live URL claimed.
+        "The security model lives in the database rules: admins manage users, classes, subjects, and the timetable; teachers and admins may write announcements, marks, and attendance; students read only their own marks and attendance rows (the record's studentId must match the authenticated user). The UI's role checks are convenience — the rules are the boundary.",
+        // Verified: security rules — role-scoped allow rules per collection + default deny.
+        "Deployment is wired for managed static hosting via GitHub Actions — separate workflows run for pull requests and merges to the default branch, so CI can preview and deploy the SPA. A live URL is not published in the repository.",
+        // Verified: hosting workflow files + hosting config; owner decision #4 — no live URL claimed.
       ],
       annotations: [
         { anchor: "role from users doc", note: "users/{uid}.role" },
-        { anchor: "default-deny", note: "match {document=**} → false" },
-        { anchor: "student reads own", note: "studentId == request.auth.uid" },
+        { anchor: "default-deny", note: "catch-all → explicit grants" },
+        { anchor: "student reads own", note: "studentId == auth user id" },
         { anchor: "Hosting CI", note: "merge + pull-request workflows" },
       ],
     },
     architecture: {
-      title: "iEMS — role-gated Firestore topology",
-      desc: "Firebase Authentication signs users in; AuthContext reads the role from the users document. ProtectedRoute gates three role surfaces — admin, teacher, student. Each surface reads and writes Firestore within the bounds set by default-deny security rules.",
-      note: "Topology verified against the repository's source files and firestore.rules — authentication, the three role surfaces, and the collections each role may touch.",
+      title: "iEMS — role-gated platform topology",
+      desc: "A managed authentication service signs users in; AuthContext reads the role from the users document. ProtectedRoute gates three role surfaces — admin, teacher, student. Each surface reads and writes the document database within the bounds set by default-deny security rules.",
+      note: "Topology verified against the repository's source files and security rules — authentication, the three role surfaces, and the collections each role may touch.",
       layers: [
         {
           label: "AUTHENTICATION",
           nodes: [
-            { id: "login", label: "Login", sub: "Firebase Auth" },
+            { id: "login", label: "Login", sub: "managed auth" },
             { id: "auth", label: "AuthContext", sub: "session · role", accent: true },
           ],
         },
@@ -480,9 +480,9 @@ export const caseStudies: CaseStudy[] = [
           ],
         },
         {
-          label: "DATA — FIRESTORE",
+          label: "DATA — DOCUMENT DB",
           nodes: [
-            { id: "db", label: "Firestore", sub: "users · classes · marks" },
+            { id: "db", label: "Database", sub: "users · classes · marks" },
           ],
         },
       ],
@@ -502,23 +502,23 @@ export const caseStudies: CaseStudy[] = [
         tags: ["React 19", "Vite", "JavaScript (JSX)", "Tailwind CSS", "React Router DOM", "lucide-react"],
       },
       {
-        group: "Backend — Firebase",
-        tags: ["Firebase Auth", "Cloud Firestore", "Cloud Storage", "Firestore security rules"],
+        group: "Backend — Managed",
+        tags: ["Authentication", "Document database", "Cloud storage", "Security rules"],
       },
       {
         group: "Tooling",
-        tags: ["Recharts", "jsPDF", "html2canvas-pro", "papaparse", "react-hot-toast", "Firebase Hosting CI"],
+        tags: ["Recharts", "jsPDF", "html2canvas-pro", "papaparse", "react-hot-toast", "Hosting CI"],
       },
     ],
     repository: {
       url: "https://github.com/HusainMain/iems",
       evidence:
-        "React + Firebase role-based education platform — 7 commits, Firestore security rules, Firebase Hosting CI workflows, and schema + architecture docs. No live URL is published.",
+        "React role-based education platform — 7 commits, database security rules, hosting CI workflows, and schema + architecture docs. No live URL is published.",
     },
     reflection: {
       pullLine:
         "iEMS is where I learned that the access boundary — not the dashboard — is the security surface.",
-      body: "Built for the CVMU hackathon as team lead (owner-verified), iEMS kept its three-role surface honest by putting the security model in Firestore rules with a default-deny catch-all. The schema.md and the rules file drifted apart on collection names — courses/grades versus classes/subjects/marks — which is exactly why the rules, the thing that ships and enforces, is treated as authoritative here.",
+      body: "Built for the CVMU hackathon as team lead (owner-verified), iEMS kept its three-role surface honest by putting the security model in database rules with a default-deny catch-all. The schema.md and the rules file drifted apart on collection names — courses/grades versus classes/subjects/marks — which is exactly why the rules, the thing that ships and enforces, is treated as authoritative here.",
     },
   },
   {

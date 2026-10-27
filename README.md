@@ -23,7 +23,7 @@ All four case studies are verified against github.com/HusainMain.
 
 1. **IdeaBridge** — AI-powered startup validation platform. React SPA with an Express AI-analysis API (Three.js / R3F, Zustand, Framer Motion, Tailwind, Groq API), deployed on Vercel.
 2. **Healthcare Appointment System** — Java CLI appointment management system with per-doctor FIFO queues.
-3. **iEMS** — Integrated Education Management System, a React + Firebase education platform developed at the CVMU hackathon, led as team lead.
+3. **iEMS** — Integrated Education Management System, a React education platform with role-based access, developed at the CVMU hackathon as team lead.
 4. **BuildEx Website** — official club website for the BuildEx Startup & Entrepreneurship Club, SVIT Vasad (React 19, TypeScript, GSAP, Tailwind), live on Vercel.
 
 ## Tech Stack
@@ -85,6 +85,6 @@ Deployed as a static SPA on **Vercel**. `vercel.json` rewrites all routes to `in
 Husain Bardanwala
 
 - GitHub: https://github.com/HusainMain
-- LinkedIn: https://linkedin.com/in/husain-bardanwala-93a56b376
+- LinkedIn: https://www.linkedin.com/in/husain-bardanwala
 - LeetCode: https://leetcode.com/u/W9RFMcxTXL/
 - Email: husainbardanwala65@gmail.com

@@ -15,7 +15,7 @@ export default function ContactPage() {
   usePageMeta({
     title: "Contact — Husain Bardanwala",
     description:
-      "Get in touch with Husain Bardanwala — software engineer and intelligent systems builder based in Bharuch, India. Open to full-stack and AI engineering work.",
+      "Get in touch with Husain Bardanwala — software engineer and intelligent systems builder based in India. Open to full-stack and AI engineering work.",
     path: "/contact",
   });
 

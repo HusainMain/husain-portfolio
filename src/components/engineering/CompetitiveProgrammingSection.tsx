@@ -5,7 +5,7 @@ import { CaseSection } from "../work/CaseSection";
 
 /**
  * 04 / COMPETITIVE PROGRAMMING — problem-solving discipline, not a dashboard.
- * The "40+" statement is the single site occurrence. Link ≥44px touch target;
+ * Continuous-practice statement (no problem count). Link ≥44px touch target;
  * only a restrained underline sweep is added on hover (.cp-arrow-link).
  */
 export function CompetitiveProgrammingSection() {

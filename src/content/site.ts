@@ -7,13 +7,13 @@ export const site = {
   role: "Software Engineer",
   roleDescriptor: "Intelligent Systems Builder",
   roleLine: "Software Engineer / Intelligent Systems Builder",
-  location: "Bharuch, India",
+  location: "India",
   email: "husainbardanwala65@gmail.com",
   heroEyebrow: "Software Engineer — Intelligent Systems Builder",
   heroPhilosophy:
     "I design and build software systems end to end — with AI as an accelerator and engineering judgment as the final filter.",
   heroMeta: {
-    location: `LOCATION — ${"BHARUCH, INDIA"}`,
+    location: "LOCATION — INDIA",
     github: "GITHUB →",
     scroll: "SCROLL ↓",
   },
@@ -32,7 +32,7 @@ export const site = {
     },
     {
       label: "LinkedIn",
-      url: "https://linkedin.com/in/husain-bardanwala-93a56b376",
+      url: "https://www.linkedin.com/in/husain-bardanwala",
       external: true,
     },
     {

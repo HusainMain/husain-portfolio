@@ -2,14 +2,15 @@ import { engineering } from "../../content/engineering";
 import { CaseSection } from "../work/CaseSection";
 
 /**
- * 05 / ENGINEERING TOOLKIT — four verified groups as compact mono chips that
- * wrap naturally. Full-frame content cell so the 4 columns align to the frame.
+ * 05 / ENGINEERING TOOLKIT — six verified groups as compact mono chips that
+ * wrap naturally. Full-frame content cell so the three 4-column groups align
+ * to the frame.
  * No bars, no percentages, no proficiency levels.
  */
 export function ToolkitSection() {
   return (
     <CaseSection eyebrow="05 / ENGINEERING TOOLKIT" contentClassName="lg:col-span-12 lg:col-start-1">
-      <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
         {engineering.toolkit.groups.map((group) => (
           <div key={group.group}>
             <h3 className="text-mono-label text-muted">{group.group}</h3>

@@ -431,8 +431,8 @@ The case study is **a technical editorial document**, predominantly cream (`canv
 1. **Philosophy** — cols 2–11; the verified statement at section-title ×1.2 in navy with serif-italic accent on key phrases ("first principles", "engineering judgment"); mono eyebrow `HOW I THINK`. No panel — pure type on canvas.
 2. **Process** — four steps as numbered rows (mono `orange` 01–04 + subsection titles + muted body), hairline separators; the ScrollTrigger sequence reveals steps in order (System 05). This is the page's one motion sequence.
 3. **AI-assisted engineering** — two-column: statement prose (cols 3–7) + mono annotation column (cols 9–12, `surface` well): how AI is used (acceleration, prototyping, prompt engineering, REST/MCP integration) and where judgment stays human. Honest, non-hyped.
-4. **Competitive programming** — cream row: mono label + lead-type sentence ("40+ problems across data structures, recursion, trees, queues, dynamic programming") + arrow link to LeetCode. Discipline, not badge.
-5. **Toolkit** — `surface` well (cols 1–12), four grouped mono-tag columns (languages, frameworks, CS core, AI & tools). Appendix-like, quiet.
+4. **Competitive programming** — cream row: mono label + lead-type sentence ("continuous practice across data structures, recursion, trees, queues, dynamic programming") + arrow link to LeetCode. Discipline, not badge.
+5. **Toolkit** — `surface` well (cols 1–12), six grouped mono-tag cells across a three-column grid (languages, frontend, backend & data, cloud & tools, AI & tools, CS core). Appendix-like, quiet.
 
 No skill bars, no percentages, no logo walls, no animated terminals.
 
@@ -444,7 +444,7 @@ No skill bars, no percentages, no logo walls, no animated terminals.
 
 - **Intro (cols 1–7):** larger body (18px), short biography: Computer Engineering student, SVIT Vasad, 2024–2028; what he builds; experimentation; BuildEx ownership; hackathon leadership; interests (software systems, AI-enabled products, interactive web experiences).
 - **Portrait reprise (cols 8–12):** a second, *different* portrait treatment — smaller square-ish editorial block (4:5) inside a `surface` well with an `orange` left rule. Never repeats the hero panel composition. Optional asset; if absent, the column carries mono captions instead (graceful degradation, no layout dependency).
-- **FactsRow (12-col):** hairline-separated columns of mono label + navy value: `DEGREE — B.E. Computer Engineering` · `INSTITUTION — SVIT, Vasad` · `YEARS — 2024–2028` · `CGPA — 8.48/10` · `LEETCODE — 40+ problems`. **This is the single site occurrence of CGPA 8.48 and LeetCode 40+** — plain text, no counters/badges/animation (locked).
+- **FactsRow (12-col):** hairline-separated columns of mono label + navy value: `DEGREE — B.E. Computer Engineering` · `INSTITUTION — SVIT, Vasad` · `YEARS — 2024–2028` · `CGPA — 8.48/10`. **This is the single site occurrence of CGPA 8.48** — plain text, no counters/badges/animation (locked).
 - Calm reveals only (System 05, minimal).
 
 ---
