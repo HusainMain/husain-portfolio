@@ -1,6 +1,7 @@
 import { home } from "../../content/home";
 import { Section } from "../ui/Section";
 import { TagRow } from "../ui/Tag";
+import { ArrowLink } from "../ui/ArrowLink";
 import { FadeIn } from "../motion/FadeIn";
 
 /** Capabilities — four grouped statements with mono tags, on a surface well (§7.6). */
@@ -19,6 +20,14 @@ export function Capabilities() {
             </FadeIn>
           ))}
         </div>
+
+        <FadeIn delay={0.24}>
+          <div className="mt-10 flex justify-end border-t border-rule-on-cream pt-5">
+            <ArrowLink to={home.capabilitiesToolkitLink.href} className="min-h-11 items-center">
+              {home.capabilitiesToolkitLink.label}
+            </ArrowLink>
+          </div>
+        </FadeIn>
       </div>
     </Section>
   );

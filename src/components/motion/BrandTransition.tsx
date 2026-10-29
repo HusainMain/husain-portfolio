@@ -77,7 +77,7 @@ export function BrandTransition({ onHero, onComplete }: BrandTransitionProps) {
         </div>
         <motion.span
           className="mt-6 block h-1 w-32 origin-left bg-orange"
-          initial={{ scaleX: 0 }}
+          initial={{ scaleX: 0.9 }}
           animate={stage >= 1 ? { scaleX: 1 } : { scaleX: 0 }}
           transition={{ duration: 0.24, delay: 0, ease: EASE }}
         />

@@ -49,8 +49,8 @@ export function TextReveal({
     <Tag ref={ref as never} className={cn("overflow-hidden", className)}>
       <motion.span
         className={cn("block pb-[0.07em] -mb-[0.07em]", innerClassName)}
-        initial={{ y: "110%" }}
-        animate={show ? { y: "0%" } : { y: "110%" }}
+        initial={{ transform: "translateY(110%)" }}
+        animate={show ? { transform: "translateY(0%)" } : { transform: "translateY(110%)" }}
         transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}

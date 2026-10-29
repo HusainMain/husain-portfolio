@@ -1,16 +1,14 @@
 import { AboutIntro } from "../components/about/AboutIntro";
-import { ApproachSection } from "../components/about/ApproachSection";
 import { FactsRow } from "../components/about/FactsRow";
-import { NowSection } from "../components/about/NowSection";
-import { Rule } from "../components/ui/Rule";
+import { PathSection } from "../components/about/PathSection";
 import { BrandTransition } from "../components/motion/BrandTransition";
 import { useBrandReveal } from "../lib/brandReveal";
 import { usePageMeta } from "../lib/meta";
 
 /**
- * /about — who I am (intro + system flow), profile facts, what I am building
- * now, and how I approach engineering. No biography beyond the approved
- * owner facts.
+ * /about — who I am (intro + system flow), profile facts, and the dated path
+ * of the work through to what comes next. No biography beyond the approved
+ * owner facts; the engineering process lives on /engineering.
  *
  * The global one-shot brand transition (Phase 6) participates here with the
  * same sessionStorage gate as the homepage, so it plays only on the very
@@ -21,7 +19,7 @@ export default function AboutPage() {
   usePageMeta({
     title: "About — Husain Bardanwala",
     description:
-      "Who Husain Bardanwala is: what he is building now, the profile facts behind the work, and the engineering approach he brings to every project.",
+      "Who Husain Bardanwala is: computer engineering at SVIT, the path from a first build to leading a hackathon team, and the software engineering internship he is seeking next.",
     path: "/about",
   });
 
@@ -31,9 +29,7 @@ export default function AboutPage() {
     <>
       <AboutIntro started={heroStarted} />
       <FactsRow />
-      <NowSection />
-      <Rule />
-      <ApproachSection />
+      <PathSection />
       {brandVisible && (
         <BrandTransition onHero={handleHero} onComplete={handleComplete} />
       )}

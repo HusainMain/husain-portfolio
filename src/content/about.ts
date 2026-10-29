@@ -1,7 +1,7 @@
 import type {
-  AboutCurrentItem,
   AboutFact,
-  ApproachPrinciple,
+  PathBeat,
+  PathNext,
   PhilosophySegment,
   SystemFlowStage,
 } from "./types";
@@ -16,6 +16,11 @@ import type {
  * `intro` mirrors engineering.philosophy: paragraphs split into segments so
  * key words render in serif italic with a delayed emphasis reveal (the same
  * choreography as 01 / HOW I THINK).
+ *
+ * `path` replaces the old NOW + APPROACH pair: three dated beats of real work
+ * (resume facts, no forecasts) and one NEXT block that states what he is
+ * looking for. The engineering process is explained on /engineering; the
+ * system-flow plate above carries the loop visually.
  */
 export const about = {
   eyebrow: "ABOUT",
@@ -51,55 +56,43 @@ export const about = {
     { label: "YEARS", value: "2024–2028" },
     { label: "CGPA", value: "8.48/10" },
   ] satisfies AboutFact[],
-  currently: [
-    {
-      label: "BUILDING",
-      title: "BuildEx — official club website",
-      description:
-        "The official website for SVIT's Startup & Entrepreneurship Club — a cinematic brand experience engineered as a product-grade online presence.",
-      href: "/work/buildex-website",
-      linkLabel: "VIEW CASE STUDY",
-    },
-    {
-      label: "LEADING",
-      title: "iEMS — hackathon team lead",
-      description:
-        "An AI-assisted education platform developed at the CVMU hackathon as team lead — connecting administrators, teachers, and students in one role-based system.",
-      href: "/work/iems",
-      linkLabel: "VIEW CASE STUDY",
-    },
-  ] satisfies AboutCurrentItem[],
-  interests: {
-    label: "EXPLORING",
-    items: [
-      "LLM orchestration",
-      "Real-time web applications",
-      "AI-assisted product engineering",
-      "System design",
-    ],
+  path: {
+    eyebrow: "02 / THE PATH",
+    lead: "A short record of how the work moved from a first build to leading a team — and what comes next.",
+    diagramCaption:
+      "2024 to today — four projects, one hackathon final, and the next opening.",
+    beats: [
+      {
+        year: "2024",
+        stage: "START",
+        title: "Computer engineering at SVIT, Vasad",
+        note: "Started the B.E. and moved from coursework into building full-stack projects end to end.",
+        outcome: "FOUNDATION",
+      },
+      {
+        year: "2026",
+        stage: "BUILD",
+        title: "Shipped products, not exercises",
+        note: "IdeaBridge, BuildEx, and an IPL analysis across 1,095 matches — each carried from idea through deployment.",
+        outcome: "FULL-STACK",
+      },
+      {
+        year: "2026",
+        stage: "LEAD",
+        title: "Led a four-person team to a state final",
+        note: "At CVMU Hackathon 4.0, owned authentication, the role-based data model, and default-deny rules across three dashboards in 24 hours.",
+        outcome: "TEAM LEAD",
+      },
+    ] satisfies PathBeat[],
+    next: {
+      label: "NEXT",
+      status: [
+        { label: "SEEKING", value: "Software engineering internship" },
+        { label: "FOCUS", value: "Full-stack and AI-enabled products" },
+        { label: "BASED IN", value: "India" },
+      ],
+      ctaLabel: "Start a conversation",
+      ctaHref: "/contact",
+    } satisfies PathNext,
   },
-  approach: [
-    {
-      number: "01",
-      title: "BUILD THE SYSTEM",
-      description:
-        "I think about architecture, boundaries, and data flow before complexity accumulates.",
-    },
-    {
-      number: "02",
-      title: "PROTOTYPE EARLY",
-      description: "A working prototype exposes constraints faster than a polished idea on paper.",
-    },
-    {
-      number: "03",
-      title: "USE AI WITH INTENT",
-      description:
-        "I use AI to accelerate implementation and remove mechanical work, not to outsource engineering judgment.",
-    },
-    {
-      number: "04",
-      title: "SHIP TO LEARN",
-      description: "Real usage reveals problems that planning alone cannot.",
-    },
-  ] satisfies ApproachPrinciple[],
 };

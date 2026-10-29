@@ -38,9 +38,21 @@ export function FadeIn({
   return (
     <motion.div
       className={cn(className)}
-      initial={{ opacity: 0, y, x }}
-      animate={isGated ? (started ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }) : undefined}
-      whileInView={isGated ? undefined : { opacity: 1, y: 0, x: 0 }}
+      initial={{
+        opacity: 0,
+        transform: `translate${x ? `X(${x}px) ` : ""}translate${y ? `Y(${y}px)` : ""}`,
+      }}
+      animate={
+        isGated
+          ? started
+            ? { opacity: 1, transform: "none" }
+            : {
+                opacity: 0,
+                transform: `translate${x ? `X(${x}px) ` : ""}translate${y ? `Y(${y}px)` : ""}`,
+              }
+          : undefined
+      }
+      whileInView={isGated ? undefined : { opacity: 1, transform: "none" }}
       viewport={isGated ? undefined : { once: true, amount: 0.25 }}
       transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
     >

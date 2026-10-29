@@ -1,4 +1,5 @@
-import type { BuildStatement, CapabilityGroup, Contribution, ProcessStep } from "./types";
+import { pickTools } from "./toolkit";
+import type { BuildStatement, CapabilityGroup, Contribution } from "./types";
 
 export const home = {
   whatIBuildEyebrow: "WHAT I BUILD",
@@ -27,35 +28,60 @@ export const home = {
   philosophyAccent2: ", using AI to accelerate development while relying on ",
   philosophyAccent3: "engineering judgment",
   philosophyTail: " to deliver practical, maintainable solutions.",
-  process: [
-    { number: "01", title: "Understand the problem" },
-    { number: "02", title: "Design from first principles" },
-    { number: "03", title: "Build with AI as an accelerator" },
-    { number: "04", title: "Verify with engineering judgment" },
-  ] satisfies ProcessStep[],
   capabilitiesEyebrow: "CAPABILITIES",
   capabilities: [
     {
       title: "Systems",
       statement: "Designing, building, and shipping full-stack products end to end.",
-      tags: ["React", "TypeScript", "Vite", "Node.js", "Express", "REST APIs", "AWS"],
+      tags: pickTools(
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "REST APIs",
+        "MongoDB Atlas",
+        "AWS",
+        "Vercel",
+      ),
     },
     {
       title: "AI-Assisted Engineering",
       statement: "Accelerating development with AI without surrendering engineering judgment.",
-      tags: ["LLM APIs", "Prompt Engineering", "MCP", "AI-Assisted Prototyping"],
+      tags: pickTools("LLM APIs", "Prompt Engineering", "AI-Assisted Prototyping", "MCP"),
     },
     {
       title: "Interaction",
       statement: "Engineering interfaces that feel considered, responsive, and accessible.",
-      tags: ["GSAP", "Motion", "Tailwind CSS", "Responsive Design", "Accessibility"],
+      tags: pickTools(
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "GSAP",
+        "React Router",
+        "HTML",
+        "CSS",
+        "Accessibility",
+      ),
     },
     {
       title: "Engineering Practice",
       statement: "Discipline in process — from first principles to verified delivery.",
-      tags: ["Java", "OOP", "Data Structures", "Algorithms", "Git"],
+      tags: pickTools(
+        "Java",
+        "Python",
+        "C",
+        "SQL",
+        "Object-Oriented Programming",
+        "Data Structures & Algorithms",
+        "Git",
+        "GitHub",
+      ),
     },
   ] satisfies CapabilityGroup[],
+  capabilitiesToolkitLink: {
+    label: "Full toolkit",
+    href: "/engineering",
+  },
   contributionsEyebrow: "CONTRIBUTIONS",
   contributions: [
     {

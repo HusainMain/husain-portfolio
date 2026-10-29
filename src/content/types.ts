@@ -116,11 +116,6 @@ export interface BuildStatement {
   accent: string;
 }
 
-export interface ProcessStep {
-  number: string;
-  title: string;
-}
-
 export interface PhilosophySegment {
   text: string;
   /** Word(s) rendered in serif italic (orange-deep). */
@@ -164,17 +159,26 @@ export interface AboutFact {
   value: string;
 }
 
-export interface AboutCurrentItem {
-  label: string;
+/** One beat on the About path — a stage of the work, not a job title. */
+export interface PathBeat {
+  year: string;
+  stage: string;
   title: string;
-  /** One factual sentence on the project's purpose/impact. */
-  description: string;
-  href: string;
-  linkLabel: string;
+  /** One factual line: the evidence for the stage. */
+  note: string;
+  /** Short mono label carried in the diagram margin. */
+  outcome: string;
 }
 
-export interface ApproachPrinciple {
-  number: string;
-  title: string;
-  description: string;
+export interface PathStatus {
+  label: string;
+  value: string;
 }
+
+export interface PathNext {
+  label: string;
+  status: PathStatus[];
+  ctaLabel: string;
+  ctaHref: string;
+}
+

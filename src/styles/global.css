@@ -237,18 +237,20 @@
       background-color 0.2s ease,
       transform 0.15s ease;
   }
-  .btn-primary:hover {
-    background-color: var(--color-navy-800);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background-color: var(--color-navy-800);
+    }
+    .btn-primary:hover .arrow {
+      transform: translateX(4px);
+      color: var(--color-orange);
+    }
   }
   .btn-primary:active {
-    transform: translateY(1px);
+    transform: scale(0.97);
   }
   .btn-primary .arrow {
     transition: transform 0.2s ease, color 0.2s ease;
-  }
-  .btn-primary:hover .arrow {
-    transform: translateX(4px);
-    color: var(--color-orange);
   }
 
   /* ---- Chip / tag ---- */
@@ -264,9 +266,11 @@
     padding: 4px 10px;
     transition: border-color 0.2s ease, color 0.2s ease;
   }
-  .chip:hover {
-    border-color: var(--color-orange);
-    color: var(--color-orange-deep);
+  @media (hover: hover) and (pointer: fine) {
+    .chip:hover {
+      border-color: var(--color-orange);
+      color: var(--color-orange-deep);
+    }
   }
   .chip-navy {
     color: var(--color-cream);
@@ -288,12 +292,14 @@
   .arrow-link .arrow {
     transition: transform 0.2s ease, color 0.2s ease;
   }
-  .arrow-link:hover {
-    color: var(--color-orange-deep);
-  }
-  .arrow-link:hover .arrow {
-    transform: translateX(4px);
-    color: var(--color-orange);
+  @media (hover: hover) and (pointer: fine) {
+    .arrow-link:hover {
+      color: var(--color-orange-deep);
+    }
+    .arrow-link:hover .arrow {
+      transform: translateX(4px);
+      color: var(--color-orange);
+    }
   }
 
   /* ---- Continuous editorial marquee (CTA bands) ----
@@ -364,7 +370,11 @@
     transform-origin: left;
     transition: transform 0.2s ease;
   }
-  .nav-link:hover::after,
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+  }
   .nav-link.is-active::after {
     transform: scaleX(1);
   }

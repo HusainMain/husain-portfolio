@@ -1,9 +1,9 @@
+import { toolkit } from "./toolkit";
 import type {
   AiEngineering,
   CompetitiveProgramming,
   EngineeringProcessStep,
   PhilosophySegment,
-  ToolkitGroup,
 } from "./types";
 
 /**
@@ -67,53 +67,6 @@ export const engineering = {
     linkLabel: "LeetCode profile",
   } satisfies CompetitiveProgramming,
   toolkit: {
-    groups: [
-      {
-        group: "Languages",
-        tags: ["Java", "JavaScript", "TypeScript", "Python", "C", "SQL"],
-      },
-      {
-        group: "Frontend",
-        tags: ["React", "Vite", "Tailwind CSS", "GSAP", "React Router", "HTML", "CSS"],
-      },
-      {
-        group: "Backend & Data",
-        tags: [
-          "Node.js",
-          "Express",
-          "REST APIs",
-          "MongoDB Atlas",
-          "pandas",
-          "NumPy",
-          "Matplotlib",
-          "Seaborn",
-          "Jupyter",
-        ],
-      },
-      {
-        group: "Cloud & Tools",
-        tags: ["AWS", "Vercel", "Render", "Supabase", "Git", "GitHub"],
-      },
-      {
-        group: "AI & Tools",
-        tags: [
-          "LLM APIs",
-          "Prompt Engineering",
-          "MCP",
-          "AI-Assisted Prototyping",
-        ],
-      },
-      {
-        group: "CS Core",
-        tags: [
-          "OOP",
-          "Data Structures & Algorithms",
-          "Recursion",
-          "Trees",
-          "Queues",
-          "Dynamic Programming",
-        ],
-      },
-    ] satisfies ToolkitGroup[],
+    groups: toolkit,
   },
 };

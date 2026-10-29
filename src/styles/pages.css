@@ -1,4 +1,4 @@
-@layer components {
+﻿@layer components {
   /* Route-change focus (app.tsx): focus moves to the main landmark without a
      full-page outline. Interactive elements keep their own focus rings. */
   main:focus-visible {
@@ -6,7 +6,7 @@
   }
 
   /* Homepage motion helpers (Phase 6).
-     Row hover shifts stay ≤2px, micro-interactions 150–250ms, and only apply
+     Row hover shifts stay â‰¤2px, micro-interactions 150â€“250ms, and only apply
      on devices that actually hover (no sticky hover on touch). */
   @media (hover: hover) {
     .build-row {
@@ -28,7 +28,7 @@
     }
   }
 
-  /* PhilosophyStrip masked line reveal — descender headroom under the mask. */
+  /* PhilosophyStrip masked line reveal â€” descender headroom under the mask. */
   .phil-mask {
     display: block;
     padding-bottom: 0.08em;
@@ -48,8 +48,8 @@
   }
 
   /* Engineering page (Phase 6): restrained hover + finishing layers.
-     Process rows lift 1px and their number deepens slightly — no scale.
-     Toolkit chips gain a faint surface tint — no scale, no bounce.
+     Process rows lift 1px and their number deepens slightly â€” no scale.
+     Toolkit chips gain a faint surface tint â€” no scale, no bounce.
      LeetCode link gets a subtle underline sweep alongside the arrow nudge. */
   .process-row {
     transition: transform 200ms ease;
@@ -90,74 +90,4 @@
     }
   }
 
-  /* About page (Phase 6 redesign): NOW project rows — restrained directional
-     response matching the build/contrib row language (≤2px shift, 200ms,
-     subtle surface tint, title accent). Applies after the GSAP entrance
-     clears its inline transform, hover-only so touch devices are never
-     stuck in a hover state. */
-  .now-project {
-    transition: background-color 200ms ease;
-  }
-  /* The nudge lives on the inner grid, not the list item: the row's hairline
-     belongs to the document, so it must stay put while the content responds. */
-  .now-project > div {
-    transition: transform 200ms ease;
-  }
-  .now-project .now-title {
-    transition: color 200ms ease;
-  }
-  /* One link per project row: the title carries a stretched hit area over
-     the whole row, so the measured hover response is honest. */
-  .now-row-link::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-  }
-  .now-project:focus-within {
-    background-color: rgba(22, 36, 61, 0.03);
-  }
-  @media (hover: hover) {
-    .now-project:hover {
-      background-color: rgba(22, 36, 61, 0.03);
-    }
-    .now-project:hover > div {
-      transform: translateX(2px);
-    }
-    .now-project:hover .arrow-link {
-      color: var(--color-orange-deep);
-    }
-    .now-project:hover .arrow {
-      transform: translateX(4px);
-      color: var(--color-orange);
-    }
-  }
-  /* Hover color accents must live in the utilities layer (at the top level,
-     not nested inside components) so they beat the rows' own text-* utility. */
-  @layer utilities {
-    @media (hover: hover) {
-      .now-project:hover .now-title {
-        color: var(--color-orange-deep);
-      }
-      .approach-row:hover .approach-num {
-        color: var(--color-orange-ember);
-      }
-    }
-  }
-  /* About page (Phase 6 redesign): APPROACH rows — the process-row language
-     from the engineering page, properly wired: the row lifts 1px and its
-     number deepens to orange-deep on hover (200ms, no scale, no bounce).
-     Applied to the inner row div so the FadeIn entrance transform never
-     fights the hover transform. Hover-only so touch devices are never
-     stuck in a hover state. */
-  .approach-row {
-    transition: transform 200ms ease;
-  }
-  .approach-num {
-    transition: color 200ms ease;
-  }
-  @media (hover: hover) {
-    .approach-row:hover {
-      transform: translateY(1px);
-    }
-  }
 }
