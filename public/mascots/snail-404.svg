@@ -1,0 +1,28 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A friendly snail character">
+  <!-- Shell spiral (orange) -->
+  <path d="M80 50 C100 50 115 60 115 80 C115 100 100 110 80 110 C60 110 45 100 45 80 C45 60 60 50 80 50" stroke="#D2601A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M80 58 C92 58 100 64 100 75 C100 86 92 92 80 92 C68 92 60 86 60 75 C60 64 68 58 80 58" stroke="#D2601A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- Shell inner spiral accent (cream) -->
+  <path d="M80 64 C88 64 94 69 94 77.5 C94 86 88 91 80 91 C72 91 66 86 66 77.5 C66 69 72 64 80 64" stroke="#FAF6EC" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Body (cream-white with charcoal outline) -->
+  <ellipse cx="80" cy="110" rx="30" ry="18" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+  <!-- Foot -->
+  <ellipse cx="80" cy="124" rx="22" ry="8" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+
+  <!-- Head -->
+  <ellipse cx="80" cy="92" rx="18" ry="14" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+
+  <!-- Eyes (two dots) -->
+  <circle cx="72" cy="88" r="2.5" fill="#16243D"/>
+  <circle cx="88" cy="88" r="2.5" fill="#16243D"/>
+
+  <!-- Smile -->
+  <path d="M73 98 Q80 103 87 98" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Antennae -->
+  <path d="M70 78 Q65 70 68 65" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="68" cy="63" r="3" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+  <path d="M90 78 Q95 70 92 65" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="92" cy="63" r="3" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+</svg>

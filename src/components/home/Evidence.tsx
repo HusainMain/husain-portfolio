@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ipl } from "../../content/ipl";
 import { Section } from "../ui/Section";
 import { ArrowLink } from "../ui/ArrowLink";
 import { FadeIn } from "../motion/FadeIn";
+import { AnimatedNumber } from "../ui/AnimatedNumber";
+import { useInView } from "motion/react";
 
 /**
  * Evidence — the IPL data study, compressed to one argument.
@@ -12,10 +14,15 @@ import { FadeIn } from "../motion/FadeIn";
  * states as visually identical. The 50% "coin flip" rule is the anchor the two
  * states are read against, so the toggle carries the argument instead of
  * decorating it.
+ *
+ * The percentage values animate into view when the plate enters the viewport
+ * (respecting prefers-reduced-motion).
  */
 export function Evidence() {
   const [active, setActive] = useState(0);
   const view = ipl.views[active];
+  const plateRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(plateRef, { once: true, margin: "0px 0px -100px 0px" });
 
   /* Track domain. 50% sits exactly mid-track (domain 40–60), so the coin-flip
      rule is a fixed reference line rather than a moving label. */
@@ -48,7 +55,7 @@ export function Evidence() {
                 rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted underline decoration-navy-900/20 underline-offset-4 transition-colors hover:text-orange-deep"
               >
-                Data &amp; notebook
+                Data & notebook
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -73,7 +80,7 @@ export function Evidence() {
 
         <div className="col-span-12 lg:col-span-6 lg:col-start-7">
           <FadeIn delay={0.08}>
-            <div className="border border-rule-on-cream bg-surface-2 p-6 md:p-8">
+            <div ref={plateRef} className="border border-rule-on-cream bg-surface-2 p-6 md:p-8">
               <div className="flex flex-wrap gap-2" role="group" aria-label="Compare the toss against the chase">
                 {ipl.views.map((item, index) => (
                   <button
@@ -94,8 +101,14 @@ export function Evidence() {
 
               <div aria-live="polite">
                 <p className="mt-8 font-display text-[clamp(2.75rem,5vw,3.75rem)] font-medium leading-none tracking-[-0.03em] text-navy-900">
-                  {view.value}
-                  <span className="text-orange-deep">%</span>
+                  <AnimatedNumber
+                    value={view.value}
+                    format={{ maximumFractionDigits: 1 }}
+                    suffix="%"
+                    className="text-orange-deep"
+                    respectMotionPreference
+                    isInView={isInView}
+                  />
                 </p>
 
                 <div className="mt-6">
@@ -105,7 +118,7 @@ export function Evidence() {
                   >
                     <div
                       className="h-3 rounded-full bg-orange motion-safe:transition-[width] motion-safe:duration-500 motion-safe:ease-out"
-                      style={{ width: `${toPct(view.value)}%` }}
+                      style={{ width: `${toPct(isInView ? view.value : 0)}%` }}
                     />
                     <span
                       className="absolute top-1/2 h-6 w-px -translate-y-1/2 border-l border-dashed border-navy-900/45"
@@ -121,8 +134,20 @@ export function Evidence() {
 
                 <p className="mt-6 max-w-[44ch] text-muted">{view.note}</p>
                 <p className="mt-3 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
-                  {view.wins.toLocaleString("en-IN")} of{" "}
-                  {view.total.toLocaleString("en-IN")} matches
+                  <AnimatedNumber
+                    value={view.wins}
+                    format={{ useGrouping: true }}
+                    respectMotionPreference
+                    isInView={isInView}
+                  />
+                  {" of "}
+                  <AnimatedNumber
+                    value={view.total}
+                    format={{ useGrouping: true }}
+                    respectMotionPreference
+                    isInView={isInView}
+                  />
+                  {" matches"}
                 </p>
               </div>
 

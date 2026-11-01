@@ -1,9 +1,12 @@
 import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
+import { annotate } from "rough-notation";
 import { about } from "../../content/about";
 import { FadeIn } from "../motion/FadeIn";
 import { Parallax } from "../motion/Parallax";
 import { TextReveal } from "../motion/TextReveal";
 import { SystemFlowDiagram } from "./SystemFlowDiagram";
+import { useInView } from "motion/react";
 
 /**
  * About page opening — editorial two-column composition: kicker rule + ABOUT
@@ -20,9 +23,31 @@ import { SystemFlowDiagram } from "./SystemFlowDiagram";
  * Serif accents inside the philosophy paragraphs receive the same delayed
  * emphasis as engineering's 01 / HOW I THINK (0.25 → 1 opacity, ~0.45s after
  * the paragraph lands); reduced-motion users see them at full opacity.
+ *
+ * The phrase "engineering judgment" receives a single hand-drawn underline
+ * (rough-notation) when it scrolls into view — the only hand-drawn mark on
+ * the site.
  */
 export function AboutIntro({ started = true }: { started?: boolean }) {
   const reduce = useReducedMotion();
+  const judgmentRef = useRef<HTMLElement>(null);
+  const judgmentInView = useInView(judgmentRef, { once: true, margin: "0px 0px -50px 0px" });
+
+  useEffect(() => {
+    if (!judgmentRef.current || reduce || !judgmentInView) return;
+    const annotation = annotate(judgmentRef.current, {
+      type: "underline",
+      color: "#D2601A", // orange
+      strokeWidth: 2,
+      animationDuration: 900,
+      animate: true,
+      padding: [0, 4, 2, 4],
+      iterations: 2,
+    });
+    annotation.show();
+    return () => annotation.remove();
+  }, [judgmentInView, reduce]);
+
   return (
     <section className="case-meta bg-canvas pt-[72px] max-md:pt-[60px]">
       <div className="grid-frame items-start">
@@ -74,6 +99,7 @@ export function AboutIntro({ started = true }: { started?: boolean }) {
                   {paragraph.map((segment) =>
                     segment.accent ? (
                       <motion.em
+                        ref={segment.text === "engineering judgment" ? judgmentRef : undefined}
                         key={segment.text}
                         className="text-serif-accent text-orange-deep"
                         initial={reduce ? undefined : { opacity: 0.25 }}
