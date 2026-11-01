@@ -9,6 +9,7 @@ import { CaseRepository } from "../components/work/CaseRepository";
 import { CaseReflection } from "../components/work/CaseReflection";
 import { DecisionRows } from "../components/work/DecisionRows";
 import { ArchitectureDiagram } from "../components/work/ArchitectureDiagram";
+import { CaseDataPlate } from "../components/work/CaseDataPlate";
 import { PrevNextNav } from "../components/work/PrevNextNav";
 import { FadeIn } from "../components/motion/FadeIn";
 import { Parallax } from "../components/motion/Parallax";
@@ -49,6 +50,11 @@ export default function WorkSlug() {
             ))}
           </div>
         </FadeIn>
+        {caseStudy.dataPlate ? (
+          <FadeIn y={14} duration={0.55} delay={0.1} className="mt-12">
+            <CaseDataPlate plate={caseStudy.dataPlate} />
+          </FadeIn>
+        ) : null}
       </CaseSection>
 
       <CaseSection eyebrow="03 / CONSTRAINTS">

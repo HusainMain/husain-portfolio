@@ -72,6 +72,9 @@ export function Hero({ started = true }: { started?: boolean }) {
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
               <Button to="/work">View work</Button>
               <ArrowLink href={`mailto:${site.email}`}>Email me</ArrowLink>
+              <ArrowLink href={site.resumeUrl} download>
+                {site.resumeLabel}
+              </ArrowLink>
             </div>
           </FadeIn>
 
@@ -84,13 +87,16 @@ export function Hero({ started = true }: { started?: boolean }) {
                   href="https://github.com/HusainMain"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-orange-deep"
+                  className="inline-flex items-center transition-colors max-md:min-h-11 hover:text-orange-deep"
                 >
                   {site.heroMeta.github}
                 </a>
               </li>
               <li aria-hidden="true">·</li>
-              <li aria-hidden="true">{site.heroMeta.scroll}</li>
+              <li className="inline-flex items-center gap-2">
+                <span aria-hidden="true" className="status-dot" />
+                {site.availability.toUpperCase()}
+              </li>
             </ul>
           </FadeIn>
         </div>

@@ -53,7 +53,7 @@ export default function WorkPage() {
   usePageMeta({
     title: "Work — Husain Bardanwala",
     description:
-      "Four case studies — IdeaBridge, Healthcare Appointment System, iEMS and BuildEx — documented with context, constraints, architecture decisions and trade-offs.",
+      "Four case studies and a data study — IdeaBridge, Healthcare Appointment System, iEMS, BuildEx and an IPL analysis — documented with context, constraints, architecture decisions and trade-offs.",
     path: "/work",
   });
 
@@ -84,8 +84,8 @@ export default function WorkPage() {
             </TextReveal>
             <FadeIn started={heroStarted} delay={0.36} duration={0.45} y={14}>
               <p className="text-lead mt-5 max-w-[55ch] text-muted">
-                Four projects that reflect how I design, build, and ship
-                software.
+                Five studies that reflect how I design, build, and ship
+                software — four products and one dataset.
               </p>
             </FadeIn>
           </div>

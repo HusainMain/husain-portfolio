@@ -69,7 +69,17 @@ export function PathSection() {
         </figure>
       </FadeIn>
 
-      <div className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8 border-t border-rule-on-cream pt-10 md:mt-16">
+      {/* xl+: the diagram's terminal panel already states NEXT, so this is a
+          single closing action rather than a repeat of the same three facts. */}
+      <div className="mt-14 hidden items-center justify-between gap-8 border-t border-rule-on-cream pt-8 md:mt-16 xl:flex">
+        <p className="text-serif-accent text-[1.375rem] leading-none text-navy-900">
+          Ready when you are.
+        </p>
+        <Button to={path.next.ctaHref}>{path.next.ctaLabel}</Button>
+      </div>
+
+      {/* Below xl the diagram is not rendered, so this block carries the facts. */}
+      <div className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8 border-t border-rule-on-cream pt-10 md:mt-16 xl:hidden">
         <div className="col-span-12 lg:col-span-3">
           <p className="text-mono-label text-orange-deep">{path.next.label}</p>
           <p className="text-serif-accent mt-3 max-w-[24ch] text-[clamp(1.25rem,2vw,1.5rem)] leading-[1.25] text-navy-900">

@@ -281,6 +281,18 @@
     color: var(--color-orange-on-navy-hi);
   }
 
+  /* ---- Availability dot ----
+     A quiet live signal beside the availability line. Decorative only. */
+  .status-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-orange);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-orange) 16%, transparent);
+  }
+
   /* ---- Arrow link ---- */
   .arrow-link {
     display: inline-flex;
@@ -299,6 +311,14 @@
     .arrow-link:hover .arrow {
       transform: translateX(4px);
       color: var(--color-orange);
+    }
+  }
+
+  /* WCAG 2.2 AA 2.5.8 — on touch, inline text links get a 44px tall target
+     without changing the surrounding visual rhythm. */
+  @media (max-width: 767px) {
+    .arrow-link {
+      min-height: 44px;
     }
   }
 

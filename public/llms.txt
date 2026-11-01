@@ -1,10 +1,24 @@
 # Husain Bardanwala
 
-> Software Engineer / Intelligent Systems Builder — portfolio of Husain Bardanwala. Replaces domain placeholders (example.com) before launch.
+> Software engineer and intelligent systems builder based in India. Builds full-stack
+> products and AI-enabled systems. Four project case studies and one data study are
+> documented with constraints, decisions and trade-offs, each verified against its
+> public source repository.
 
-Key pages:
-- [Home](https://www.example.com/): Intro, philosophy, capabilities, selected work and contact band.
-- [Selected Work](https://www.example.com/work): Four case studies — IdeaBridge, Healthcare Appointment System, iEMS Smart Campus, BuildEx Website.
-- [Engineering](https://www.example.com/engineering): How I think and my build process.
-- [About](https://www.example.com/about): Biography, background and presence.
-- [Contact](https://www.example.com/contact): Email and social links (GitHub, LinkedIn, LeetCode).
+## Pages
+
+- [Home](https://port-folio-lilac-pi.vercel.app/): Positioning, selected work, and contact.
+- [Selected Work](https://port-folio-lilac-pi.vercel.app/work): Index of all case studies.
+- [IdeaBridge](https://port-folio-lilac-pi.vercel.app/work/ideabridge): AI-powered startup validation platform — React SPA with an Express analysis API.
+- [Healthcare Appointment System](https://port-folio-lilac-pi.vercel.app/work/healthcare-appointment-system): Java CLI appointment manager with per-doctor FIFO queues.
+- [iEMS](https://port-folio-lilac-pi.vercel.app/work/iems): Integrated Education Management System, built as team lead at CVMU Hackathon 4.0.
+- [BuildEx Website](https://port-folio-lilac-pi.vercel.app/work/buildex-website): Official club website for BuildEx, SVIT Vasad.
+- [IPL Analysis](https://port-folio-lilac-pi.vercel.app/work/ipl-analysis): Data study of 1,095 IPL matches — whether winning the toss predicts winning the match.
+- [Engineering](https://port-folio-lilac-pi.vercel.app/engineering): How Husain thinks about problems, the build process, and the full toolkit.
+- [About](https://port-folio-lilac-pi.vercel.app/about): Background, education, and the dated path from first build to team lead.
+- [Contact](https://port-folio-lilac-pi.vercel.app/contact): Email and social links.
+
+## Source and CV
+
+- Source: https://github.com/HusainMain/husain-portfolio
+- Résumé: https://port-folio-lilac-pi.vercel.app/husain-bardanwala-resume.pdf

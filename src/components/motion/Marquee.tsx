@@ -32,7 +32,7 @@ export function Marquee({
 }: MarqueeProps) {
   const group = Array.from({ length: repeats }, (_, r) =>
     items.flatMap((item, i) => [
-      <span key={`${r}-${i}`} className="marquee-item text-mono-label text-cream/80">
+      <span key={`${r}-${i}`} className="marquee-item text-mono-label text-cream">
         {item}
       </span>,
       <span key={`${r}-${i}-sep`} className="marquee-sep text-cream/50" aria-hidden="true">

@@ -15,7 +15,6 @@ export const site = {
   heroMeta: {
     location: "LOCATION — INDIA",
     github: "GITHUB →",
-    scroll: "SCROLL ↓",
   },
   portraitCaption: "ENGINEERING, END TO END",
   nav: [
@@ -41,11 +40,17 @@ export const site = {
       external: true,
     },
   ] satisfies LinkItem[],
+  /** Availability line — the one thing a recruiter needs above the fold. */
+  availability: "Open to software engineering internships",
+  resumeUrl: "/husain-bardanwala-resume.pdf",
+  resumeLabel: "Résumé",
+  sourceUrl: "https://github.com/HusainMain/husain-portfolio",
   portrait: {
-    src: "/images/hero-portrait.jpg",
-    srcSet: "/images/hero-portrait.jpg 1023w",
-    width: 1023,
-    height: 1537,
+    src: "/images/hero-portrait-1024.webp",
+    srcSet:
+      "/images/hero-portrait-640.webp 640w, /images/hero-portrait-1024.webp 1024w",
+    width: 1024,
+    height: 1538,
     alt: "Monochrome editorial portrait of Husain Bardanwala",
     sourceNote:
       "Final owner photograph shot for the hero panel; monochrome to match the site's editorial aesthetic.",

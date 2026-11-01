@@ -83,9 +83,24 @@ export interface CaseStudyStack {
   tags: string[];
 }
 
+/** A compact data figure attached to a case study (the IPL season strip). */
+export interface CaseDataPlate {
+  /** Visible caption above the figure. */
+  title: string;
+  /** One line of framing under the title. */
+  desc: string;
+  /** Bars are read against this fixed reference. */
+  reference: number;
+  referenceLabel: string;
+  bars: { label: string; value: number }[];
+  note: string;
+}
+
 export interface CaseStudy {
   slug: string;
   problem: string[];
+  /** Optional data figure rendered with the problem, before the constraints. */
+  dataPlate?: CaseDataPlate;
   constraints: ConstraintItem[];
   decisions: DecisionRowItem[];
   implementation: { body: string[]; annotations: MarginAnnotation[] };
@@ -178,6 +193,46 @@ export interface PathStatus {
 export interface PathNext {
   label: string;
   status: PathStatus[];
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+/* ---- IPL data study -------------------------------------------------------
+   Every figure below is computed from the committed matches.csv in
+   github.com/HusainMain/IPL_Analysis (1,095 rows, 2008–2024). Nothing here is
+   estimated or copied from a summary. */
+
+/** One side of a two-way split, as a share of its own denominator. */
+export interface IplShare {
+  label: string;
+  value: number;
+  wins: number;
+  total: number;
+  /** Line rendered under the figure. */
+  note: string;
+}
+
+export interface IplSeason {
+  season: string;
+  matches: number;
+  chasePct: number;
+}
+
+export interface IplStudy {
+  eyebrow: string;
+  headline: string;
+  headlineAccent: string;
+  lead: string;
+  /** The two states of the interactive plate. */
+  views: IplShare[];
+  /** Fixed reference the bars are read against. */
+  baseline: number;
+  baselineLabel: string;
+  /** Dataset facts shown under the copy — what the numbers were computed from. */
+  provenance: { label: string; value: string }[];
+  seasons: IplSeason[];
+  /** Public source of the underlying dataset. */
+  source: string;
   ctaLabel: string;
   ctaHref: string;
 }

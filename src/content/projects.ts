@@ -1,8 +1,8 @@
 import type { Project } from "./types";
 
 /**
- * All four projects verified against github.com/HusainMain/* (IMPLEMENTATION_PLAN.md §6).
- * Order is locked: IdeaBridge → Healthcare Appointment System → iEMS → BuildEx Website.
+ * All five projects verified against github.com/HusainMain/* (IMPLEMENTATION_PLAN.md §6).
+ * Order is locked: IdeaBridge → Healthcare Appointment System → iEMS → BuildEx Website → IPL Analysis.
  */
 export const projects: Project[] = [
   {
@@ -53,6 +53,16 @@ export const projects: Project[] = [
       "Official club website of BuildEx, SVIT Vasad — live at buildex-website-sooty.vercel.app",
     stack: ["React 19", "TypeScript", "GSAP", "Tailwind"],
     repoUrl: "https://github.com/HusainMain/buildex-website",
+  },
+  {
+    number: "05",
+    slug: "ipl-analysis",
+    title: "IPL Analysis",
+    oneLiner: "1,095-Match T20 Data Study",
+    context:
+      "Python and pandas analysis of every IPL match from 2008 to 2024 — cleaning, innings aggregation, and nine published figures",
+    stack: ["Python", "pandas", "NumPy", "Matplotlib", "Seaborn", "Jupyter"],
+    repoUrl: "https://github.com/HusainMain/IPL_Analysis",
   },
 ];
 

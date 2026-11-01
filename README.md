@@ -6,25 +6,28 @@ Built as a Vite + React single-page application with a custom motion system, and
 
 ## Overview
 
-The portfolio communicates how Husain designs and builds software end to end — with AI as an accelerator and engineering judgment as the final filter. It covers a full-stack engineering practice, competitive programming, and the process behind four verified projects, each documented as a structured case study.
+The portfolio communicates how Husain designs and builds software end to end — with AI as an accelerator and engineering judgment as the final filter. It covers a full-stack engineering practice, competitive programming, and the process behind four verified projects and one data study, each documented as a structured case study.
 
 ## Highlights
 
 - **Home** — hero with the owner's monochrome portrait, engineering philosophy, capabilities, selected work
 - **About** — biography, current work, facts, and approach
 - **Engineering** — how Husain thinks about problems and the build process
-- **Work / Case Studies** — four projects documented as case studies with context, constraints, decisions, architecture diagrams, and stack
+- **Work / Case Studies** — four projects and one data study documented with context, constraints, decisions, architecture diagrams, and stack
+- **Evidence** — an interactive plate from the IPL study: the toss winner's 50.8% against the chasing side's 54.3%, on the same scale
 - **Contact** — email and social links (GitHub, LinkedIn, LeetCode)
+- **Résumé** — downloadable PDF from the header, hero and contact page
 - **Motion system** — brand transition, smooth scrolling (Lenis), GSAP scroll choreography, and text/stagger/clip reveals with `prefers-reduced-motion` support
 
 ## Featured Projects
 
-All four case studies are verified against github.com/HusainMain.
+All five case studies are verified against github.com/HusainMain.
 
 1. **IdeaBridge** — AI-powered startup validation platform. React SPA with an Express AI-analysis API (Three.js / R3F, Zustand, Framer Motion, Tailwind, Groq API), deployed on Vercel.
 2. **Healthcare Appointment System** — Java CLI appointment management system with per-doctor FIFO queues.
 3. **iEMS** — Integrated Education Management System, a React education platform with role-based access, developed at the CVMU hackathon as team lead.
 4. **BuildEx Website** — official club website for the BuildEx Startup & Entrepreneurship Club, SVIT Vasad (React 19, TypeScript, GSAP, Tailwind), live on Vercel.
+5. **IPL Analysis** — Python and pandas study of 1,095 IPL matches (2008–2024): the toss winner won 50.8% of decided matches, while the chasing side won 54.3% of all matches.
 
 ## Tech Stack
 

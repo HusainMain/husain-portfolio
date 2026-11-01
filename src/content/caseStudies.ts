@@ -1,4 +1,5 @@
 import type { CaseStudy } from "./types";
+import { ipl } from "./ipl";
 
 /**
  * Case-study content — verified against github.com/HusainMain/* repositories
@@ -679,6 +680,184 @@ export const caseStudies: CaseStudy[] = [
       pullLine:
         "BuildEx is where I learned that a club website can be engineered like a product.",
       body: "The brief was a premium brand experience, and the implementation delivered it with real engineering: a canvas hero, pinned-scroll storytelling, data-driven events and gallery, self-hosted type, and reduced-motion support — all in a static React app with no backend. The official-buildEx positioning (README) and the live deployment are both verified; no usage or performance claims are made here because none are published.",
+    },
+  },
+  {
+    slug: "ipl-analysis",
+    problem: [
+      "Tosses are talked about as if they decide matches: bat first and defend a total, or field and chase with the target known. It is a testable claim, and the data to test it is public — every IPL match since 2008, one row per game, twenty columns.",
+      "The project is a Python analysis of that record: 1,095 matches across 17 seasons, with a second ball-by-ball file for player-level questions. The question I set out to answer was deliberately narrow — does winning the toss predict winning the match, and is chasing actually an advantage?",
+      "It was built as a four-person micro-project for Python for Data Science (BE05000231), with Prof. Keyur Suthar as faculty guide. The notebook, the dataset extract and the report are the shared record of the work.",
+      // Verified: README number/title line, team table, faculty guide.
+    ],
+    dataPlate: {
+      title: "The chase edge is not a law — it swings by season",
+      desc: "Chasing side's share of wins in each IPL season. The dashed rule marks 50%: seasons to its right favoured the side batting second, seasons to its left favoured the side batting first.",
+      reference: 50,
+      referenceLabel: "coin flip",
+      bars: ipl.seasons.map(({ season, chasePct }) => ({
+        label: season,
+        value: chasePct,
+      })),
+      note: "Seventeen seasons, 1,095 matches. The spread runs from 45.8% in 2015 to 68.3% in 2016 — wide enough that a single career-long average hides most of the story.",
+      // Computed from matches.csv (season × winner, batting order from toss_decision).
+    },
+    constraints: [
+      {
+        number: "01",
+        text: "deliveries.csv is about 27 MB and is intentionally not committed — the notebook ships with its outputs saved, so it can be read without re-running, but reproducing it means fetching the file from Kaggle.",
+      },
+      {
+        number: "02",
+        text: "Team names drift across seventeen seasons — 19 raw labels collapse to 15 franchises once RCB, Delhi Daredevils, Kings XI Punjab and Rising Pune Supergiants are merged.",
+      },
+      {
+        number: "03",
+        text: "Season labels are not uniform: 2007/08, 2009/10 and 2020/21 sit alongside single-year labels, so any per-season grouping has to normalise them first.",
+      },
+      {
+        number: "04",
+        text: "Five matches are recorded as no-result with no winner, so the toss rate is measured over 1,090 decided matches, not 1,095.",
+      },
+      // Verified: repository file list, matches.csv distinct values, README limitations.
+    ],
+    decisions: [
+      {
+        number: "D1",
+        decision: "Two denominators, each stated on its own figure",
+        reason:
+          "The toss rate needs a decided match — 554 of 1,090. The chase rate is defined for every match, because batting order exists whether or not a result is recorded — 595 of 1,095. Forcing both onto 1,090 would silently drop five matches that still have a batting order.",
+        tradeOff:
+          "Two denominators invite the question 'why do these not match?', so each figure carries its own n instead of hiding the difference.",
+      },
+      {
+        number: "D2",
+        decision: "Normalise franchise identity before counting anything",
+        reason:
+          "A franchise total is meaningless if one club's history is split across 'Royal Challengers Bangalore' and 'Royal Challengers Bengaluru'. Renaming collapses 19 labels to 15 franchises, so wins measure a club rather than a string.",
+        tradeOff:
+          "A merged total attributes pre-rebrand history to the current franchise — a defensible convention, not a fact.",
+      },
+      {
+        number: "D3",
+        decision: "Rates against a stated baseline instead of a predictive model",
+        reason:
+          "A classifier would score well by learning era and venue, and would imply a causal claim the data cannot support. A rate read against a 50% reference answers the actual question without pretending to more.",
+        tradeOff:
+          "No confidence intervals or significance test — the page says 'descriptive, not causal' rather than dressing up inference it does not have.",
+      },
+      {
+        number: "D4",
+        decision: "Publish the definitional limits next to the numbers",
+        reason:
+          "The notebook counts every is_wicket dismissal, run-outs included, so the top-bowler table shows 213 for Chahal where bowler-only credit gives 205. The README states both, and keeping that visible makes the figure auditable.",
+        tradeOff:
+          "The headline number is the less precise one — a reader who skims takes 213 away.",
+      },
+      // Verified: README limitations + notebook grouping logic.
+    ],
+    implementation: {
+      body: [
+        "The notebook starts by loading both CSVs and inspecting them — shape, dtypes, null counts, and a look at the categorical columns — before anything is changed. Cleaning is deliberately small: strip whitespace, convert the literal string 'nan' into a real null, parse dates, fill a missing city with the mode, and give missing player_of_match and winner explicit 'Unknown' and 'No Result' labels.",
+        // Verified: notebook cell 2 (cleaning block).
+        "deliveries is then merged onto matches on match id, which attaches season, city, venue, toss winner, toss decision and winner to every ball. That ball-level frame is aggregated into an innings table keyed by match, batting team and innings, and the innings table becomes the unit for run distribution, team totals and the high-score segment — innings of 180 runs or more.",
+        // Verified: notebook merge + innings aggregation cells.
+        "Player questions stay at ball level: runs are summed by batter, wickets counted from is_wicket, and the top ten of each are plotted. The toss and chase questions use the match table, joined back to the innings table only where batting order matters.",
+        // Verified: notebook batting/bowling cells + toss figure.
+        "The output is nine figures plus a 2×2 dashboard: run distribution and box plot, runs per season, wins by team, top batters and bowlers, toss impact, dismissal types, a correlation heatmap, and the dashboard that composes four of them. The README documents the dataset, how to re-run the notebook, and the known limitations.",
+        // Verified: Required output/ file list + README.
+      ],
+      annotations: [
+        { anchor: "1,090 decided", note: "toss denominator" },
+        { anchor: "1,095 matches", note: "chase denominator" },
+        { anchor: "19 → 15", note: "franchise merge" },
+        { anchor: "≥ 180 runs", note: "high-score segment" },
+      ],
+    },
+    architecture: {
+      title: "IPL Analysis — data pipeline",
+      desc: "Two CSVs feed one cleaning step. Deliveries are merged onto match metadata and aggregated into an innings table; the match and innings tables drive the toss, chase, team and high-score questions, while the ball-level frame drives the player aggregates. Nine figures and a dashboard are the output.",
+      note: "Pipeline verified against the notebook's cell structure and the repository's file tree. deliveries.csv is excluded from the repository by design.",
+      layers: [
+        {
+          label: "SOURCE",
+          nodes: [
+            { id: "matches", label: "matches.csv", sub: "1,095 rows · 20 cols" },
+            { id: "deliveries", label: "deliveries.csv", sub: "ball by ball · 27 MB" },
+          ],
+        },
+        {
+          label: "CLEAN",
+          nodes: [
+            { id: "clean", label: "Clean & normalise", sub: "strings · dates · nulls" },
+          ],
+        },
+        {
+          label: "MERGE",
+          nodes: [
+            { id: "frame", label: "Ball-level frame", sub: "merge on match id" },
+            { id: "innings", label: "Innings table", sub: "match · team · innings" },
+          ],
+        },
+        {
+          label: "ANALYSIS",
+          nodes: [
+            { id: "outcome", label: "Toss & chase", sub: "match table", accent: true },
+            { id: "players", label: "Batting & bowling", sub: "ball table" },
+            { id: "segment", label: "High-score innings", sub: "≥ 180 runs" },
+          ],
+        },
+        {
+          label: "OUTPUT",
+          nodes: [
+            { id: "figures", label: "Figures & dashboard", sub: "9 charts · 2×2" },
+          ],
+        },
+      ],
+      edges: [
+        { from: "matches", to: "clean", label: "normalise" },
+        { from: "deliveries", to: "clean", label: "normalise" },
+        { from: "clean", to: "frame", label: "merge" },
+        { from: "frame", to: "innings", label: "group by innings" },
+        { from: "frame", to: "players", label: "runs · wickets" },
+        { from: "innings", to: "outcome", label: "win share" },
+        { from: "innings", to: "segment", label: "≥ 180" },
+        { from: "outcome", to: "figures", label: "toss · chase" },
+        { from: "players", to: "figures", label: "top 10" },
+        { from: "segment", to: "figures", label: "distribution" },
+      ],
+    },
+    stack: [
+      {
+        group: "Language",
+        tags: ["Python"],
+      },
+      {
+        group: "Data",
+        tags: ["pandas", "NumPy"],
+      },
+      {
+        group: "Visualisation",
+        tags: ["Matplotlib", "Seaborn"],
+      },
+      {
+        group: "Environment",
+        tags: ["Jupyter Notebook"],
+      },
+      {
+        group: "Dataset",
+        tags: ["IPL Complete Dataset 2008–2024", "Kaggle"],
+      },
+    ],
+    repository: {
+      url: "https://github.com/HusainMain/IPL_Analysis",
+      evidence:
+        "Jupyter notebook (22 code cells) plus matches.csv, nine figures, a 2×2 dashboard and the project report. The README documents re-running the analysis and the known limitations.",
+    },
+    reflection: {
+      pullLine:
+        "The limitations section turned out to be the most useful part of the analysis.",
+      body: "It is tempting to present the toss finding as a law of cricket. The season strip says otherwise: the chase share swings from 45.8% in 2015 to 68.3% in 2016, which is roughly what a 54% average built from noisy seasons looks like. Naming that — along with run-outs inflating the bowling table and a ball-level correlation that overstates its own usefulness — made the work more defensible than a cleaner-looking chart would have been. The habit I kept is to publish the definition a number depends on, not just the number.",
     },
   },
 ];

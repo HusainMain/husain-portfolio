@@ -60,7 +60,7 @@ export const about = {
     eyebrow: "02 / THE PATH",
     lead: "A short record of how the work moved from a first build to leading a team — and what comes next.",
     diagramCaption:
-      "2024 to today — four projects, one hackathon final, and the next opening.",
+      "2024 to today — four products, one data study, one hackathon final, and the next opening.",
     beats: [
       {
         year: "2024",
@@ -73,7 +73,7 @@ export const about = {
         year: "2026",
         stage: "BUILD",
         title: "Shipped products, not exercises",
-        note: "IdeaBridge, BuildEx, and an IPL analysis across 1,095 matches — each carried from idea through deployment.",
+        note: "IdeaBridge, BuildEx, and an IPL data study across 1,095 matches — each carried from idea to a documented result.",
         outcome: "FULL-STACK",
       },
       {

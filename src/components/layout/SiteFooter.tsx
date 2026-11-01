@@ -41,26 +41,32 @@ export function SiteFooter({ entrance = false }: { entrance?: boolean }) {
         </div>
 
         <div className="col-span-12 my-4 flex justify-center md:col-span-8 lg:col-span-12">
-          <span aria-hidden="true">
-            <Mascot
-              directions="/mascots/sheep-directions.webp"
-              reactions="/mascots/sheep-reactions.webp"
-            />
-          </span>
+          <Mascot
+            directions="/mascots/sheep-directions-300.webp"
+            reactions="/mascots/sheep-reactions-300.webp"
+          />
         </div>
 
         <div className="col-span-12 my-4 md:col-span-8 lg:col-span-12">
           <Rule tone="navy" />
         </div>
 
-        <div className="col-span-12 md:col-span-8 lg:col-span-12">
+        <div className="col-span-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-2 md:col-span-8 lg:col-span-12">
           <p className="text-mono-meta text-muted-on-navy">
             © {year} {site.name.toUpperCase()}
           </p>
-          <p className="mt-2 text-center text-mono-meta text-muted-on-navy">
-            Designed and built end to end.
-          </p>
+          <a
+            href={site.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-mono-meta text-muted-on-navy underline decoration-white/25 underline-offset-4 transition-colors max-md:py-2 hover:text-orange-on-navy-hi"
+          >
+            Source
+          </a>
         </div>
+        <p className="col-span-12 mt-2 text-center text-mono-meta text-muted-on-navy md:col-span-8 lg:col-span-12">
+          Designed and built end to end.
+        </p>
       </Container>
     </>
   );

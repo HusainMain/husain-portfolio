@@ -92,6 +92,14 @@ export function SiteHeader() {
               ))}
             </ul>
 
+            <a
+              href={site.resumeUrl}
+              download
+              className="ml-10 hidden min-h-9 items-center rounded-[4px] border border-navy-900 px-4 text-mono-label text-navy-900 transition-colors hover:bg-navy-900 hover:text-cream lg:inline-flex"
+            >
+              {site.resumeLabel}
+            </a>
+
             <button
               ref={menuButtonRef}
               type="button"
@@ -153,12 +161,22 @@ export function SiteHeader() {
                 </li>
               ))}
             </ul>
-            <a
-              href={`mailto:${site.email}`}
-              className="col-span-4 mb-10 text-mono-meta text-muted hover:text-orange-deep"
-            >
-              {site.email}
-            </a>
+            <div className="col-span-4 mb-10 mt-4 flex flex-col gap-1 border-t border-rule-on-cream pt-4">
+              <a
+                href={site.resumeUrl}
+                download
+                onClick={() => setMenuOpen(false)}
+                className="inline-flex min-h-11 items-center text-mono-label text-navy-900 underline decoration-2 underline-offset-8"
+              >
+                {site.resumeLabel}
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                className="inline-flex min-h-11 items-center text-mono-meta text-muted hover:text-orange-deep"
+              >
+                {site.email}
+              </a>
+            </div>
           </nav>
         </div>
       )}

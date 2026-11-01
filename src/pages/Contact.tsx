@@ -34,7 +34,7 @@ export default function ContactPage() {
             </h1>
           </FadeIn>
           <FadeIn delay={0.12}>
-            <p className="mt-6 max-w-[52ch] text-lead text-cream/85">
+            <p className="mt-6 max-w-[52ch] text-lead text-cream">
               One email is all it takes to start the conversation — describe the
               problem, and I&apos;ll take it from there.
             </p>
@@ -45,21 +45,31 @@ export default function ContactPage() {
           </FadeIn>
 
           <FadeIn delay={0.2}>
-            <p className="text-mono-label mt-10 text-cream/80">EMAIL</p>
+            <p className="text-mono-label mt-10 text-cream">EMAIL</p>
           </FadeIn>
           <FadeIn delay={0.24}>
-            <a
-              href={`mailto:${site.email}`}
-              className="group mt-4 inline-flex min-h-11 items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-3 text-mono-label text-cream transition-colors hover:bg-navy-800"
-            >
-              {site.email}
-              <span
-                aria-hidden="true"
-                className="text-orange-on-navy transition-transform duration-200 group-hover:translate-x-1"
+            <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <a
+                href={`mailto:${site.email}`}
+                className="group inline-flex min-h-11 items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-3 text-mono-label text-cream transition-colors hover:bg-navy-800"
               >
-                →
-              </span>
-            </a>
+                {site.email}
+                <span
+                  aria-hidden="true"
+                  className="text-orange-on-navy transition-transform duration-200 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </a>
+              <a
+                href={site.resumeUrl}
+                download
+                className="inline-flex min-h-11 items-center gap-2 rounded-[4px] border border-cream/60 px-6 py-3 text-mono-label text-cream transition-colors hover:bg-cream hover:text-navy-900"
+              >
+                {site.resumeLabel}
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </FadeIn>
 
           <FadeIn delay={0.28}>

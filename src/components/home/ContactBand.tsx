@@ -37,7 +37,7 @@ export function ContactBand() {
           <FadeIn delay={0.22}>
             <a
               href={`mailto:${site.email}`}
-              className="text-mono-meta text-cream underline decoration-cream/50 underline-offset-4 transition-colors hover:decoration-cream"
+              className="text-mono-meta text-cream underline decoration-cream/50 underline-offset-4 transition-colors max-md:inline-flex max-md:min-h-11 max-md:items-center hover:decoration-cream"
             >
               {site.email}
             </a>
@@ -50,7 +50,7 @@ export function ContactBand() {
                     href={social.url}
                     target={social.external ? "_blank" : undefined}
                     rel={social.external ? "noopener noreferrer" : undefined}
-                    className="group text-mono-label text-cream/90 transition-colors hover:text-cream"
+                    className="group text-mono-label text-cream/90 transition-colors max-md:inline-flex max-md:min-h-11 max-md:items-center hover:text-cream"
                   >
                     {social.label}{" "}
                     <span
