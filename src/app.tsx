@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { lazy, Suspense, useLayoutEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { useLenis } from "lenis/react";
 import { SiteHeader } from "./components/layout/SiteHeader";
@@ -17,13 +17,21 @@ const NotFound = lazy(() => import("./pages/NotFound"));
  * Route-change accessibility (Phase 5): scroll to top and move focus to the
  * main landmark (tabIndex -1, outline suppressed in styles/pages.css) so
  * screen-reader users land on the new document without a broken-looking ring.
+ *
+ * This must run as a layout effect, not a passive one. Passive effects fire
+ * child-first, so the new route's scroll-triggered reveals (the case-study
+ * architecture diagram, every whileInView block) would measure the viewport
+ * while it is still parked at the bottom of the previous page — deciding they
+ * are already in view and playing their entrance off-screen. A layout effect
+ * flushes before any passive effect, so the scroll is back at the top before
+ * anything asks where the viewport is.
  */
 function App() {
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const lenis = useLenis();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     } else {
