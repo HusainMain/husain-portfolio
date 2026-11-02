@@ -3,7 +3,8 @@ import { formatToData } from "number-flow/lite";
 import { define } from "number-flow";
 import type { Data } from "number-flow/lite";
 
-// Define the custom element
+/* The vanilla element is registered once by the library; `define` is a no-op
+   if another module already claimed the tag. */
 define("number-flow", class extends HTMLElement {});
 
 interface NumberFlowElement extends HTMLElement {
@@ -21,16 +22,24 @@ interface AnimatedNumberProps {
   suffix?: string;
   className?: string;
   respectMotionPreference?: boolean;
+  /** Gate the first animation on a parent's IntersectionObserver. */
   isInView?: boolean;
+  /**
+   * Text handed to screen readers while the odometer itself stays hidden.
+   * Required whenever the number is not immediately followed by readable
+   * text that supplies its unit (e.g. "%").
+   */
+  srLabel?: string;
 }
 
 /**
- * AnimatedNumber — thin wrapper around the vanilla number-flow custom element.
- * Uses a ref to directly set the `data` property, bypassing React 19's
- * buggy prop forwarding for custom elements.
+ * AnimatedNumber — odometer digits for a figure that changes in place.
  *
- * Animates when `isInView` becomes true (passed from parent to share one
- * IntersectionObserver). Re-animates when `value` changes.
+ * The rendered digits are decorative: they are a stack of every numeral and a
+ * screen reader would read the whole stack. The element is therefore
+ * aria-hidden and `srLabel` carries the value instead. The value is only
+ * written once the component is in view, so the number counts up rather than
+ * appearing finished and then jumping.
  */
 export function AnimatedNumber({
   value,
@@ -39,19 +48,20 @@ export function AnimatedNumber({
   suffix = "",
   className = "",
   respectMotionPreference = true,
-  isInView = true, // Default to true for cases without scroll trigger
+  isInView = true,
+  srLabel,
 }: AnimatedNumberProps) {
   const elRef = useRef<NumberFlowElement>(null);
   const hasAnimatedRef = useRef(false);
   const prevValueRef = useRef(value);
 
-  // Create formatter and data once
   const data = useMemo(() => {
-    const formatter = new Intl.NumberFormat(undefined, format);
+    const formatter = new Intl.NumberFormat("en-IN", format);
     return formatToData(value, formatter, prefix, suffix);
   }, [value, format, prefix, suffix]);
 
-  // Reset animation flag when value changes (e.g., user toggles view)
+  /* A new value (toggling Toss Winner ↔ Chasing Side) re-arms the effect so the
+     digits travel to the new figure instead of snapping. */
   useEffect(() => {
     if (value !== prevValueRef.current) {
       hasAnimatedRef.current = false;
@@ -59,37 +69,31 @@ export function AnimatedNumber({
     }
   }, [value]);
 
-  // Set data on the custom element when in view
   useEffect(() => {
     const el = elRef.current;
     if (!el || !isInView || hasAnimatedRef.current) return;
 
-    // Check prefers-reduced-motion
-    if (respectMotionPreference) {
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (prefersReduced) {
-        // Still set data so the final value shows, but animation is disabled
-        el.data = data;
-        el.animated = false;
-        hasAnimatedRef.current = true;
-        return;
-      }
-    }
+    const reduced =
+      respectMotionPreference &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     el.data = data;
+    if (reduced) el.animated = false;
     el.willUpdate?.();
     el.didUpdate?.();
     hasAnimatedRef.current = true;
   }, [data, isInView, respectMotionPreference]);
 
   return (
-    // @ts-expect-error - custom element not in JSX.IntrinsicElements
-    <number-flow
-      ref={elRef}
-      className={className}
-      data-will-change=""
-      aria-hidden="true"
-      style={{ display: "inline-block" }}
-    />
+    <>
+      {/* @ts-expect-error - custom element not in JSX.IntrinsicElements */}
+      <number-flow
+        ref={elRef}
+        className={className}
+        aria-hidden="true"
+        style={{ display: "inline-block" }}
+      />
+      {srLabel ? <span className="sr-only">{srLabel}</span> : null}
+    </>
   );
 }

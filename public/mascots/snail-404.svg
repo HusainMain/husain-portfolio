@@ -1,28 +1,45 @@
-<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A friendly snail character">
-  <!-- Shell spiral (orange) -->
-  <path d="M80 50 C100 50 115 60 115 80 C115 100 100 110 80 110 C60 110 45 100 45 80 C45 60 60 50 80 50" stroke="#D2601A" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M80 58 C92 58 100 64 100 75 C100 86 92 92 80 92 C68 92 60 86 60 75 C60 64 68 58 80 58" stroke="#D2601A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
-  <!-- Shell inner spiral accent (cream) -->
-  <path d="M80 64 C88 64 94 69 94 77.5 C94 86 88 91 80 91 C72 91 66 86 66 77.5 C66 69 72 64 80 64" stroke="#FAF6EC" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 176" width="200" height="176" role="img" aria-label="A small smiling snail with an orange spiral shell">
+  <defs>
+    <clipPath id="snail-shell">
+      <circle cx="126" cy="97" r="46" />
+    </clipPath>
+  </defs>
 
-  <!-- Body (cream-white with charcoal outline) -->
-  <ellipse cx="80" cy="110" rx="30" ry="18" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
-  <!-- Foot -->
-  <ellipse cx="80" cy="124" rx="22" ry="8" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+  <!-- Body: head raised at the front, one foot along the ground. Drawn first
+       so the shell covers the join between neck and shell. -->
+  <path
+    d="M56 64C40 64 30 76 30 90C30 101 35 110 39 118C23 122 15 134 19 146C23 160 39 168 59 168L148 168C166 168 175 160 173 150C171 140 161 136 149 136L112 135C93 135 85 127 85 113C85 97 82 73 70 67C66 65 61 64 56 64Z"
+    fill="#faf6ec"
+    stroke="#16243d"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
 
-  <!-- Head -->
-  <ellipse cx="80" cy="92" rx="18" ry="14" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+  <!-- Tentacles -->
+  <path d="M46 68C38 56 34 46 34 38" fill="none" stroke="#16243d" stroke-width="4" stroke-linecap="round" />
+  <circle cx="34" cy="35" r="6" fill="#faf6ec" stroke="#16243d" stroke-width="4" />
+  <path d="M67 67C71 57 73 49 73 43" fill="none" stroke="#16243d" stroke-width="4" stroke-linecap="round" />
+  <circle cx="73" cy="40" r="5.5" fill="#faf6ec" stroke="#16243d" stroke-width="4" />
 
-  <!-- Eyes (two dots) -->
-  <circle cx="72" cy="88" r="2.5" fill="#16243D"/>
-  <circle cx="88" cy="88" r="2.5" fill="#16243D"/>
+  <!-- Shell -->
+  <circle cx="126" cy="97" r="46" fill="#c4571f" stroke="#16243d" stroke-width="4" />
+  <path
+    clip-path="url(#snail-shell)"
+    d="M117 97L116 95L117 94L117 92L118 91L119 90L120 89L121 87L123 87L124 86L126 86L128 86L130 86L131 86L133 87L135 88L136 90L137 91L138 93L139 95L139 97L139 99L139 101L138 103L137 105L136 107L135 109L133 110L131 111L128 112L126 113L124 113L121 112L119 112L116 111L114 109L112 107L110 105L109 103L108 100L108 97L107 94L108 91L109 88L110 85L112 83L114 81L117 79L119 77L123 76L126 75L129 75L133 76L136 77L140 78L143 80L145 83L148 86L150 89L151 93L152 97L152 101L151 105L150 109L148 113L146 117L143 120L139 123L135 125L131 126L126 127L121 127L116 127L112 125L107 123L103 120L99 117"
+    fill="none"
+    stroke="#faf6ec"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 
-  <!-- Smile -->
-  <path d="M73 98 Q80 103 87 98" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Face -->
+  <ellipse cx="45" cy="90" rx="4.2" ry="5.6" fill="#16243d" />
+  <circle cx="43.6" cy="88" r="1.5" fill="#faf6ec" />
+  <ellipse cx="66" cy="90" rx="4.2" ry="5.6" fill="#16243d" />
+  <circle cx="64.6" cy="88" r="1.5" fill="#faf6ec" />
+  <path d="M50 101Q56 107 62 101" fill="none" stroke="#16243d" stroke-width="3.6" stroke-linecap="round" />
 
-  <!-- Antennae -->
-  <path d="M70 78 Q65 70 68 65" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <circle cx="68" cy="63" r="3" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
-  <path d="M90 78 Q95 70 92 65" stroke="#16243D" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <circle cx="92" cy="63" r="3" fill="#FAF6EC" stroke="#16243D" stroke-width="2"/>
+  <ellipse cx="35" cy="101" rx="6" ry="4" fill="#e0996f" opacity="0.5" />
+  <ellipse cx="70" cy="101" rx="5" ry="3.4" fill="#e0996f" opacity="0.5" />
 </svg>

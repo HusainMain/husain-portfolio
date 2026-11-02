@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { annotate } from "rough-notation";
 import { about } from "../../content/about";
@@ -6,7 +6,6 @@ import { FadeIn } from "../motion/FadeIn";
 import { Parallax } from "../motion/Parallax";
 import { TextReveal } from "../motion/TextReveal";
 import { SystemFlowDiagram } from "./SystemFlowDiagram";
-import { useInView } from "motion/react";
 
 /**
  * About page opening — editorial two-column composition: kicker rule + ABOUT
@@ -34,15 +33,20 @@ export function AboutIntro({ started = true }: { started?: boolean }) {
   const judgmentInView = useInView(judgmentRef, { once: true, margin: "0px 0px -50px 0px" });
 
   useEffect(() => {
-    if (!judgmentRef.current || reduce || !judgmentInView) return;
-    const annotation = annotate(judgmentRef.current, {
+    const el = judgmentRef.current;
+    if (!el || !judgmentInView) return;
+
+    /* One stroke, drawn just under the descenders. Negative right/bottom
+       padding keeps the line flush with the last glyph and close to the
+       baseline — the default box leaves it floating in the leading. */
+    const annotation = annotate(el, {
       type: "underline",
-      color: "#D2601A", // orange
+      color: "#c4571f",
       strokeWidth: 2,
-      animationDuration: 900,
-      animate: true,
-      padding: [0, 4, 2, 4],
-      iterations: 2,
+      iterations: 1,
+      padding: [0, -5, -3, 0],
+      animate: !reduce,
+      animationDuration: reduce ? 0 : 650,
     });
     annotation.show();
     return () => annotation.remove();

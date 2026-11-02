@@ -3,8 +3,11 @@ import { usePageMeta } from "../lib/meta";
 import { FadeIn } from "../components/motion/FadeIn";
 
 /**
- * 404 — editorial recovery page with a friendly snail mascot.
- * The snail replaces the oversized 404 number; recovery links ≥44px.
+ * 404 — editorial recovery page. The oversized number stays as the anchor and
+ * the snail sits beside it, bottom-aligned, so the page keeps the same
+ * left-aligned reading spine as every other route. Decorative only: the number
+ * and the mascot are aria-hidden, and the visible heading is provided for
+ * screen readers. Recovery links ≥44px.
  * Used by the "*" route and the unknown-project-slug fallback in WorkSlug.
  */
 export default function NotFoundPage() {
@@ -22,29 +25,30 @@ export default function NotFoundPage() {
           <h1 className="sr-only">Page not found</h1>
 
           <FadeIn>
-            <div className="mt-8 flex justify-center" aria-hidden="true">
+            <div aria-hidden="true" className="mt-6 flex items-baseline gap-3 sm:gap-5">
+              <p className="font-display font-medium leading-[0.9] tracking-[-0.03em] text-navy-900 text-[clamp(6rem,25vw,12rem)]">
+                404
+              </p>
               <img
                 src="/mascots/snail-404.svg"
                 alt=""
-                width="160"
-                height="160"
-                className="max-w-full h-auto"
+                width="200"
+                height="176"
+                className="h-[88px] w-auto shrink-0 sm:h-[124px]"
               />
             </div>
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <p className="mt-6 text-center text-mono-label text-orange-deep">
-              PAGE NOT FOUND
-            </p>
-            <p className="mt-3 max-w-[48ch] mx-auto text-center text-lead text-muted">
+            <p className="mt-6 text-mono-label text-orange-deep">PAGE NOT FOUND</p>
+            <p className="mt-5 max-w-[48ch] text-lead text-muted">
               The page you&apos;re looking for doesn&apos;t exist or has moved —
               here&apos;s a way back.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.16}>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-8">
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
               <ArrowLink to="/" className="min-h-11 items-center">
                 Back home
               </ArrowLink>

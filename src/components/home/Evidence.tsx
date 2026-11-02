@@ -103,12 +103,14 @@ export function Evidence() {
                 <p className="mt-8 font-display text-[clamp(2.75rem,5vw,3.75rem)] font-medium leading-none tracking-[-0.03em] text-navy-900">
                   <AnimatedNumber
                     value={view.value}
-                    format={{ maximumFractionDigits: 1 }}
-                    suffix="%"
-                    className="text-orange-deep"
+                    format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
                     respectMotionPreference
                     isInView={isInView}
+                    srLabel={`${view.value.toFixed(1)}%`}
                   />
+                  <span aria-hidden="true" className="text-orange-deep">
+                    %
+                  </span>
                 </p>
 
                 <div className="mt-6">
@@ -139,6 +141,7 @@ export function Evidence() {
                     format={{ useGrouping: true }}
                     respectMotionPreference
                     isInView={isInView}
+                    srLabel={view.wins.toLocaleString("en-IN")}
                   />
                   {" of "}
                   <AnimatedNumber
@@ -146,6 +149,7 @@ export function Evidence() {
                     format={{ useGrouping: true }}
                     respectMotionPreference
                     isInView={isInView}
+                    srLabel={view.total.toLocaleString("en-IN")}
                   />
                   {" matches"}
                 </p>
