@@ -26,7 +26,7 @@ export function ContactBand() {
           <FadeIn delay={0.16}>
             <a
               href={`mailto:${site.email}`}
-              className="group inline-flex items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-4 text-mono-label text-cream transition-colors hover:bg-navy-800"
+              className="group inline-flex items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-4 text-mono-label text-cream transition-colors duration-200 hover:bg-navy-800 hover:translate-y-px transition-transform duration-200"
             >
               <span>Email me</span>
               <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">

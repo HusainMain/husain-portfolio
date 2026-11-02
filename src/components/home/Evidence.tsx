@@ -90,8 +90,8 @@ export function Evidence() {
                     onClick={() => setActive(index)}
                     className={
                       index === active
-                        ? "min-h-11 rounded-[4px] bg-navy-900 px-4 text-mono-label text-cream"
-                        : "min-h-11 rounded-[4px] border border-rule-on-cream px-4 text-mono-label text-navy-900 transition-colors hover:border-navy-900"
+                        ? "min-h-11 rounded-[4px] bg-navy-900 px-4 text-mono-label text-cream transition-transform duration-100 active:scale-[0.98]"
+                        : "min-h-11 rounded-[4px] border border-rule-on-cream px-4 text-mono-label text-navy-900 transition-colors duration-200 hover:border-navy-900 transition-transform duration-100 active:scale-[0.98]"
                     }
                   >
                     {item.label}

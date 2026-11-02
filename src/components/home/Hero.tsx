@@ -5,6 +5,7 @@ import { ArrowLink } from "../ui/ArrowLink";
 import { TextReveal } from "../motion/TextReveal";
 import { FadeIn } from "../motion/FadeIn";
 import { Parallax } from "../motion/Parallax";
+import { HeroName } from "./HeroName";
 
 /**
  * Hero — "The System Frame" (DESIGN_SYSTEM.md §8).
@@ -35,17 +36,7 @@ export function Hero({ started = true }: { started?: boolean }) {
             {site.heroEyebrow}
           </TextReveal>
 
-          <TextReveal
-            as="h1"
-            started={started}
-            delay={0.06}
-            duration={0.42}
-            className="text-hero-name mt-6 text-navy-900"
-          >
-            {site.firstName.toUpperCase()}
-            <br />
-            {site.lastName.toUpperCase()}
-          </TextReveal>
+          <HeroName started={started} />
 
           <TextReveal
             as="p"
@@ -109,11 +100,14 @@ export function Hero({ started = true }: { started?: boolean }) {
             animate={clipShown}
             transition={{ duration: 0.55, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* System line: horizontal on mobile, vertical on md+ */}
+            {/* System line: horizontal on mobile, vertical on md+. The glow
+                shares the header seam's 14s clock. */}
             <span
               aria-hidden="true"
-              className="absolute inset-x-0 top-0 z-10 h-1 bg-orange md:inset-x-auto md:inset-y-0 md:left-0 md:h-full md:w-1"
-            />
+              className="absolute inset-x-0 top-0 z-10 h-1 overflow-clip bg-orange md:inset-x-auto md:inset-y-0 md:left-0 md:h-full md:w-1"
+            >
+              <span className="panel-seam-glow" />
+            </span>
             <Parallax distance={10} scale={1.06} className="absolute inset-0">
               <img
                 src={portrait.src}

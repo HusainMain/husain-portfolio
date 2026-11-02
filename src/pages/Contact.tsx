@@ -51,7 +51,7 @@ export default function ContactPage() {
             <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">
               <a
                 href={`mailto:${site.email}`}
-                className="group inline-flex min-h-11 items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-3 text-mono-label text-cream transition-colors hover:bg-navy-800"
+                className="group inline-flex min-h-11 items-center gap-3 rounded-[4px] bg-navy-900 px-6 py-3 text-mono-label text-cream transition-colors duration-200 hover:bg-navy-800 hover:translate-y-px transition-transform duration-200"
               >
                 {site.email}
                 <span
@@ -64,7 +64,7 @@ export default function ContactPage() {
               <a
                 href={site.resumeUrl}
                 download
-                className="inline-flex min-h-11 items-center gap-2 rounded-[4px] border border-cream/60 px-6 py-3 text-mono-label text-cream transition-colors hover:bg-cream hover:text-navy-900"
+                className="inline-flex min-h-11 items-center gap-2 rounded-[4px] border border-cream/60 px-6 py-3 text-mono-label text-cream transition-colors duration-200 hover:bg-cream hover:text-navy-900 hover:translate-y-px transition-transform duration-200"
               >
                 {site.resumeLabel}
                 <span aria-hidden="true">↓</span>

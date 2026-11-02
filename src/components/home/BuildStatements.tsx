@@ -4,6 +4,7 @@ import { home } from "../../content/home";
 import { Section } from "../ui/Section";
 import { Rule } from "../ui/Rule";
 import { prefersReducedMotion } from "../../lib/motion";
+import { cn } from "../../lib/utils";
 
 /** What I Build — three verb statements (DESIGN_SYSTEM.md §7.3). */
 export function BuildStatements() {
@@ -36,13 +37,29 @@ export function BuildStatements() {
       <ul ref={listRef} className="col-span-12 md:col-span-8 lg:col-span-12">
         {home.whatIBuild.map((item, index) => (
           <li key={item.number}>
-            <div className="build-row flex items-baseline gap-6 py-7 md:gap-10 md:py-8">
-              <span aria-hidden="true" className="text-mono-label shrink-0 text-orange-deep">
+            <div
+              className={cn(
+                "build-row flex items-baseline gap-6 py-7 md:gap-10 md:py-8 group",
+                "hover:border-orange-deep/30 transition-colors duration-200"
+              )}
+              data-cursor-pull
+            >
+              <span
+                aria-hidden="true"
+                className="text-mono-label shrink-0 text-orange-deep transition-transform duration-200 group-hover:translate-x-1"
+              >
                 {item.number}
               </span>
               <p className="text-lead text-navy-900 md:text-[clamp(1.375rem,2.4vw,2rem)] md:leading-[1.2]">
                 {item.statement}
-                <em className="text-serif-accent text-orange-deep">{item.accent}</em>
+                <em
+                  className={cn(
+                    "text-serif-accent text-orange-deep transition-colors duration-200",
+                    "group-hover:[color:var(--color-orange-ember)]"
+                  )}
+                >
+                  {item.accent}
+                </em>
               </p>
             </div>
             {index < home.whatIBuild.length - 1 && <Rule />}

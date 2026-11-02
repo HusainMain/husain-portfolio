@@ -113,6 +113,27 @@
     letter-spacing: -0.03em;
     font-weight: 500;
   }
+
+  /* ---- Hero name: a surface that is always being read ----
+     Each glyph gets its own inline-block so the reading head can lean it.
+     The copper duplicate shares the glyph's metrics and is opacity-only, so
+     heating a letter never reflows the headline. */
+  .hero-name-letter {
+    position: relative;
+    display: inline-block;
+    transform: translate3d(0, 0, 0);
+  }
+  .hero-name-glyph {
+    display: inline-block;
+  }
+  .hero-name-heat {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--color-orange-deep);
+    opacity: 0;
+    pointer-events: none;
+  }
   .text-hero-role {
     font-size: clamp(1.25rem, 3vw, 2rem);
     line-height: 1.25;
@@ -218,6 +239,114 @@
   @keyframes route-pulse {
     0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
     50% { opacity: 1; transform: scaleX(1); }
+  }
+
+  /* ---- First-visit cursor entry ---- */
+  /* Hold the page (and its scrollbar) behind the title card without a layout
+     shift: the padding replaces the width the scrollbar occupied. */
+  html.entry-active {
+    overflow: hidden;
+    padding-right: var(--entry-scrollbar, 0px);
+    background-color: var(--color-navy-900);
+  }
+
+  .entry-caret-blink {
+    animation: entry-caret-blink 0.9s steps(1, end) infinite;
+  }
+  @keyframes entry-caret-blink {
+    0%, 45% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  /* Each letter takes a small breath once the word has been written: a soft
+     ripple that runs in reading order and settles back onto the baseline. */
+  .entry-letter-wave {
+    animation: entry-letter-wave 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes entry-letter-wave {
+    0% { transform: translateY(0); }
+    35% { transform: translateY(-0.045em); }
+    100% { transform: translateY(0); }
+  }
+
+  /* ---- Continuous seam signal ----
+     The line the entry draws does not stop existing. It becomes the header's
+     hairline, carrying a short glow across the page on a 14s clock (8s across,
+     6s at rest), and the hero's system line carries the same signal on the
+     same clock. The band is 72px; on the portrait it fades in and out at the
+     ends rather than popping, so the loop seam is never visible.
+
+     Decorative only: aria-hidden in markup, no pointer events, and removed
+     under prefers-reduced-motion rather than frozen mid-line. Transforms only;
+     nothing here touches layout or the document's scroll width. */
+  .header-seam {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    overflow: clip;
+    pointer-events: none;
+  }
+  .header-seam-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 128px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-orange-deep) 25%,
+      var(--color-orange-deep) 75%,
+      transparent 100%
+    );
+    animation: header-seam-travel 14s linear infinite;
+  }
+  @keyframes header-seam-travel {
+    0% { transform: translate3d(-128px, 0, 0); }
+    57%, 100% { transform: translate3d(calc(100vw + 128px), 0, 0); }
+  }
+
+  .panel-seam-glow {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      180deg,
+      transparent,
+      var(--color-orange-on-navy-hi),
+      transparent
+    );
+    background-size: 100% 72px;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: panel-seam-travel-y 14s linear infinite;
+  }
+  @keyframes panel-seam-travel-y {
+    0% { transform: translate3d(0, -75%, 0); }
+    57%, 100% { transform: translate3d(0, 75%, 0); }
+  }
+  @media (max-width: 767px) {
+    .panel-seam-glow {
+      background-image: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-orange-on-navy-hi),
+        transparent
+      );
+      background-size: 72px 100%;
+      animation-name: panel-seam-travel-x;
+    }
+    @keyframes panel-seam-travel-x {
+      0% { transform: translate3d(-75%, 0, 0); }
+      57%, 100% { transform: translate3d(75%, 0, 0); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-seam,
+    .panel-seam-glow {
+      display: none;
+    }
   }
 
   /* ---- Primary button (navy fill) ---- */

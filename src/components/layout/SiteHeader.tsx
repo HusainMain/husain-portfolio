@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { cn } from "../../lib/utils";
 import { site } from "../../content/site";
+import { CustomCursor } from "./CustomCursor";
 
 function Wordmark({ onClick }: { onClick?: () => void }) {
   return (
@@ -124,7 +125,14 @@ export function SiteHeader() {
             </button>
           </div>
         </nav>
+
+        {/* The entry's seam, still running: a short glow crosses the rule. */}
+        <span aria-hidden="true" className="header-seam">
+          <span className="header-seam-glow" />
+        </span>
       </header>
+
+      <CustomCursor />
 
       {menuOpen && (
         <div
