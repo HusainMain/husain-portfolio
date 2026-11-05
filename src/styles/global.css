@@ -269,6 +269,15 @@
     100% { transform: translateY(0); }
   }
 
+  /* ---- Pointer-only affordances ----
+     The system-line cursor is a mouse flourish. Touch devices get the
+     plain default cursor even if the script's feature test is fooled. */
+  @media (hover: none), (pointer: coarse) {
+    #custom-cursor {
+      display: none !important;
+    }
+  }
+
   /* ---- Continuous seam signal ----
      The line the entry draws does not stop existing. It becomes the header's
      hairline, carrying a short glow across the page on a 14s clock (8s across,
@@ -649,5 +658,261 @@
       width: calc(100% - 40px);
       opacity: 0.55;
     }
+  }
+
+  /* ---- Contact dock — DESIGN_SYSTEM.md §13 -------------------------------
+     Four letterpress keys spell TALK, one channel each. The case is a slot
+     tray, not a keyboard: matte faces, a hard offset edge, no gloss and no
+     gradient. Only transform and colour move. The flip is gated to devices
+     that hover, and touch / reduced-motion users get the channel names
+     statically — the reveal is never the only way to read where a key goes. */
+
+  .contact-dock {
+    margin-top: 2.5rem;
+  }
+
+  .contact-case {
+    display: flex;
+    width: fit-content;
+    gap: clamp(8px, 1vw, 14px);
+    margin-top: 14px;
+    padding: clamp(9px, 1.1vw, 14px);
+    background-color: rgba(22, 36, 61, 0.16);
+    border: 1px solid var(--color-rule-on-navy);
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(22, 36, 61, 0.22);
+  }
+
+  .contact-key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    color: var(--color-navy-900);
+    text-decoration: none;
+  }
+  .contact-key:focus-visible {
+    outline: 2px solid var(--color-cream);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+
+  .contact-key__cap {
+    position: relative;
+    width: clamp(52px, 15vw, 96px);
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background-color: var(--color-cream);
+    box-shadow:
+      0 1px 0 rgba(22, 36, 61, 0.18),
+      0 3px 0 rgba(107, 44, 16, 0.55);
+    perspective: 420px;
+    transition: transform 160ms ease;
+  }
+
+  .contact-key__inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 360ms var(--ease-curtain);
+  }
+
+  .contact-key__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 3px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .contact-key__face--front {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 2.8vw, 2rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .contact-key__face--back {
+    transform: rotateX(180deg);
+    font-family: var(--font-mono);
+    font-size: clamp(0.5rem, 2.4vw, 0.8125rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-orange-deep);
+  }
+
+  /* The email key is the one navy cap in the case — the same inversion as the
+     old email chip, so the primary action still reads first. */
+  .contact-key--primary .contact-key__cap {
+    background-color: var(--color-navy-900);
+    box-shadow:
+      0 1px 0 rgba(11, 18, 30, 0.35),
+      0 3px 0 rgba(11, 18, 30, 0.65);
+  }
+  .contact-key--primary .contact-key__face--front {
+    color: var(--color-cream);
+    text-shadow: none;
+  }
+  .contact-key--primary .contact-key__face--back {
+    color: var(--color-cream);
+  }
+
+  /* Static label for pointers that cannot hover. */
+  .contact-key__label {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+  }
+
+  .contact-dock__hint {
+    display: none;
+    margin-top: 14px;
+    color: rgba(250, 246, 236, 0.9);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .contact-dock__hint {
+      display: block;
+    }
+  }
+
+  /* When a key is hovered, invert its cap shadow so the depth reads as a
+     physical turn rather than a flat swap. Box-shadow changes paint once on
+     hover — acceptable for four keys, not a per-frame cost. */
+  .contact-key__cap--hovered {
+    box-shadow:
+      0 -1px 0 rgba(22, 36, 61, 0.18),
+      0 -3px 0 rgba(107, 44, 16, 0.55);
+  }
+
+  .contact-key:active .contact-key__cap {
+    transform: translateY(1px);
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .contact-key__face--back {
+      display: none;
+    }
+    .contact-key__label {
+      display: block;
+    }
+    .contact-key__cap {
+      transition: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-key__face--back {
+      display: none;
+    }
+    .contact-key__label {
+      display: block;
+    }
+    .contact-key__inner,
+    .contact-key__cap {
+      transform: none !important;
+      transition: none;
+    }
+    .contact-dock__hint {
+      display: none;
+    }
+  }
+
+  /* Direct address: the dock is the entrance, this line is the exit. It stays
+     selectable and copyable even if no key is ever touched. */
+  .contact-dock__direct {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-rule-on-navy);
+  }
+
+  .contact-dock__email {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--color-cream);
+    text-decoration: underline;
+    text-decoration-color: rgba(250, 246, 236, 0.45);
+    text-underline-offset: 4px;
+    overflow-wrap: anywhere;
+    transition:
+      text-decoration-color 160ms ease,
+      color 160ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-dock__email:hover {
+      text-decoration-color: var(--color-cream);
+    }
+  }
+
+  .contact-dock__copy {
+    min-width: 7rem;
+    min-height: 40px;
+    padding: 7px 12px;
+    border: 1px solid rgba(250, 246, 236, 0.7);
+    border-radius: 3px;
+    background-color: transparent;
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      transform 120ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-dock__copy:hover {
+      background-color: rgba(250, 246, 236, 0.12);
+    }
+  }
+  .contact-dock__copy:active {
+    transform: translateY(1px);
+  }
+
+  @media (max-width: 767px) {
+    .contact-dock {
+      margin-top: 2rem;
+    }
+    .contact-dock__email {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+    .contact-dock__copy {
+      min-height: 44px;
+    }
+  }
+
+  /* The copied state must win even while the pointer is still hovering over
+     the button right after a click, so it comes after every :hover rule. */
+  .contact-dock__copy[data-copied="true"] {
+    background-color: var(--color-cream);
+    border-color: var(--color-cream);
+    color: var(--color-navy-900);
   }
 }

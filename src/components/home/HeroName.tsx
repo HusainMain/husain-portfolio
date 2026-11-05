@@ -445,7 +445,6 @@ export function HeroName({ started = true }: { started?: boolean }) {
                 letterRefs.current[index] = element;
               }}
               className="hero-name-letter"
-              data-cursor-pull
             >
               <span className="hero-name-glyph">{letter}</span>
               <span
@@ -469,7 +468,6 @@ export function HeroName({ started = true }: { started?: boolean }) {
                   letterRefs.current[slot] = element;
                 }}
                 className="hero-name-letter"
-                data-cursor-pull
               >
                 <span className="hero-name-glyph">{letter}</span>
                 <span

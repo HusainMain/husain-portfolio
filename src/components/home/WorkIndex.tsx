@@ -50,16 +50,17 @@ export function WorkIndex() {
             <li key={project.slug}>
               <Link
                 to={`/work/${project.slug}`}
-                className="work-row group grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 transition-colors duration-200 hover:bg-cream/[0.05] hover:translate-y-px transition-transform duration-200 max-md:py-6"
-                  data-cursor-pull
-                >
+                className="work-row group grid grid-cols-12 items-baseline gap-x-6 gap-y-2 py-8 transition-[transform,background-color] duration-200 hover:bg-cream/[0.05] hover:translate-y-px max-md:py-6"
+              >
                 <span
                   aria-hidden="true"
                   className="text-mono-label col-span-2 text-orange-on-navy md:col-span-1 lg:col-span-1"
                 >
                   {project.number}
                 </span>
-                <span className="work-title col-span-10 font-display text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-tight tracking-[-0.02em] text-cream transition-all duration-200 group-hover:translate-x-1 md:col-span-4 lg:col-span-4">
+                <span className="work-title col-span-10 font-display text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-tight tracking-[-0.02em] text-cream transition-[color,translate] duration-200 group-hover:translate-x-1 md:col-span-4 lg:col-span-4"
+                  data-cursor-pull
+                >
                   {project.title}
                 </span>
                 <span className="col-span-10 col-start-3 text-muted-on-navy md:col-span-4 md:col-start-auto lg:col-span-4">

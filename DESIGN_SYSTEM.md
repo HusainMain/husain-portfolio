@@ -453,10 +453,10 @@ No skill bars, no percentages, no logo walls, no animated terminals.
 
 - **Page:** full-bleed `orange-deep` band (the site's only full-orange surface — deliberate ending).
 - **Headline:** "HAVE A PROBLEM WORTH BUILDING?" — Space Grotesk 500, clamp 2.5–4.5rem, cream; "worth building" in serif italic.
-- **Primary action:** email — navy-900 chip/button with cream text + orange arrow (magnetic on desktop); copy-email micro-interaction (click → mono "COPIED" state, live-region announced; System 06).
-- **Secondary:** mono link row: LinkedIn · GitHub · LeetCode (cream, underline on hover → `rule-on-orange`).
-- **Home band** (§7.8) uses the identical anatomy at smaller scale.
-- No form, no fields, no social icon grid.
+- **Contact dock (owner revision, Nov 2026):** four letterpress keys spell **TALK** — T email, A LinkedIn, L GitHub, K résumé. Hover or keyboard focus turns a key over to its channel name; touch and reduced-motion users see the names statically beneath the keys. Matte cream faces, one navy key for email (the primary inversion), hard offset edge, no gloss, no gradient, no logos. This is the one expressive motion moment on `/contact`.
+- **Primary action:** email — the navy `T` key, plus a direct selectable address beneath the case with a copy-to-clipboard state (click → mono "COPIED", live-region announced; System 06).
+- **Home band** (§7.8) keeps the compressed anatomy: chip + address + mono social row at smaller scale. The dock is `/contact` only.
+- No form, no fields, no social icon grid. Four worded keys are not an icon grid: each carries its letter, and the channel name is exposed to assistive tech whether or not the key flips.
 
 ---
 

@@ -36,4 +36,7 @@
   --color-rule-on-orange: rgba(22, 36, 61, 0.24);
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  /* The entry curtain's symmetric curve — slow out, slow in, no overshoot.
+     A key turning over is the same kind of deliberate move. */
+  --ease-curtain: cubic-bezier(0.65, 0, 0.35, 1);
 }

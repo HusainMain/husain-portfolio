@@ -40,9 +40,8 @@ export function BuildStatements() {
             <div
               className={cn(
                 "build-row flex items-baseline gap-6 py-7 md:gap-10 md:py-8 group",
-                "hover:border-orange-deep/30 transition-colors duration-200"
+                "hover:border-orange-deep/30 transition-[transform,border-color] duration-200"
               )}
-              data-cursor-pull
             >
               <span
                 aria-hidden="true"
@@ -50,7 +49,9 @@ export function BuildStatements() {
               >
                 {item.number}
               </span>
-              <p className="text-lead text-navy-900 md:text-[clamp(1.375rem,2.4vw,2rem)] md:leading-[1.2]">
+              <p className="text-lead text-navy-900 md:text-[clamp(1.375rem,2.4vw,2rem)] md:leading-[1.2]"
+                data-cursor-pull
+              >
                 {item.statement}
                 <em
                   className={cn(
