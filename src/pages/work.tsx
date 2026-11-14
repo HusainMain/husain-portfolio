@@ -13,11 +13,11 @@ import { usePageMeta } from "../lib/meta";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const rowVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: EASE },
+    transition: { duration: 0.6, ease: EASE },
   },
 };
 
@@ -82,7 +82,7 @@ export default function WorkPage() {
             >
               Work
             </TextReveal>
-            <FadeIn started={heroStarted} delay={0.36} duration={0.45} y={14}>
+            <FadeIn started={heroStarted} delay={0.36} duration={0.6} y={16}>
               <p className="text-lead mt-5 max-w-[55ch] text-muted">
                 Five studies that reflect how I design, build, and ship
                 software — four products and one dataset.

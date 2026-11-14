@@ -28,7 +28,7 @@ export function PrevNextNav({ currentSlug }: PrevNextNavProps) {
   const next = targetFor(index, 1);
   return (
     <section className="bg-navy-900">
-      <Stagger as="nav" aria-label="More projects" step={120} className="grid-frame py-12 md:py-16">
+      <Stagger as="nav" aria-label="More projects" step={120} y={24} className="grid-frame py-12 md:py-16">
         <Link
           to={prev.to}
           aria-label={`Previous — ${prev.title}`}

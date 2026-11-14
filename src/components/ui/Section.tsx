@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/utils";
 import { Eyebrow } from "./Eyebrow";
+import { FadeIn } from "../motion/FadeIn";
 
 interface SectionProps {
   eyebrow?: string;
@@ -28,9 +29,11 @@ export function Section({
         {(eyebrow || title) && (
           <div className="col-span-12 md:col-span-8 lg:col-span-12">
             {eyebrow ? (
-              <Eyebrow as="h2" tone={eyebrowTone}>
-                {eyebrow}
-              </Eyebrow>
+              <FadeIn y={8} duration={0.45}>
+                <Eyebrow as="h2" tone={eyebrowTone}>
+                  {eyebrow}
+                </Eyebrow>
+              </FadeIn>
             ) : null}
             {title ? <h2 className="text-section-title mt-4">{title}</h2> : null}
           </div>

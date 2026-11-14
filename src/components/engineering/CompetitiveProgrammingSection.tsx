@@ -11,15 +11,15 @@ import { CaseSection } from "../work/CaseSection";
 export function CompetitiveProgrammingSection() {
   return (
     <CaseSection eyebrow="04 / COMPETITIVE PROGRAMMING" contentClassName="lg:col-span-10 lg:col-start-3">
-      <FadeIn delay={0} duration={0.5} y={12}>
+      <FadeIn delay={0} duration={0.6} y={16}>
         <p className="text-mono-label text-orange-deep">{engineering.competitive.label}</p>
       </FadeIn>
-      <FadeIn delay={0.08} duration={0.5} y={12}>
+      <FadeIn delay={0.08} duration={0.6} y={16}>
         <p className="mt-4 max-w-[58ch] text-lead text-navy-900">
           {engineering.competitive.statement}
         </p>
       </FadeIn>
-      <FadeIn delay={0.16} duration={0.5} y={12}>
+      <FadeIn delay={0.16} duration={0.6} y={16}>
         <ArrowLink
           href={engineering.competitive.url}
           target="_blank"

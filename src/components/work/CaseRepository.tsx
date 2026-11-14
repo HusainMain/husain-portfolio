@@ -8,7 +8,7 @@ interface CaseRepositoryProps {
 /** Repository section — verified link + evidence line, single entrance reveal. */
 export function CaseRepository({ repository }: CaseRepositoryProps) {
   return (
-    <FadeIn y={12} duration={0.5}>
+    <FadeIn y={16} duration={0.6}>
       <ArrowLink href={repository.url} target="_blank" rel="noopener noreferrer">
         Repository
       </ArrowLink>

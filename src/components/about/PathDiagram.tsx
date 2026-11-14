@@ -50,8 +50,9 @@ function wrap(text: string, maxChars: number): string[] {
  * Below xl the same beats render as stacked rows (PathSection) — a 1000px
  * process flow cannot shrink to a phone without losing its type.
  *
- * Static on purpose: the plate enters with the section's FadeIn, so no
- * internal choreography competes with the reading order.
+ * Progressive on xl: the spine draws at scroll speed and each stage lands as
+ * the line reaches its tick (the timeline lives in PathSection). Below xl the
+ * plate is hidden and the same beats render as stacked rows.
  */
 export function PathDiagram({ beats }: { beats: PathBeat[] }) {
   const markerId = "path-process-next";
@@ -95,10 +96,16 @@ export function PathDiagram({ beats }: { beats: PathBeat[] }) {
       </defs>
 
       {/* Central spine */}
-      <path d={`M ${SPINE_X} 40 V ${TICK_Y[3]}`} fill="none" stroke={COLOR.rule} strokeWidth={1} />
+      <path
+        className="path-spine"
+        d={`M ${SPINE_X} 40 V ${TICK_Y[3]}`}
+        fill="none"
+        stroke={COLOR.rule}
+        strokeWidth={1}
+      />
 
       {/* Stage 1: 2024 START */}
-      <g>
+      <g className="path-stage">
         <path d={`M ${SPINE_X} ${TICK_Y[0]} H ${PANEL_X}`} fill="none" stroke={COLOR.rule} strokeWidth={1} />
         <circle cx={SPINE_X} cy={TICK_Y[0]} r={6} fill={COLOR.orange} />
         <text x={SPINE_X - 10} y={TICK_Y[0] - 28} textAnchor="end" fontFamily={MONO} fontSize={9} fontWeight={500} letterSpacing="0.16em" fill={COLOR.orangeDeep}>
@@ -128,7 +135,7 @@ export function PathDiagram({ beats }: { beats: PathBeat[] }) {
       <path d={`M ${SPINE_X} ${TICK_Y[0]} V ${TICK_Y[1]}`} fill="none" stroke={COLOR.rule} strokeWidth={1} />
 
       {/* Stage 2: 2026 BUILD */}
-      <g>
+      <g className="path-stage">
         <path d={`M ${SPINE_X} ${TICK_Y[1]} H ${PANEL_X}`} fill="none" stroke={COLOR.rule} strokeWidth={1} />
         <circle cx={SPINE_X} cy={TICK_Y[1]} r={6} fill={COLOR.orange} />
         <text x={SPINE_X - 10} y={TICK_Y[1] - 28} textAnchor="end" fontFamily={MONO} fontSize={9} fontWeight={500} letterSpacing="0.16em" fill={COLOR.orangeDeep}>
@@ -158,7 +165,7 @@ export function PathDiagram({ beats }: { beats: PathBeat[] }) {
       <path d={`M ${SPINE_X} ${TICK_Y[1]} V ${TICK_Y[2]}`} fill="none" stroke={COLOR.rule} strokeWidth={1} />
 
       {/* Stage 3: 2026 LEAD (focal — accent border) */}
-      <g>
+      <g className="path-stage">
         <path d={`M ${SPINE_X} ${TICK_Y[2]} H ${PANEL_X}`} fill="none" stroke={COLOR.orange} strokeWidth={1.5} />
         <circle cx={SPINE_X} cy={TICK_Y[2]} r={6} fill={COLOR.orange} />
         <text x={SPINE_X - 10} y={TICK_Y[2] - 28} textAnchor="end" fontFamily={MONO} fontSize={9} fontWeight={500} letterSpacing="0.16em" fill={COLOR.orangeDeep}>
@@ -186,6 +193,7 @@ export function PathDiagram({ beats }: { beats: PathBeat[] }) {
 
       {/* Spine segment 3→NEXT (dashed accent) */}
       <path
+        className="path-spine-terminal"
         d={`M ${SPINE_X} ${TICK_Y[2]} V ${TICK_Y[3]}`}
         fill="none"
         stroke={COLOR.orange}
@@ -196,7 +204,7 @@ export function PathDiagram({ beats }: { beats: PathBeat[] }) {
       />
 
       {/* Terminal Step: NEXT */}
-      <g>
+      <g className="path-stage">
         <path d={`M ${SPINE_X} ${TICK_Y[3]} H ${PANEL_X}`} fill="none" stroke={COLOR.orange} strokeWidth={1.5} strokeDasharray="4 4" />
         <rect x={SPINE_X - 6} y={TICK_Y[3] - 6} width={12} height={12} rx={2} fill={COLOR.orange} />
         <text x={SPINE_X - 10} y={TICK_Y[3] - 28} textAnchor="end" fontFamily={MONO} fontSize={9} fontWeight={500} letterSpacing="0.16em" fill={COLOR.orangeDeep}>

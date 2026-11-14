@@ -5,7 +5,8 @@ import { PhilosophySection } from "../components/engineering/PhilosophySection";
 import { ProcessSection } from "../components/engineering/ProcessSection";
 import { ToolkitSection } from "../components/engineering/ToolkitSection";
 import { Rule } from "../components/ui/Rule";
-import { Reveal } from "../components/motion/Reveal";
+import { FadeIn } from "../components/motion/FadeIn";
+import { TextReveal } from "../components/motion/TextReveal";
 import { usePageMeta } from "../lib/meta";
 
 /**
@@ -25,18 +26,23 @@ export default function EngineeringPage() {
       <section className="case-meta bg-canvas pt-[72px] max-md:pt-[60px]">
         <div className="grid-frame items-start">
           <div className="col-span-4 py-12 md:col-span-8 md:py-16 lg:col-span-8 lg:py-20">
-            <Reveal>
+            <FadeIn y={0} delay={0} duration={0.4}>
               <span aria-hidden="true" className="case-kicker-rule" />
-            </Reveal>
-            <Reveal delay={60}>
+            </FadeIn>
+            <FadeIn y={8} delay={0.1} duration={0.45}>
               <p className="text-mono-label mt-6 text-orange-deep">{engineering.eyebrow}</p>
-            </Reveal>
-            <Reveal delay={120}>
-              <h1 className="case-title mt-4 text-navy-900">Engineering</h1>
-            </Reveal>
-            <Reveal delay={180}>
+            </FadeIn>
+            <TextReveal
+              as="h1"
+              delay={0.2}
+              duration={0.55}
+              className="case-title mt-4 text-navy-900"
+            >
+              Engineering
+            </TextReveal>
+            <FadeIn y={16} delay={0.36} duration={0.6}>
               <p className="text-lead mt-5 max-w-[55ch] text-muted">{engineering.lead}</p>
-            </Reveal>
+            </FadeIn>
           </div>
         </div>
       </section>

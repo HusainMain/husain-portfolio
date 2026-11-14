@@ -8,7 +8,7 @@ interface CaseReflectionProps {
 export function CaseReflection({ reflection }: CaseReflectionProps) {
   return (
     <div>
-      <FadeIn y={12} duration={0.5}>
+      <FadeIn y={16} duration={0.6}>
         <p className="font-serif text-[clamp(1.375rem,2.2vw,1.75rem)] font-normal italic leading-[1.35] text-orange-deep">
           {reflection.pullLine}
         </p>

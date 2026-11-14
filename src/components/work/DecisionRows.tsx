@@ -6,7 +6,7 @@ import { FadeIn } from "../motion/FadeIn";
 /** Decision → reason → trade-off rows. Sequential reveal; trade-off follows its row. */
 export function DecisionRows({ items }: { items: DecisionRowItem[] }) {
   return (
-    <Stagger as="ol" step={80}>
+    <Stagger as="ol" step={80} y={24}>
       {items.map((row, index) => (
         <li key={row.number}>
           <div className="decision-row grid grid-cols-12 gap-x-6 py-8 md:py-10">

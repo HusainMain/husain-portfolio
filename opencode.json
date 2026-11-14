@@ -1,0 +1,14 @@
+{
+  "mcp": {
+    "servers": {
+      "google-fonts": {
+        "type": "local",
+        "command": [
+          "python",
+          "-m",
+          "google_fonts_mcp.server"
+        ]
+      }
+    }
+  }
+}
