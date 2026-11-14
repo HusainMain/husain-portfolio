@@ -6,10 +6,103 @@
     <meta name="theme-color" content="#FAF6EC" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#16243D" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
+    <script>
+      /* First-paint shell: decide, before the body paints and without waiting
+         for the bundle, whether the entry card is going to play. Conditions
+         must stay in sync with src/lib/brandReveal.ts. */
+      (function () {
+        try {
+          var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (!reduced && window.sessionStorage.getItem("hp-brand-shown") !== "1") {
+            document.documentElement.setAttribute("data-entry", "pending");
+            /* Failsafe: a stalled or failed bundle must not leave the card up. */
+            window.setTimeout(function () {
+              document.documentElement.removeAttribute("data-entry");
+            }, 8000);
+          }
+        } catch (error) {
+          /* Storage blocked (private mode): fall through to the normal paint. */
+        }
+      })();
+    </script>
     <style>
       html,
       body {
         background-color: #faf6ec;
+      }
+
+      /* ---- First-paint shell ----
+         A static copy of the entry card's opening frame (BrandTransition,
+         stage "blink"): two navy halves, one orange caret. Painted from the
+         document itself so the first frame is branded instead of blank, and
+         removed by the app in the same frame the real card commits. */
+      #boot {
+        display: none;
+      }
+      html[data-entry="pending"] {
+        overflow: hidden;
+        background-color: #16243d;
+      }
+      html[data-entry="pending"] #boot {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        overflow: hidden;
+        pointer-events: none;
+        background-color: #f7f2e6;
+      }
+      .boot-panel {
+        position: absolute;
+        inset-inline: 0;
+        height: calc(50% + 1px);
+        background-color: #16243d;
+      }
+      .boot-top {
+        top: 0;
+      }
+      .boot-bottom {
+        bottom: 0;
+      }
+      /* Sits where the card's caret will sit: grid edge, baseline of the
+         name line, 4px wide, 0.78em tall. */
+      .boot-caret {
+        position: absolute;
+        bottom: 0.04em;
+        left: calc(max(0px, (100vw - 1440px) / 2) + clamp(32px, 5vw, 48px));
+        width: 4px;
+        height: 0.78em;
+        font-size: clamp(3.25rem, 10.5vw, 7.5rem);
+        background-color: #e07f3f;
+        animation: boot-caret-blink 0.9s steps(1, end) infinite;
+      }
+      @keyframes boot-caret-blink {
+        0%,
+        45% {
+          opacity: 1;
+        }
+        50%,
+        100% {
+          opacity: 0;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .boot-caret {
+          left: calc(max(0px, (100vw - 720px) / 2) + 24px);
+        }
+      }
+      @media (max-width: 767px) {
+        .boot-caret {
+          left: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html[data-entry="pending"] #boot {
+          display: none;
+        }
+        .boot-caret {
+          animation: none;
+        }
       }
     </style>
     <meta
@@ -62,6 +155,10 @@
     <meta name="twitter:image" content="%SITE_ORIGIN%/og.png" />
   </head>
   <body>
+    <div id="boot" aria-hidden="true">
+      <div class="boot-panel boot-top"><span class="boot-caret"></span></div>
+      <div class="boot-panel boot-bottom"></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

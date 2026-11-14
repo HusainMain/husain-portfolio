@@ -5,6 +5,7 @@ import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
 import { SkipLink } from "./components/layout/SkipLink";
 import { SmoothScroll } from "./components/motion/SmoothScroll";
+import { releaseBootShell } from "./lib/bootShell";
 import Home from "./pages/Home";
 const Work = lazy(() => import("./pages/work"));
 const WorkSlug = lazy(() => import("./pages/WorkSlug"));
@@ -30,6 +31,13 @@ function App() {
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const lenis = useLenis();
+
+  // Hand the first-paint shell (index.html) over to the real entry card. Both
+  // land in this commit, and layout effects run child-first, so the card has
+  // already taken over the document before the shell is removed.
+  useLayoutEffect(() => {
+    releaseBootShell();
+  }, []);
 
   useLayoutEffect(() => {
     if (lenis) {
