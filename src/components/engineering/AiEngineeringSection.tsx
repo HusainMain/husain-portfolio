@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { engineering } from "../../content/engineering";
 import { CaseSection } from "../work/CaseSection";
 import { FadeIn } from "../motion/FadeIn";
+import { WordReveal } from "../motion/WordReveal";
 import { prefersReducedMotion } from "../../lib/motion";
 
 /**
@@ -10,11 +11,10 @@ import { prefersReducedMotion } from "../../lib/motion";
  * (frame cols 3–8) states how AI fits the workflow; the well (frame cols
  * 9–12) lists where human judgment stays. On tablet/mobile the well stacks.
  *
- * Entrance (Phase 6): the prose lands as one block (tier B, 16px / 0.6s).
- * Connected paragraphs are read as a single thought — staggering them makes
- * the eye re-fixate before the next sentence is available. The judgment items
- * are four separate claims, so they keep the tier C row stagger. Reduced
- * motion renders everything static.
+ * Entrance (Phase 7): the prose lights word by word as it scrolls (the reel's
+ * "Text reveal"), so the argument is read at reading speed instead of fading
+ * in as a block. The judgment items are four separate claims, so they keep the
+ * tier C row stagger. Reduced motion renders everything static.
  */
 export function AiEngineeringSection() {
   const judgmentRef = useRef<HTMLUListElement>(null);
@@ -43,19 +43,24 @@ export function AiEngineeringSection() {
 
   return (
     <CaseSection eyebrow="03 / AI-ASSISTED ENGINEERING" contentClassName="lg:col-span-12 lg:col-start-1">
-      <div className="grid grid-cols-12 gap-x-6 gap-y-8">
-        <FadeIn
-          y={16}
-          duration={0.6}
-          className="col-span-12 flex flex-col gap-6 lg:col-span-6 lg:col-start-3"
-        >
-          <p className="text-mono-label text-orange-deep">AI ACCELERATES</p>
-          {engineering.ai.prose.map((paragraph) => (
-            <p key={paragraph} className="case-body max-w-[72ch] text-muted">
-              {paragraph}
-            </p>
-          ))}
-        </FadeIn>
+      <div className="ai-reveal-grid grid grid-cols-12 gap-x-6 gap-y-8">
+        <div className="col-span-12 flex flex-col gap-6 lg:col-span-6 lg:col-start-3">
+          <FadeIn y={16} duration={0.6}>
+            <p className="text-mono-label text-orange-deep">AI ACCELERATES</p>
+          </FadeIn>
+          <WordReveal
+            as="div"
+            className="flex flex-col gap-6"
+            pinClosest=".ai-reveal-grid"
+            step={26}
+          >
+            {engineering.ai.prose.map((paragraph) => (
+              <p key={paragraph} className="case-body max-w-[72ch] text-muted">
+                {paragraph}
+              </p>
+            ))}
+          </WordReveal>
+        </div>
         <div className="col-span-12 lg:col-span-4 lg:col-start-9">
           <div className="case-well">
             <p className="text-mono-label text-muted">JUDGMENT STAYS HUMAN</p>

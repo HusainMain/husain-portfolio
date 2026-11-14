@@ -1,10 +1,11 @@
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { annotate } from "rough-notation";
 import { about } from "../../content/about";
 import { FadeIn } from "../motion/FadeIn";
 import { Parallax } from "../motion/Parallax";
 import { TextReveal } from "../motion/TextReveal";
+import { WordReveal } from "../motion/WordReveal";
 import { SystemFlowDiagram } from "./SystemFlowDiagram";
 
 /**
@@ -19,9 +20,10 @@ import { SystemFlowDiagram } from "./SystemFlowDiagram";
  * to the editorial hero on first visit. Parallax is desktop-only, ≤10px,
  * and never touches the body paragraphs.
  *
- * Serif accents inside the philosophy paragraphs receive the same delayed
- * emphasis as engineering's 01 / HOW I THINK (0.25 → 1 opacity, ~0.45s after
- * the paragraph lands); reduced-motion users see them at full opacity.
+ * Serif accents inside the philosophy paragraphs keep their colour while the
+ * paragraph's words light one by one on scroll (WordReveal). The line is
+ * scrub-driven, so the emphasis arrives with the reading position rather than
+ * on a timer; reduced-motion users see everything static.
  *
  * The phrase "engineering judgment" receives a single hand-drawn underline
  * (rough-notation) when it scrolls into view — the only hand-drawn mark on
@@ -88,41 +90,30 @@ export function AboutIntro({ started = true }: { started?: boolean }) {
             </FadeIn>
           </Parallax>
 
-          {/* Body paragraphs: subtle fade + ≤12px rise, no parallax.
-              Serif accents emphasize with the engineering choreography. */}
-          <div className="mt-10 flex flex-col gap-4">
-            {about.intro.map((paragraph, index) => (
-              <FadeIn
-                key={paragraph[0].text}
-                started={started}
-                delay={0.5 + index * 0.1}
-                duration={0.4}
-                y={12}
-              >
-                <p className="about-intro max-w-[58ch] text-muted">
+          {/* Body paragraphs: one pinned word-by-word reveal (the reel's
+              "Text reveal"). Both paragraphs share a single pin, so the intro
+              holds in place until the last word lights. The serif accents keep
+              their colour; the split keeps screen readers on the sentence. */}
+          <div className="mt-10">
+            <WordReveal as="div" started={started} className="flex flex-col gap-4" step={26}>
+              {about.intro.map((paragraph) => (
+                <p key={paragraph[0].text} className="about-intro relative max-w-[58ch] text-muted">
                   {paragraph.map((segment) =>
                     segment.accent ? (
-                      <motion.em
+                      <em
                         ref={segment.text === "engineering judgment" ? judgmentRef : undefined}
                         key={segment.text}
                         className="text-serif-accent text-orange-deep"
-                        initial={reduce ? undefined : { opacity: 0.25 }}
-                        animate={started ? { opacity: 1 } : { opacity: 0.25 }}
-                        transition={{
-                          duration: 0.5,
-                          delay: 0.45 + index * 0.1,
-                          ease: "easeOut",
-                        }}
                       >
                         {segment.text}
-                      </motion.em>
+                      </em>
                     ) : (
                       <span key={segment.text}>{segment.text}</span>
                     ),
                   )}
                 </p>
-              </FadeIn>
-            ))}
+              ))}
+            </WordReveal>
           </div>
         </div>
 
